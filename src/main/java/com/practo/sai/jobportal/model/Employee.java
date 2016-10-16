@@ -3,6 +3,7 @@ package com.practo.sai.jobportal.model;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -23,8 +24,9 @@ public class Employee {
 	@Column(unique = true)
 	private String emailId;
 
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinColumn(name = "e_role_id", referencedColumnName = "rId")
+	@NotNull
 	private Role role;
 
 	public int geteId() {

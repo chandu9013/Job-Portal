@@ -3,78 +3,103 @@ HOST: http://polls.apiblueprint.org/
 
 # JobPortal
 
-Polls is a simple API allowing consumers to view polls and vote in them.
+Job Portal is an API exposing REST end points to manage a Job Portal
 
-## Questions Collection [/questions]
+## Jobs [/jobs]
 
-### List All Questions [GET]
+### List All Jobs [GET]
+
+End point to fetch all the jobs listed so far
 
 + Response 200 (application/json)
 
-        [
-            {
-                "question": "Favourite programming language?",
-                "published_at": "2015-08-05T08:40:51.620Z",
-                "choices": [
-                    {
-                        "choice": "Swift",
-                        "votes": 2048
-                    }, {
-                        "choice": "Python",
-                        "votes": 1024
-                    }, {
-                        "choice": "Objective-C",
-                        "votes": 512
-                    }, {
-                        "choice": "Ruby",
-                        "votes": 256
-                    }
-                ]
-            }
-        ]
+        [{"jId":1,"category":
+        {"categoryName":"Developer","cid":1},"postedBy":{"emailId":"sai.chandra@practo.com","eid":1},"recruitId":null,"description":"Need a developer","closed":false}]
 
-### Create a New Question [POST]
+### Create a new Job [POST]
 
-You may create your own question using this action. It takes a JSON
-object containing a question and a collection of answers in the
-form of choices.
+End point to create a new job listing. Category Id, Admin Id and description for the job are expected
 
 + Request (application/json)
 
-        {
-            "question": "Favourite programming language?",
-            "choices": [
-                "Swift",
-                "Python",
-                "Objective-C",
-                "Ruby"
-            ]
-        }
+        {"category_id":1,"postedBy":1,"description":"Need a developer"}
 
 + Response 201 (application/json)
 
     + Headers
 
-            Location: /questions/2
+            
 
     + Body
 
             {
-                "question": "Favourite programming language?",
-                "published_at": "2015-08-05T08:40:51.620Z",
-                "choices": [
-                    {
-                        "choice": "Swift",
-                        "votes": 0
-                    }, {
-                        "choice": "Python",
-                        "votes": 0
-                    }, {
-                        "choice": "Objective-C",
-                        "votes": 0
-                    }, {
-                        "choice": "Ruby",
-                        "votes": 0
-                    }
-                ]
+                "responseCode": 101,
+                "message": "Job added succesfully",
             }
+
+## Job Applications [/jobs/{jobId}/applications]
+            
+### List All Job Applications [GET]
+
+End point that lists all the applications received for a job so far.
+
++ Parameters
+    + jobId - id of a Job listing
+
++ Response 200 (application/json)
+
+        {"jId":1}
+        
+### New Job application [POST]    
+End point to add a new job application
+
++ Request (application/json)
+
+        {"jId":1,"appliedBy":1}
+
++ Response 201 (application/json)
+
+    + Headers
+
+            
+
+    + Body
+
+            {
+                "responseCode": 102,
+                "message": "Job application added succesfully",
+            }
+            
+## Job Application [/applications/{appId}]            
+            
+### Delete Job application [DELETE]    
+End point to delete an existing job application
+
++ Parameters
+    + appId - applicationId
+
++ Request (application/json)
+
+        {"jId":1,"appliedBy":1}
+
++ Response 201 (application/json)
+
+    + Headers
+
+            
+
+    + Body
+
+            {
+                "responseCode": 102,
+                "message": "Job application added succesfully",
+            }
+            
+## Categories [/categories]
+
+### Get all Job Categories [GET]    
+End point to fetch all the Job categories
+
++ Response 200 (application/json)
+
+        [{"categoryName":"Administrator","cid":4}]

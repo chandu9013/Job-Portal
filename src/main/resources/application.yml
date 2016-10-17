@@ -1,16 +1,32 @@
+#security:
+#  oauth2:
+#    client:
+#      clientId: 233668646673605
+#      clientSecret: 33b17e044ee6a4fa383f46ec6e28ea1d
+#      accessTokenUri: https://graph.facebook.com/oauth/access_token
+#      userAuthorizationUri: https://www.facebook.com/dialog/oauth
+#      tokenName: oauth_token
+#      authenticationScheme: query
+#      clientAuthenticationScheme: form
+#    resource:
+#      userInfoUri: https://graph.facebook.com/me
+#
+#logging:
+#  level:
+#    org.springframework.security: DEBUG
+    
 security:
   oauth2:
     client:
-      clientId: 233668646673605
-      clientSecret: 33b17e044ee6a4fa383f46ec6e28ea1d
-      accessTokenUri: https://graph.facebook.com/oauth/access_token
-      userAuthorizationUri: https://www.facebook.com/dialog/oauth
-      tokenName: oauth_token
-      authenticationScheme: query
+      clientId: 496420780994-ejjaf256sesev72v2lsf6e899rmsg3i2.apps.googleusercontent.com
+      clientSecret: 7Py4OJnHI_HHOYKVF83czWlD
+      accessTokenUri: https://www.googleapis.com/oauth2/v4/token
+      userAuthorizationUri: https://accounts.google.com/o/oauth2/v2/auth
       clientAuthenticationScheme: form
+      scope:
+        - openid
+        - email
+        - profile
     resource:
-      userInfoUri: https://graph.facebook.com/me
-
-logging:
-  level:
-    org.springframework.security: DEBUG
+      userInfoUri: https://www.googleapis.com/oauth2/v3/userinfo
+      preferTokenInfo: true

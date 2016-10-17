@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 @Transactional
-public class JobApplicationDao {
+public class JobApplicationDaoImpl {
 	@Autowired
 	private SessionFactory sessionFactory;
 

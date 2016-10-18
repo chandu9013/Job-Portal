@@ -13,7 +13,6 @@ import com.practo.sai.jobportal.model.JobModel;
 import com.practo.sai.jobportal.model.UpdateJobModel;
 
 import inti.ws.spring.exception.client.BadRequestException;
-import inti.ws.spring.exception.client.NotFoundException;
 
 public interface JobService {
 
@@ -21,15 +20,15 @@ public interface JobService {
 
 	public JobModel addJob(AddJobModel job) throws BadRequestException;
 
-	public JobModel updateJob(int jobId, UpdateJobModel jobModel);
+	public JobModel updateJob(int jobId, UpdateJobModel jobModel) throws BadRequestException;
 
-	public void deleteJob(int jobId) throws NotFoundException;
+	public void deleteJob(int jobId) throws BadRequestException;
 
-	public List<JobApplicationModel> getJobApplications(int jobId);
+	public List<JobApplicationModel> getJobApplications(int jobId) throws BadRequestException;
 
-	public JobApplicationModel addJobApplication(int jobId, AddJobAppModel jobApp);
+	public JobApplicationModel addJobApplication(int jobId, AddJobAppModel jobApp) throws BadRequestException;
 
-	public void deleteJobApplication(int appId);
+	public void deleteJobApplication(int appId) throws BadRequestException;
 
 	public List<Category> getCategories();
 

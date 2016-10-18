@@ -19,15 +19,15 @@ import com.practo.sai.jobportal.model.UpdateJobModel;
 @Service
 public class MappingUtility {
 
-	public List<JobModel> mapJobs(List<Job> jobs) {
+	public List<JobModel> mapToJobModels(List<Job> jobs) {
 		List<JobModel> jobModels = new ArrayList<>();
 		for (Job job : jobs) {
-			jobModels.add(mapJob(job));
+			jobModels.add(mapToJobModel(job));
 		}
 		return jobModels;
 	}
 
-	public JobModel mapJob(Job job) {
+	public JobModel mapToJobModel(Job job) {
 		JobModel jobModel = new JobModel();
 		jobModel.setCategory(job.getCategory());
 		jobModel.setDescription(job.getDescription());
@@ -41,14 +41,16 @@ public class MappingUtility {
 		jobModel.setPostedOn(job.getPostedOn());
 
 		EmployeeModel recruit = null;
-		if (job.getEmployeeByRecruitId() != null)
+		if (job.getEmployeeByRecruitId() != null) {
 			recruit = new EmployeeModel(job.getEmployeeByRecruitId().getEId(),
 					job.getEmployeeByRecruitId().getEmailId());
-		jobModel.setRecruited(recruit);
+			jobModel.setRecruited(recruit);
+			jobModel.setClosed(true);
+		}
 		return jobModel;
 	}
 
-	public Job mapAddJob(AddJobModel jobModel) {
+	public Job mapFromAddJob(AddJobModel jobModel) {
 		Job job = new Job();
 		job.setDescription(jobModel.getDescription());
 
@@ -63,7 +65,7 @@ public class MappingUtility {
 		return job;
 	}
 
-	public Job mapUpdateJob(int jobId, UpdateJobModel jobModel, Job job) {
+	public Job mapFromUpdateJob(int jobId, UpdateJobModel jobModel, Job job) {
 
 		if (jobModel.getDescription() != null)
 			job.setDescription(jobModel.getDescription());
@@ -91,7 +93,7 @@ public class MappingUtility {
 		return job;
 	}
 
-	public JobApplication mapToJobApp(int jobId, AddJobAppModel appModel) {
+	public JobApplication mapFromAddJobAppModel(int jobId, AddJobAppModel appModel) {
 		JobApplication application = new JobApplication();
 
 		Employee applier = new Employee();

@@ -77,11 +77,13 @@ public class DataController {
 	 * @param jobId
 	 * @param jobModel
 	 * @return
+	 * @throws BadRequestException
 	 */
 	@RequestMapping(value = "/jobs/{jobId}", method = RequestMethod.PATCH)
 	@ResponseBody
 	@ResponseStatus(HttpStatus.OK)
-	public JobModel updateJob(@PathVariable int jobId, @RequestBody UpdateJobModel jobModel) {
+	public JobModel updateJob(@PathVariable int jobId, @RequestBody UpdateJobModel jobModel)
+			throws BadRequestException {
 		return jobService.updateJob(jobId, jobModel);
 	}
 
@@ -93,11 +95,12 @@ public class DataController {
 	 * @param jobModel
 	 * @return
 	 * @throws NotFoundException
+	 * @throws BadRequestException
 	 */
 	@RequestMapping(value = "/jobs/{jobId}", method = RequestMethod.DELETE)
 	@ResponseBody
 	@ResponseStatus(HttpStatus.OK)
-	public void deleteJob(@PathVariable int jobId) throws NotFoundException {
+	public void deleteJob(@PathVariable int jobId) throws NotFoundException, BadRequestException {
 		jobService.deleteJob(jobId);
 	}
 
@@ -107,11 +110,12 @@ public class DataController {
 	 * @param jobId
 	 *            ID of the job for which to fetch applications
 	 * @return List of applications
+	 * @throws BadRequestException 
 	 */
 	@RequestMapping(value = "/jobs/{jobId}/applications", method = RequestMethod.GET)
 	@ResponseBody
 	@ResponseStatus(HttpStatus.OK)
-	public List<JobApplicationModel> getJobApplications(@PathVariable int jobId) {
+	public List<JobApplicationModel> getJobApplications(@PathVariable int jobId) throws BadRequestException {
 		List<JobApplicationModel> jobApplications = null;
 		jobApplications = jobService.getJobApplications(jobId);
 		return jobApplications;
@@ -122,17 +126,18 @@ public class DataController {
 	 * @param jobId
 	 * @param jobApp
 	 * @return
+	 * @throws BadRequestException
 	 */
 	@RequestMapping(value = "/jobs/{jobId}/applications", method = RequestMethod.POST)
 	@ResponseBody
 	@ResponseStatus(HttpStatus.CREATED)
-	public JobApplicationModel addJobApplication(@PathVariable int jobId, @RequestBody AddJobAppModel jobApp) {
+	public JobApplicationModel addJobApplication(@PathVariable int jobId, @RequestBody AddJobAppModel jobApp) throws BadRequestException {
 		return jobService.addJobApplication(jobId, jobApp);
 	}
 
 	@RequestMapping(value = "/applications/{appId}", method = RequestMethod.DELETE)
 	@ResponseStatus(HttpStatus.OK)
-	public void deleteJobApplication(@PathVariable int appId) {
+	public void deleteJobApplication(@PathVariable int appId) throws BadRequestException {
 		jobService.deleteJobApplication(appId);
 	}
 

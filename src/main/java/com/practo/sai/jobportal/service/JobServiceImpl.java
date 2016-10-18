@@ -21,7 +21,6 @@ import com.practo.sai.jobportal.repo.JobDao;
 import com.practo.sai.jobportal.utility.MappingUtility;
 
 import inti.ws.spring.exception.client.BadRequestException;
-import inti.ws.spring.exception.client.NotFoundException;
 
 @Service
 public class JobServiceImpl implements JobService {
@@ -41,7 +40,7 @@ public class JobServiceImpl implements JobService {
 	@Override
 	public List<JobModel> getJobs() throws JDBCConnectionException {
 		List<Job> jobs = (List<Job>) jobDao.getJobs();
-		List<JobModel> jobModels = mUtility.mapJobs(jobs);
+		List<JobModel> jobModels = mUtility.mapToJobModels(jobs);
 		return jobModels;
 
 	}
@@ -52,30 +51,37 @@ public class JobServiceImpl implements JobService {
 				|| jobModel.getPostedBy() <= 0)
 			throw new BadRequestException("Required parameters are either missing or invalid");
 
-		Job job = mUtility.mapAddJob(jobModel);
+		Job job = mUtility.mapFromAddJob(jobModel);
 		jobDao.save(job);
-		return mUtility.mapJob(job);
+		return mUtility.mapToJobModel(job);
 	}
 
 	@Override
-	public JobModel updateJob(int jobId, UpdateJobModel jobModel) {
+	public JobModel updateJob(int jobId, UpdateJobModel jobModel) throws BadRequestException {
+		if (jobId <= 0)
+			throw new BadRequestException("Required parameters are either missing or invalid");
 		Job job = jobDao.getJob(jobId);
-		mUtility.mapUpdateJob(jobId, jobModel, job);
+		mUtility.mapFromUpdateJob(jobId, jobModel, job);
 		jobDao.update(job);
 
 		System.out.println("Category - " + job.getCategory().getCategoryName());
-		return mUtility.mapJob(job);
+		return mUtility.mapToJobModel(job);
 	}
 
 	@Override
-	public void deleteJob(int jobId) throws NotFoundException {
+	public void deleteJob(int jobId) throws BadRequestException {
+		if (jobId <= 0)
+			throw new BadRequestException("Required parameters are either missing or invalid");
 		Job job = new Job();
 		job.setJId(jobId);
 		jobDao.delete(job);
 	}
 
 	@Override
-	public List<JobApplicationModel> getJobApplications(int jobId) {
+	public List<JobApplicationModel> getJobApplications(int jobId) throws BadRequestException {
+		if (jobId <= 0)
+			throw new BadRequestException("Required parameters are either missing or invalid");
+
 		List<JobApplication> jobApplications;
 		Job job = new Job();
 		job.setJId(jobId);
@@ -84,15 +90,19 @@ public class JobServiceImpl implements JobService {
 	}
 
 	@Override
-	public JobApplicationModel addJobApplication(int jobId, AddJobAppModel jobApp) {
-		JobApplication application = mUtility.mapToJobApp(jobId, jobApp);
+	public JobApplicationModel addJobApplication(int jobId, AddJobAppModel jobApp) throws BadRequestException {
+		if (jobApp.getAppliedBy() <= 0 || jobId <= 0)
+			throw new BadRequestException("Required parameters are either missing or invalid");
+		JobApplication application = mUtility.mapFromAddJobAppModel(jobId, jobApp);
 		jobApplicationDao.save(application);
 		application = jobApplicationDao.getApplication(application.getJAppId());
 		return mUtility.mapToJobAppModel(application);
 	}
 
 	@Override
-	public void deleteJobApplication(int appId) {
+	public void deleteJobApplication(int appId) throws BadRequestException {
+		if (appId <= 0)
+			throw new BadRequestException("Required parameters are either missing or invalid");
 		JobApplication application = new JobApplication();
 		application.setJAppId(appId);
 		jobApplicationDao.delete(application);

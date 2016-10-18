@@ -8,8 +8,8 @@ import com.practo.sai.jobportal.entities.Employee;
 public class JobModel {
 	private Integer jId;
 	private Category category;
-	private Employee postedBy;
-	private Employee recruitId;
+	private EmployeeModel postedBy;
+	private EmployeeModel recruited;
 	private String description;
 	private boolean isClosed;
 	private Date lastModified;
@@ -23,6 +23,14 @@ public class JobModel {
 		this.jId = jId;
 	}
 
+	public EmployeeModel getRecruited() {
+		return recruited;
+	}
+
+	public void setRecruited(EmployeeModel recruited) {
+		this.recruited = recruited;
+	}
+
 	public Category getCategory() {
 		return category;
 	}
@@ -31,20 +39,12 @@ public class JobModel {
 		this.category = category;
 	}
 
-	public Employee getPostedBy() {
+	public EmployeeModel getPostedBy() {
 		return postedBy;
 	}
 
-	public void setPostedBy(Employee postedBy) {
+	public void setPostedBy(EmployeeModel postedBy) {
 		this.postedBy = postedBy;
-	}
-
-	public Employee getRecruitId() {
-		return recruitId;
-	}
-
-	public void setRecruitId(Employee recruitId) {
-		this.recruitId = recruitId;
 	}
 
 	public String getDescription() {

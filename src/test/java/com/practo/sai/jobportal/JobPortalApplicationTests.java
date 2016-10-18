@@ -6,11 +6,12 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.practo.sai.jobportal.model.AddJobModel;
@@ -32,36 +33,29 @@ public class JobPortalApplicationTests {
 	public void contextLoads() {
 	}
 
-	@Rollback
-	private JobModel addJob() throws BadRequestException {
+	@Test
+	@Transactional
+	public void deleteJobTest() throws BadRequestException, NotFoundException {
+
 		AddJobModel addJobModel = new AddJobModel();
 		addJobModel.setDescription("2 Years experienced dev for PHP");
-		addJobModel.setCategoryId(1);
+		addJobModel.setCategoryId(2);
 		addJobModel.setPostedBy(1);
 
 		// Save and Get Test
 		JobModel jobModel = jobService.addJob(addJobModel);
+		assertTrue(jobModel.getjId() > 0);
 
-		return jobModel;
-	}
-
-	@Test
-	@Rollback(true)
-	public void deleteJobTest() throws BadRequestException, NotFoundException {
-
-		JobModel jobModel = addJob();
-
-		// Delete Test
-		jobService.deleteJob(jobModel.getjId());
 	}
 
 	@Test(expected = NotFoundException.class)
+	@Transactional
 	public void deleteJobInvalidId() throws NotFoundException {
 		jobService.deleteJob(-1);
 	}
 
 	@Test
-	@Rollback(true)
+	@Transactional
 	public void addJobTest() throws BadRequestException {
 		AddJobModel addJobModel = new AddJobModel();
 		addJobModel.setDescription("2 Years experienced dev for PHP");
@@ -75,6 +69,7 @@ public class JobPortalApplicationTests {
 	}
 
 	@Test(expected = BadRequestException.class)
+	@Transactional
 	public void addJobTestNoCategory() throws BadRequestException {
 
 		AddJobModel addJobModel = new AddJobModel();
@@ -86,6 +81,7 @@ public class JobPortalApplicationTests {
 	}
 
 	@Test(expected = BadRequestException.class)
+	@Transactional
 	public void addJobTestNoDescription() throws BadRequestException {
 
 		AddJobModel addJobModel = new AddJobModel();
@@ -97,6 +93,7 @@ public class JobPortalApplicationTests {
 	}
 
 	@Test(expected = BadRequestException.class)
+	@Transactional
 	public void addJobTestNoAdmin() throws BadRequestException {
 
 		AddJobModel addJobModel = new AddJobModel();
@@ -108,15 +105,19 @@ public class JobPortalApplicationTests {
 	}
 
 	@Test
-	@Rollback(true)
+	@Transactional
 	public void updateJobDescriptionTest() throws BadRequestException {
-		JobModel jobModel = addJob();
+		AddJobModel addJobModel = new AddJobModel();
+		addJobModel.setDescription("2 Years experienced dev for PHP");
+		addJobModel.setCategoryId(1);
+		addJobModel.setPostedBy(1);
+
+		// Save and Get Test
+		JobModel jobModel = jobService.addJob(addJobModel);
+		assertTrue(jobModel.getjId() > 0);
 
 		UpdateJobModel updateJobModel = new UpdateJobModel();
-		updateJobModel.setCategoryId(jobModel.getCategory().getCId());
-		updateJobModel.setClosed(false);
 		updateJobModel.setDescription("3 Years experienced dev for PHP");
-		updateJobModel.setPostedBy(jobModel.getPostedBy().getEId());
 
 		JobModel updatedJobModel = jobService.updateJob(1, updateJobModel);
 
@@ -124,40 +125,51 @@ public class JobPortalApplicationTests {
 	}
 
 	@Test
-	@Rollback(true)
+	@Transactional
 	public void updateJobCategoryTest() throws BadRequestException {
-		JobModel jobModel = addJob();
+		AddJobModel addJobModel = new AddJobModel();
+		addJobModel.setDescription("2 Years experienced dev for PHP");
+		addJobModel.setCategoryId(1);
+		addJobModel.setPostedBy(1);
+
+		// Save and Get Test
+		JobModel jobModel = jobService.addJob(addJobModel);
+		assertTrue(jobModel.getjId() > 0);
 
 		UpdateJobModel updateJobModel = new UpdateJobModel();
 		updateJobModel.setCategoryId(2);
-		updateJobModel.setClosed(false);
-		updateJobModel.setDescription("2 Years experienced dev for PHP");
-		updateJobModel.setPostedBy(jobModel.getPostedBy().getEId());
 
 		JobModel updatedJobModel = jobService.updateJob(1, updateJobModel);
+		assertTrue(jobModel.getjId() > 0);
 
 		assertNotEquals(updatedJobModel.getCategory().getCId(), jobModel.getCategory().getCId());
 	}
 
 	@Test
-	@Rollback(true)
+	@Transactional
 	public void updateJobStatusTest() throws BadRequestException {
-		JobModel jobModel = addJob();
+		AddJobModel addJobModel = new AddJobModel();
+		addJobModel.setDescription("2 Years experienced dev for PHP");
+		addJobModel.setCategoryId(1);
+		addJobModel.setPostedBy(1);
+
+		// Save and Get Test
+		JobModel jobModel = jobService.addJob(addJobModel);
+		assertTrue(jobModel.getjId() > 0);
 
 		UpdateJobModel updateJobModel = new UpdateJobModel();
-		updateJobModel.setCategoryId(1);
 		updateJobModel.setClosed(true);
-		updateJobModel.setDescription("2 Years experienced dev for PHP");
-		updateJobModel.setPostedBy(jobModel.getPostedBy().getEId());
+		updateJobModel.setRecruitId(2);
 
 		JobModel updatedJobModel = jobService.updateJob(1, updateJobModel);
 
-		assertNotEquals(updatedJobModel.isClosed(), jobModel.isClosed());
+		assertTrue(updatedJobModel.isClosed());
 	}
 
 	@Test
+	@Transactional
 	public void getAllJobsTest() {
-		int size = 11;
+		int size = 8;
 		List<JobModel> jobModels = jobService.getJobs();
 		assertEquals(size, jobModels.size());
 	}

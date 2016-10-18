@@ -16,13 +16,14 @@ End point to fetch all the jobs listed so far
         [{"jId":1,"category":
         {"categoryName":"Developer","cid":1},"postedBy":{"emailId":"sai.chandra@practo.com","eid":1},"recruitId":null,"description":"Need a developer","closed":false}]
 
+
 ### Create a new Job [POST]
 
 End point to create a new job listing. Category Id, Admin Id and description for the job are expected
 
 + Request (application/json)
 
-        {"category_id":1,"postedBy":1,"description":"Need a developer"}
+        {"categoryId":1,"postedBy":1,"description":"Another job"}
 
 + Response 201 (application/json)
 
@@ -33,10 +34,69 @@ End point to create a new job listing. Category Id, Admin Id and description for
     + Body
 
             {
-                "responseCode": 101,
-                "message": "Job added succesfully",
+            "jId": 7,
+            "category": {
+            "categoryName": "Developer",
+            "cid": 1
+            },
+            "postedBy": {
+            "emailId": "sai.chandra@practo.com",
+            "eid": 1
+            },
+            "recruitId": null,
+            "description": "Experienced Developer in Java",
+            "closed": false
             }
+            
+## Jobs [/jobs/{jobId}]            
 
+### Update a Job listing [PATCH]
+
+End point to update an existing Job listing
+
++ Parameters
+    + jobId - id of a Job listing
+
++ Request (application/json)
+
+        {"categoryId":1,"postedBy":1,"description":"Need a developer","closed"=true,"recruitId"=2}
+
++ Response 201 (application/json)
+
+    + Headers
+
+            
+
+    + Body
+
+            {
+            "jId": 4,
+            "category": {
+            "categoryName": "Human Resources",
+            "cid": 3
+            },
+            "postedBy": {
+                "emailId": "sai.chandra@practo.com",
+            "eid": 1
+            },
+            "recruitId": {
+            "emailId": "chandu9013@gmail.com",
+            "eid": 2
+            },
+            "description": "Need an experienced candidate",
+            "closed": false
+            }
+            
+### Deleting a Job listing [DELETE]
+
+End point to update an existing Job listing
+
++ Parameters
+    + jobId - id of a Job listing
+    
++ Response 200 (application/json)    
+           
+            
 ## Job Applications [/jobs/{jobId}/applications]
             
 ### List All Job Applications [GET]
@@ -55,7 +115,7 @@ End point to add a new job application
 
 + Request (application/json)
 
-        {"jId":1,"appliedBy":1}
+        {"appliedBy":2}
 
 + Response 201 (application/json)
 

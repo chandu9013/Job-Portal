@@ -8,7 +8,10 @@ import org.springframework.stereotype.Service;
 import com.practo.sai.jobportal.entities.Category;
 import com.practo.sai.jobportal.entities.Employee;
 import com.practo.sai.jobportal.entities.Job;
+import com.practo.sai.jobportal.entities.JobApplication;
+import com.practo.sai.jobportal.model.AddJobAppModel;
 import com.practo.sai.jobportal.model.AddJobModel;
+import com.practo.sai.jobportal.model.JobApplicationModel;
 import com.practo.sai.jobportal.model.JobModel;
 import com.practo.sai.jobportal.model.UpdateJobModel;
 
@@ -66,7 +69,7 @@ public class MappingUtility {
 			admin.setEId(jobModel.getPostedBy());
 			job.setEmployeeByPostedBy(admin);
 		}
-
+		System.out.println("isClosed - " + jobModel.isClosed());
 		job.setIsClosed(jobModel.isClosed());
 
 		if (jobModel.getPostedBy() > 0) {
@@ -76,6 +79,39 @@ public class MappingUtility {
 		}
 
 		return job;
+	}
+
+	public JobApplication mapToJobApp(int jobId, AddJobAppModel appModel) {
+		JobApplication application = new JobApplication();
+
+		Employee applier = new Employee();
+		applier.setEId(appModel.getAppliedBy());
+
+		application.setEmployee(applier);
+
+		Job job = new Job();
+		job.setJId(jobId);
+		application.setJob(job);
+
+		return application;
+	}
+
+	public JobApplicationModel mapToJobAppModel(JobApplication application) {
+		JobApplicationModel applicationModel = new JobApplicationModel();
+		applicationModel.setAppliedOn(application.getAppliedOn());
+		applicationModel.setEmployee(application.getEmployee());
+		applicationModel.setjAppId(application.getJAppId());
+		applicationModel.setJob(application.getJob());
+		return applicationModel;
+	}
+
+	public List<JobApplicationModel> mapToJobAppModels(List<JobApplication> applications) {
+		List<JobApplicationModel> jobApplicationModels = new ArrayList<>();
+		for (JobApplication application : applications) {
+			jobApplicationModels.add(mapToJobAppModel(application));
+		}
+		return jobApplicationModels;
+
 	}
 
 }

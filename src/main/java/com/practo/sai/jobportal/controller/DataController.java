@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 import com.practo.sai.jobportal.constants.Constants;
 import com.practo.sai.jobportal.entities.Category;
+import com.practo.sai.jobportal.model.AddJobAppModel;
 import com.practo.sai.jobportal.model.AddJobModel;
 import com.practo.sai.jobportal.model.JobApplicationModel;
 import com.practo.sai.jobportal.model.JobModel;
@@ -37,9 +38,10 @@ public class DataController {
 	JobService jobService;
 
 	/**
-	 * Method that returns all the jobs listed so far
+	 * Controller Method that handles request for fetching all the jobs listed
+	 * so far
 	 * 
-	 * @return
+	 * @return List of Jobs
 	 */
 	@RequestMapping(value = "/jobs", method = RequestMethod.GET)
 	@ResponseBody
@@ -52,9 +54,10 @@ public class DataController {
 	}
 
 	/**
-	 * Add a new job listing
+	 * Controller Method that handles requests for Adding a new job listing
 	 * 
 	 * @param job
+	 *            Job listing that needs to be added
 	 * @return
 	 */
 	@RequestMapping(value = "/jobs", method = RequestMethod.POST)
@@ -65,7 +68,7 @@ public class DataController {
 	}
 
 	/**
-	 * Still fucked up - How to write a generic update method
+	 * Controller Method that handles requests for updating a Job listing
 	 * 
 	 * @param jobId
 	 * @param jobModel
@@ -79,7 +82,8 @@ public class DataController {
 	}
 
 	/**
-	 * Method to delete a specific job from the listings
+	 * Controller Method that handles requests to delete a specific job from the
+	 * listings
 	 * 
 	 * @param jobId
 	 * @param jobModel
@@ -89,17 +93,42 @@ public class DataController {
 	@ResponseBody
 	@ResponseStatus(HttpStatus.OK)
 	public void deleteJob(@PathVariable int jobId) {
-		System.out.println("HRERERE");
 		jobService.deleteJob(jobId);
 	}
 
+	/**
+	 * Controller Method that handles requests for fetching all job applications
+	 * 
+	 * @param jobId
+	 *            ID of the job for which to fetch applications
+	 * @return List of applications
+	 */
 	@RequestMapping(value = "/jobs/{jobId}/applications", method = RequestMethod.GET)
 	@ResponseBody
+	@ResponseStatus(HttpStatus.OK)
 	public List<JobApplicationModel> getJobApplications(@PathVariable int jobId) {
 		List<JobApplicationModel> jobApplications = null;
 		jobApplications = jobService.getJobApplications(jobId);
 		return jobApplications;
+	}
 
+	/**
+	 * 
+	 * @param jobId
+	 * @param jobApp
+	 * @return
+	 */
+	@RequestMapping(value = "/jobs/{jobId}/applications", method = RequestMethod.POST)
+	@ResponseBody
+	@ResponseStatus(HttpStatus.CREATED)
+	public JobApplicationModel addJobApplication(@PathVariable int jobId, @RequestBody AddJobAppModel jobApp) {
+		return jobService.addJobApplication(jobId, jobApp);
+	}
+
+	@RequestMapping(value = "/applications/{appId}", method = RequestMethod.DELETE)
+	@ResponseStatus(HttpStatus.OK)
+	public void deleteJobApplication(@PathVariable int appId) {
+		jobService.deleteJobApplication(appId);
 	}
 
 	@RequestMapping("/categories")

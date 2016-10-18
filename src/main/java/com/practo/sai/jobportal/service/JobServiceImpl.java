@@ -10,11 +10,13 @@ import com.practo.sai.jobportal.entities.Category;
 import com.practo.sai.jobportal.entities.Employee;
 import com.practo.sai.jobportal.entities.Job;
 import com.practo.sai.jobportal.entities.JobApplication;
+import com.practo.sai.jobportal.model.AddJobAppModel;
 import com.practo.sai.jobportal.model.AddJobModel;
 import com.practo.sai.jobportal.model.JobApplicationModel;
 import com.practo.sai.jobportal.model.JobModel;
 import com.practo.sai.jobportal.model.UpdateJobModel;
 import com.practo.sai.jobportal.repo.CategoryDao;
+import com.practo.sai.jobportal.repo.JobApplicationDao;
 import com.practo.sai.jobportal.repo.JobDao;
 import com.practo.sai.jobportal.utility.MappingUtility;
 
@@ -26,6 +28,9 @@ public class JobServiceImpl implements JobService {
 
 	@Autowired
 	JobDao jobDao;
+
+	@Autowired
+	JobApplicationDao jobApplicationDao;
 
 	@Autowired
 	CategoryDao categoryDao;
@@ -49,6 +54,8 @@ public class JobServiceImpl implements JobService {
 	public JobModel updateJob(int jobId, UpdateJobModel jobModel) {
 		Job job = mUtility.mapUpdateJob(jobId, jobModel);
 		jobDao.update(job);
+		job = jobDao.getJob(job.getJId());
+		System.out.println("Category - " + job.getCategory().getCategoryName());
 		return mUtility.mapJob(job);
 	}
 
@@ -62,12 +69,25 @@ public class JobServiceImpl implements JobService {
 	@Override
 	public List<JobApplicationModel> getJobApplications(int jobId) {
 		List<JobApplication> jobApplications;
-		return null;
+		Job job = new Job();
+		job.setJId(jobId);
+		jobApplications = jobApplicationDao.getApplications(job);
+		return mUtility.mapToJobAppModels(jobApplications);
 	}
 
 	@Override
-	public void addJobApplication(JobApplication jobApplication) {
-		// jobApplicationRepo.save(jobApplication);
+	public JobApplicationModel addJobApplication(int jobId, AddJobAppModel jobApp) {
+		JobApplication application = mUtility.mapToJobApp(jobId, jobApp);
+		jobApplicationDao.save(application);
+		application = jobApplicationDao.getApplication(application.getJAppId());
+		return mUtility.mapToJobAppModel(application);
+	}
+
+	@Override
+	public void deleteJobApplication(int appId) {
+		JobApplication application = new JobApplication();
+		application.setJAppId(appId);
+		jobApplicationDao.delete(application);
 
 	}
 

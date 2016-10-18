@@ -53,8 +53,7 @@ public class MappingUtility {
 		return job;
 	}
 
-	public Job mapUpdateJob(int jobId, UpdateJobModel jobModel) {
-		Job job = new Job();
+	public Job mapUpdateJob(int jobId, UpdateJobModel jobModel, Job job) {
 		job.setJId(jobId);
 		job.setDescription(jobModel.getDescription());
 
@@ -64,15 +63,15 @@ public class MappingUtility {
 			job.setCategory(category);
 		}
 
-		if (jobModel.getPostedBy() > 0) {
-			Employee admin = new Employee();
-			admin.setEId(jobModel.getPostedBy());
-			job.setEmployeeByPostedBy(admin);
-		}
+		// if (jobModel.getPostedBy() > 0) {
+		// Employee admin = new Employee();
+		// admin.setEId(jobModel.getPostedBy());
+		// job.setEmployeeByPostedBy(admin);
+		// }
 		System.out.println("isClosed - " + jobModel.isClosed());
 		job.setIsClosed(jobModel.isClosed());
 
-		if (jobModel.getPostedBy() > 0) {
+		if (jobModel.getRecruitId() > 0) {
 			Employee recruit = new Employee();
 			recruit.setEId(jobModel.getRecruitId());
 			job.setEmployeeByRecruitId(recruit);

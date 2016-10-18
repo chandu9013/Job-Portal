@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.hibernate.exception.JDBCConnectionException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import com.practo.sai.jobportal.entities.Category;
@@ -19,6 +20,9 @@ import com.practo.sai.jobportal.repo.CategoryDao;
 import com.practo.sai.jobportal.repo.JobApplicationDao;
 import com.practo.sai.jobportal.repo.JobDao;
 import com.practo.sai.jobportal.utility.MappingUtility;
+
+import inti.ws.spring.exception.client.BadRequestException;
+import inti.ws.spring.exception.client.NotFoundException;
 
 @Service
 public class JobServiceImpl implements JobService {
@@ -44,7 +48,11 @@ public class JobServiceImpl implements JobService {
 	}
 
 	@Override
-	public JobModel addJob(AddJobModel jobModel) {
+	public JobModel addJob(AddJobModel jobModel) throws BadRequestException {
+		if (jobModel.getCategoryId() <= 0 || jobModel.getDescription() == null || jobModel.getDescription().equals("")
+				|| jobModel.getPostedBy() <= 0)
+			throw new BadRequestException("Required parameters are either missing or invalid");
+
 		Job job = mUtility.mapAddJob(jobModel);
 		jobDao.save(job);
 		return mUtility.mapJob(job);
@@ -52,15 +60,16 @@ public class JobServiceImpl implements JobService {
 
 	@Override
 	public JobModel updateJob(int jobId, UpdateJobModel jobModel) {
-		Job job = mUtility.mapUpdateJob(jobId, jobModel);
+		Job job = jobDao.getJob(jobId);
+		mUtility.mapUpdateJob(jobId, jobModel, job);
 		jobDao.update(job);
-		job = jobDao.getJob(job.getJId());
+
 		System.out.println("Category - " + job.getCategory().getCategoryName());
 		return mUtility.mapJob(job);
 	}
 
 	@Override
-	public void deleteJob(int jobId) {
+	public void deleteJob(int jobId) throws NotFoundException {
 		Job job = new Job();
 		job.setJId(jobId);
 		jobDao.delete(job);

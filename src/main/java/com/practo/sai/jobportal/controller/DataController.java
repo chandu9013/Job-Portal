@@ -6,8 +6,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,6 +26,9 @@ import com.practo.sai.jobportal.model.JobModel;
 import com.practo.sai.jobportal.model.SessionParams;
 import com.practo.sai.jobportal.model.UpdateJobModel;
 import com.practo.sai.jobportal.service.JobService;
+
+import inti.ws.spring.exception.client.BadRequestException;
+import inti.ws.spring.exception.client.NotFoundException;
 
 /**
  * Controller that provides Rest End-points for the Job Portal
@@ -59,11 +64,12 @@ public class DataController {
 	 * @param job
 	 *            Job listing that needs to be added
 	 * @return
+	 * @throws BadRequestException
 	 */
 	@RequestMapping(value = "/jobs", method = RequestMethod.POST)
 	@ResponseBody
 	@ResponseStatus(HttpStatus.CREATED)
-	public JobModel addJob(@RequestBody AddJobModel job) {
+	public JobModel addJob(@RequestBody AddJobModel job) throws BadRequestException {
 		return jobService.addJob(job);
 	}
 
@@ -88,11 +94,12 @@ public class DataController {
 	 * @param jobId
 	 * @param jobModel
 	 * @return
+	 * @throws NotFoundException
 	 */
 	@RequestMapping(value = "/jobs/{jobId}", method = RequestMethod.DELETE)
 	@ResponseBody
 	@ResponseStatus(HttpStatus.OK)
-	public void deleteJob(@PathVariable int jobId) {
+	public void deleteJob(@PathVariable int jobId) throws NotFoundException {
 		jobService.deleteJob(jobId);
 	}
 
@@ -169,5 +176,13 @@ public class DataController {
 
 		return null;
 	}
+
+	// @ResponseStatus(value = HttpStatus.BAD_REQUEST, reason = "Required
+	// parameter either missing or invalid")
+	// @ExceptionHandler({ DataIntegrityViolationException.class,
+	// IllegalArgumentException.class })
+	// public void badRequestExceptions() {
+	//
+	// }
 
 }

@@ -7,3 +7,4 @@ employees of the company can apply to the same.
 - Requires Maven
 - To run the application, go to the root folder of the product in terminal/command prompt and execute "mvn spring-boot:run"
 - go to browser and the application should be running under http://localhost:8080/
+- Apiary Documentation - https://app.apiary.io/jobportal/editor

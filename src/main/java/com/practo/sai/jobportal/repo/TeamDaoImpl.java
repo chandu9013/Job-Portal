@@ -9,14 +9,11 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.practo.sai.jobportal.entities.Category;
-import com.practo.sai.jobportal.utility.Logger;
+import com.practo.sai.jobportal.entities.Team;
 
 @Repository
 @Transactional
-public class CategoryDaoImpl implements CategoryDao {
-
-	private static final Logger LOG = Logger.getInstance(JobApplicationDaoImpl.class);
+public class TeamDaoImpl implements TeamDao {
 
 	@Autowired
 	private SessionFactory sessionFactory;
@@ -25,9 +22,10 @@ public class CategoryDaoImpl implements CategoryDao {
 		return sessionFactory.getCurrentSession();
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
-	public List<Category> getCategories() {
-		return getSession().createQuery("from Category").list();
+	public List<Team> getAll() {
+		return getSession().createQuery("from Team").list();
 	}
 
 }

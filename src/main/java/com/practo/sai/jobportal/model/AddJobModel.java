@@ -8,6 +8,8 @@ public class AddJobModel {
 
 	private String description;
 
+	private int teamId;
+
 	public int getCategoryId() {
 		return categoryId;
 	}
@@ -30,6 +32,14 @@ public class AddJobModel {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	public int getTeamId() {
+		return teamId;
+	}
+
+	public void setTeamId(int teamId) {
+		this.teamId = teamId;
 	}
 
 }

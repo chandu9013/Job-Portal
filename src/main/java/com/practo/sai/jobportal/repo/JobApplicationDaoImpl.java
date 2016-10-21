@@ -14,10 +14,14 @@ import org.springframework.stereotype.Repository;
 
 import com.practo.sai.jobportal.entities.Job;
 import com.practo.sai.jobportal.entities.JobApplication;
+import com.practo.sai.jobportal.utility.Logger;
 
 @Repository
 @Transactional
 public class JobApplicationDaoImpl implements JobApplicationDao {
+
+	private static final Logger LOG = Logger.getInstance(JobApplicationDaoImpl.class);
+
 	@Autowired
 	private SessionFactory sessionFactory;
 
@@ -34,6 +38,7 @@ public class JobApplicationDaoImpl implements JobApplicationDao {
 	@Override
 	@SuppressWarnings("unchecked")
 	public List<JobApplication> getApplications(Job job) {
+		LOG.debug(job.getJId());
 		DetachedCriteria criteria = DetachedCriteria.forClass(JobApplication.class);
 
 		DetachedCriteria jobCriteria = criteria.createCriteria("job");

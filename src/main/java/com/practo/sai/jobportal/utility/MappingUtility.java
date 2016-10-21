@@ -9,17 +9,22 @@ import com.practo.sai.jobportal.entities.Category;
 import com.practo.sai.jobportal.entities.Employee;
 import com.practo.sai.jobportal.entities.Job;
 import com.practo.sai.jobportal.entities.JobApplication;
+import com.practo.sai.jobportal.entities.Team;
 import com.practo.sai.jobportal.model.AddJobAppModel;
 import com.practo.sai.jobportal.model.AddJobModel;
 import com.practo.sai.jobportal.model.EmployeeModel;
 import com.practo.sai.jobportal.model.JobApplicationModel;
 import com.practo.sai.jobportal.model.JobModel;
+import com.practo.sai.jobportal.model.TeamModel;
 import com.practo.sai.jobportal.model.UpdateJobModel;
 
 @Service
 public class MappingUtility {
 
+	private static final Logger LOG = Logger.getInstance(MappingUtility.class);
+
 	public List<JobModel> mapToJobModels(List<Job> jobs) {
+		LOG.debug("Mapping all Jobs to JobModels to return to user");
 		List<JobModel> jobModels = new ArrayList<>();
 		for (Job job : jobs) {
 			jobModels.add(mapToJobModel(job));
@@ -34,6 +39,9 @@ public class MappingUtility {
 		jobModel.setjId(job.getJId());
 		jobModel.setLastModified(job.getLastModified());
 
+		TeamModel teamModel = new TeamModel(job.getTeam().getId(), job.getTeam().getName());
+		jobModel.setTeam(teamModel);
+
 		EmployeeModel postedBy = new EmployeeModel(job.getEmployeeByPostedBy().getEId(),
 				job.getEmployeeByPostedBy().getEmailId());
 
@@ -47,6 +55,7 @@ public class MappingUtility {
 			jobModel.setRecruited(recruit);
 			jobModel.setClosed(true);
 		}
+		LOG.debug("mapped Job to JobModel to send to user");
 		return jobModel;
 	}
 
@@ -62,6 +71,10 @@ public class MappingUtility {
 		admin.setEId(jobModel.getPostedBy());
 		job.setEmployeeByPostedBy(admin);
 
+		Team team = new Team();
+		team.setId(jobModel.getTeamId());
+		job.setTeam(team);
+		LOG.debug("Mapped from AddJobModel to Job");
 		return job;
 	}
 
@@ -81,7 +94,7 @@ public class MappingUtility {
 		// admin.setEId(jobModel.getPostedBy());
 		// job.setEmployeeByPostedBy(admin);
 		// }
-		System.out.println("isClosed - " + jobModel.isClosed());
+		LOG.debug("isClosed - " + jobModel.isClosed());
 		job.setIsClosed(jobModel.isClosed());
 
 		if (jobModel.getRecruitId() > 0) {
@@ -122,8 +135,22 @@ public class MappingUtility {
 		for (JobApplication application : applications) {
 			jobApplicationModels.add(mapToJobAppModel(application));
 		}
+		LOG.debug("JobApplications mapped to JobApplicationModels to send to user");
 		return jobApplicationModels;
 
+	}
+
+	public List<TeamModel> mapToTeamModels(List<Team> teams) {
+		LOG.debug("Mapping all Teams to TeamModels to return to user");
+		List<TeamModel> teamModels = new ArrayList<>();
+		for (Team team : teams) {
+			teamModels.add(mapToTeamModel(team));
+		}
+		return teamModels;
+	}
+
+	private TeamModel mapToTeamModel(Team team) {
+		return new TeamModel(team.getId(), team.getName());
 	}
 
 }

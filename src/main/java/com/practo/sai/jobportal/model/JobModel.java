@@ -14,6 +14,7 @@ public class JobModel {
 	private boolean isClosed;
 	private Date lastModified;
 	private Date postedOn;
+	private TeamModel team;
 
 	public Integer getjId() {
 		return jId;
@@ -77,5 +78,13 @@ public class JobModel {
 
 	public void setPostedOn(Date postedOn) {
 		this.postedOn = postedOn;
+	}
+
+	public TeamModel getTeam() {
+		return team;
+	}
+
+	public void setTeam(TeamModel team) {
+		this.team = team;
 	}
 }

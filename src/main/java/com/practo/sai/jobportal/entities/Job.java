@@ -40,6 +40,7 @@ public class Job implements java.io.Serializable {
 	private Date lastModified;
 	private Date postedOn;
 	private char deleted;
+	private Team team;
 	// private Set<JobApplication> jobApplications = new
 	// HashSet<JobApplication>(0);
 
@@ -155,6 +156,16 @@ public class Job implements java.io.Serializable {
 
 	public void setPostedOn(Date postedOn) {
 		this.postedOn = postedOn;
+	}
+
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "team_id", nullable = false)
+	public Team getTeam() {
+		return this.team;
+	}
+
+	public void setTeam(Team team) {
+		this.team = team;
 	}
 
 	// @OneToMany(fetch = FetchType.EAGER, mappedBy = "job")

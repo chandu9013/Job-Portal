@@ -4,16 +4,31 @@ public class EmployeeModel {
 	private Integer EId;
 	private String emailId;
 
-	// private List<UserRoleModel> userRoles;
+	private RoleModel role;
 
-	public Integer getEId() {
-		return EId;
+	public EmployeeModel(Integer eId, String emailId, RoleModel role) {
+		super();
+		EId = eId;
+		this.emailId = emailId;
+		this.role = role;
 	}
 
 	public EmployeeModel(Integer eId, String emailId) {
 		super();
 		EId = eId;
 		this.emailId = emailId;
+	}
+
+	public RoleModel getRole() {
+		return role;
+	}
+
+	public void setRole(RoleModel role) {
+		this.role = role;
+	}
+
+	public Integer getEId() {
+		return EId;
 	}
 
 	public void setEId(Integer eId) {

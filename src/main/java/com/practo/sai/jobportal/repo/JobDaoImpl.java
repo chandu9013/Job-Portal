@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.practo.sai.jobportal.entities.Job;
+import com.practo.sai.jobportal.utility.Logger;
 
 /**
  * DAO Implementation that performs CRUD operations on Job Entity
@@ -21,6 +22,9 @@ import com.practo.sai.jobportal.entities.Job;
 @Repository
 @Transactional
 public class JobDaoImpl implements JobDao {
+
+	private static final Logger LOG = Logger.getInstance(JobDaoImpl.class);
+
 	@Autowired
 	private SessionFactory sessionFactory;
 

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.SessionAttribute;
 
 import com.practo.sai.jobportal.constants.Constants;
 import com.practo.sai.jobportal.entities.Category;
@@ -22,11 +23,14 @@ import com.practo.sai.jobportal.model.AddJobModel;
 import com.practo.sai.jobportal.model.JobApplicationModel;
 import com.practo.sai.jobportal.model.JobModel;
 import com.practo.sai.jobportal.model.SessionParams;
+import com.practo.sai.jobportal.model.TeamModel;
 import com.practo.sai.jobportal.model.UpdateJobModel;
 import com.practo.sai.jobportal.service.JobService;
+import com.practo.sai.jobportal.utility.Logger;
 
 import inti.ws.spring.exception.client.BadRequestException;
 import inti.ws.spring.exception.client.NotFoundException;
+import inti.ws.spring.exception.client.UnauthorizedException;
 
 /**
  * Controller that provides Rest End-points for the Job Portal
@@ -37,6 +41,8 @@ import inti.ws.spring.exception.client.NotFoundException;
 @Controller
 public class DataController {
 
+	private static final Logger LOG = Logger.getInstance(DataController.class);
+
 	@Autowired
 	JobService jobService;
 
@@ -45,14 +51,20 @@ public class DataController {
 	 * so far
 	 * 
 	 * @return List of Jobs
+	 * @throws UnauthorizedException
 	 */
 	@RequestMapping(value = "/jobs", method = RequestMethod.GET)
 	@ResponseBody
 	@ResponseStatus(HttpStatus.OK)
-	public List<JobModel> getJobs() {
+	public List<JobModel> getJobs(@SessionAttribute int eId) throws UnauthorizedException {
+		LOG.info("Request received to fetch jobs");
+		if (eId <= 0) {
+			LOG.debug("No session detected. Access denied");
+			throw new UnauthorizedException("No session detected. Access denied");
+		}
 		List<JobModel> jobModels = null;
 		jobModels = jobService.getJobs();
-
+		LOG.info("Request for all jobs processed succesfully");
 		return jobModels;
 	}
 
@@ -68,6 +80,7 @@ public class DataController {
 	@ResponseBody
 	@ResponseStatus(HttpStatus.CREATED)
 	public JobModel addJob(@RequestBody AddJobModel job) throws BadRequestException {
+		LOG.info("Request received to add a new job listing");
 		return jobService.addJob(job);
 	}
 
@@ -78,12 +91,14 @@ public class DataController {
 	 * @param jobModel
 	 * @return
 	 * @throws BadRequestException
+	 * @throws NotFoundException
 	 */
 	@RequestMapping(value = "/jobs/{jobId}", method = RequestMethod.PATCH)
 	@ResponseBody
 	@ResponseStatus(HttpStatus.OK)
 	public JobModel updateJob(@PathVariable int jobId, @RequestBody UpdateJobModel jobModel)
-			throws BadRequestException {
+			throws BadRequestException, NotFoundException {
+		LOG.info("Request received to update a job listing");
 		return jobService.updateJob(jobId, jobModel);
 	}
 
@@ -101,7 +116,9 @@ public class DataController {
 	@ResponseBody
 	@ResponseStatus(HttpStatus.OK)
 	public void deleteJob(@PathVariable int jobId) throws NotFoundException, BadRequestException {
+		LOG.info("Request received to deleting a job listing");
 		jobService.deleteJob(jobId);
+		LOG.info("Request to delete a job listing processed succesfully");
 	}
 
 	/**
@@ -110,14 +127,17 @@ public class DataController {
 	 * @param jobId
 	 *            ID of the job for which to fetch applications
 	 * @return List of applications
-	 * @throws BadRequestException 
+	 * @throws BadRequestException
 	 */
 	@RequestMapping(value = "/jobs/{jobId}/applications", method = RequestMethod.GET)
 	@ResponseBody
 	@ResponseStatus(HttpStatus.OK)
 	public List<JobApplicationModel> getJobApplications(@PathVariable int jobId) throws BadRequestException {
+		LOG.info("Request received to fetch all applications for jobId - " + jobId);
 		List<JobApplicationModel> jobApplications = null;
 		jobApplications = jobService.getJobApplications(jobId);
+		LOG.info("Request to fetch all applications for jobId - " + jobId + " processed succesfully");
+		LOG.debug(jobApplications.size());
 		return jobApplications;
 	}
 
@@ -131,13 +151,16 @@ public class DataController {
 	@RequestMapping(value = "/jobs/{jobId}/applications", method = RequestMethod.POST)
 	@ResponseBody
 	@ResponseStatus(HttpStatus.CREATED)
-	public JobApplicationModel addJobApplication(@PathVariable int jobId, @RequestBody AddJobAppModel jobApp) throws BadRequestException {
+	public JobApplicationModel addJobApplication(@PathVariable int jobId, @RequestBody AddJobAppModel jobApp)
+			throws BadRequestException {
+		LOG.info("Request received to add an applications for jobId - " + jobId);
 		return jobService.addJobApplication(jobId, jobApp);
 	}
 
 	@RequestMapping(value = "/applications/{appId}", method = RequestMethod.DELETE)
 	@ResponseStatus(HttpStatus.OK)
 	public void deleteJobApplication(@PathVariable int appId) throws BadRequestException {
+		LOG.info("Request received to delete a job application - " + appId);
 		jobService.deleteJobApplication(appId);
 	}
 
@@ -145,24 +168,21 @@ public class DataController {
 	@ResponseBody
 	public List<Category> getCategories() {
 		List<Category> categories = null;
+		LOG.info("Request received to fetch all the categories");
 		categories = jobService.getCategories();
+		LOG.info("Request to fetch all the categories processed succesfully");
 		return categories;
 	}
 
-	// @RequestMapping(value = "/addJobApplication", method =
-	// RequestMethod.POST)
-	// @ResponseBody
-	// public Response addJobApplication(@RequestBody JobApplication
-	// jobApplication) {
-	// try {
-	// jobService.addJobApplication(jobApplication);
-	// return sendResponse(Constants.ADD_JOB_APP_SUCCESS,
-	// Constants.ADD_JOB_APP_SUCCESS_MESSAGE);
-	// } catch (Exception e) {
-	//
-	// }
-	// return sendResponse(Constants.SERVER_ERROR, null);
-	// }
+	@RequestMapping("/teams")
+	@ResponseBody
+	public List<TeamModel> getTeams() {
+		List<TeamModel> teams = null;
+		LOG.info("Request received to fetch all the categories");
+		teams = jobService.getTeams();
+		LOG.info("Request to fetch all the categories processed succesfully");
+		return teams;
+	}
 
 	private SessionParams vadilateSession(HttpServletRequest request) {
 		SessionParams sessionParams;
@@ -179,13 +199,5 @@ public class DataController {
 
 		return null;
 	}
-
-	// @ResponseStatus(value = HttpStatus.BAD_REQUEST, reason = "Required
-	// parameter either missing or invalid")
-	// @ExceptionHandler({ DataIntegrityViolationException.class,
-	// IllegalArgumentException.class })
-	// public void badRequestExceptions() {
-	//
-	// }
 
 }

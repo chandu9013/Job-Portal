@@ -118,7 +118,7 @@ public class JobPortalApplicationTests {
 	@Test
 	@Transactional
 	@Rollback(true)
-	public void updateJobDescriptionTest() throws BadRequestException {
+	public void updateJobDescriptionTest() throws BadRequestException, NotFoundException {
 		AddJobModel addJobModel = new AddJobModel();
 		addJobModel.setDescription("2 Years experienced dev for PHP");
 		addJobModel.setCategoryId(1);
@@ -139,7 +139,7 @@ public class JobPortalApplicationTests {
 	@Test
 	@Transactional
 	@Rollback(true)
-	public void updateJobCategoryTest() throws BadRequestException {
+	public void updateJobCategoryTest() throws BadRequestException, NotFoundException {
 		AddJobModel addJobModel = new AddJobModel();
 		addJobModel.setDescription("2 Years experienced dev for PHP");
 		addJobModel.setCategoryId(1);
@@ -161,7 +161,7 @@ public class JobPortalApplicationTests {
 	@Test
 	@Transactional
 	@Rollback(true)
-	public void updateJobStatusTest() throws BadRequestException {
+	public void updateJobStatusTest() throws BadRequestException, NotFoundException {
 		AddJobModel addJobModel = new AddJobModel();
 		addJobModel.setDescription("2 Years experienced dev for PHP");
 		addJobModel.setCategoryId(1);

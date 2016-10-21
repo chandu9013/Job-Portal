@@ -1,55 +1,37 @@
-<!doctype html>
-<html lang="en">
+<!doctype HTML>
+
+<html>
+
 <head>
-<meta charset="utf-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-<title>Demo</title>
-<meta name="description" content="" />
-<meta name="viewport" content="width=device-width" />
-<base href="/" />
 <link rel="stylesheet" type="text/css"
 	href="/webjars/bootstrap/css/bootstrap.min.css" />
 <script type="text/javascript" src="/webjars/jquery/jquery.min.js"></script>
 <script type="text/javascript"
 	src="/webjars/bootstrap/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="/webjars/angularjs/angular.min.js"></script>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.4/angular-route.js"></script>
+
+<script type="text/javascript"></script>
+<!-- <script
+	src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.19/angular-cookies.js"></script> -->
+
+<script type="text/javascript" src="app.js"></script>
 </head>
-<body ng-app="app" ng-controller="home as home">
-	<h1>Login</h1>
-	<div class="container" ng-show="!home.authenticated">
-		With Facebook: <a href="/login">click here</a>
+
+<body ng-app="myApp">
+
+
+	<div>
+		<h1>Job Portal</h1>
 	</div>
-	<div class="container" ng-show="home.authenticated">
-		Logged in as: <span ng-bind="home.user"></span>
-		<div>
-			<button ng-click="home.logout()" class="btn btn-primary">Logout</button>
-		</div>
+	<div>
+		<!-- For profile pic and logout -->
 	</div>
-	<script type="text/javascript" src="/webjars/angularjs/angular.min.js"></script>
-	<script type="text/javascript">
-		angular
-				.module("app", [])
-				.config(
-						function($httpProvider) {
-							$httpProvider.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
-						}).controller("home", function($http, $location) {
-					var self = this;
-					$http.get("/user").success(function(data) {
-						self.user = data.userAuthentication.details.name;
-						self.authenticated = true;
-					}).error(function() {
-						self.user = "N/A";
-						self.authenticated = false;
-					});
-					self.logout = function() {
-						$http.post('logout', {}).success(function() {
-							self.authenticated = false;
-							$location.path("/");
-						}).error(function(data) {
-							console.log("Logout failed")
-							self.authenticated = false;
-						});
-					};
-				});
-	</script>
+	<div ng-view></div>
+
+	<script type="text/javascript" src="js/LoginController.js"></script>
+	<script type="text/javascript" src="js/AdminHomeController.js"></script>
 </body>
 </html>

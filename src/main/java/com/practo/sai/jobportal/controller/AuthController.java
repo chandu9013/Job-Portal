@@ -69,6 +69,7 @@ public class AuthController extends WebSecurityConfigurerAdapter {
 			response.setEmailId(email);
 			response.setRoleModel(employee.getRole());
 			response.setName(name);
+			response.setPicUrl(details.get(Constants.KEY_PIC));
 			LOG.info("Login processed succesfully");
 			return response;
 		} else {

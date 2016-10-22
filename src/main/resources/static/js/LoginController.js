@@ -7,9 +7,7 @@ app
 
 				function($scope, $http, $location, sharedProperties, logout) {
 					console.log("Hello");
-					$scope.bye = "bye world";
 					http = $http;
-					console.log("Hello");
 					$http.get("/user").success(function(data) {
 						console.log("success login");
 						this.session = sharedProperties.getSession();
@@ -19,15 +17,17 @@ app
 						session.email = data.email;
 						session.role = data.roleModel;
 						session.authenticated = true;
+						session.picUrl = data.picUrl;
 						sharedProperties.setSession(session);
-
-						// $cookie.put("name", data.name)
 						console.log(session.role);
 
-						if (session.role.rid == 1)
+						if (session.role.roleName == 'Admin')
 							$location.path("/admin");
-						else
-							console.log("Not admin");
+						else if (session.role.roleName == 'Employee')
+							$location.path("/employee");
+						else {
+							console.log("No idea what to do");
+						}
 					}).error(function(status, data) {
 						console.log("Login failed");
 						$scope.user = "N/A";

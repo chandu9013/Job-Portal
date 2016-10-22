@@ -7,8 +7,16 @@ public class LoginResponse {
 	private String name;
 
 	private String emailId;
-	
-	
+
+	private String picUrl;
+
+	public String getPicUrl() {
+		return picUrl;
+	}
+
+	public void setPicUrl(String picUrl) {
+		this.picUrl = picUrl;
+	}
 
 	public RoleModel getRoleModel() {
 		return roleModel;

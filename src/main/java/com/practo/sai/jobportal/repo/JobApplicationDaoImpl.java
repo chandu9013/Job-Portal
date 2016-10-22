@@ -62,4 +62,15 @@ public class JobApplicationDaoImpl implements JobApplicationDao {
 		// TODO Auto-generated method stub
 
 	}
+
+	@Override
+	public List<JobApplication> getMyApplications(int eId) {
+		LOG.debug(eId);
+		DetachedCriteria criteria = DetachedCriteria.forClass(JobApplication.class);
+
+		DetachedCriteria employeeCriteria = criteria.createCriteria("employee");
+		employeeCriteria.add(Restrictions.eq("EId", eId));
+		Criteria executableCriteria = employeeCriteria.getExecutableCriteria(getSession());
+		return executableCriteria.list();
+	}
 }

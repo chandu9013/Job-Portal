@@ -48,6 +48,7 @@ public class AuthController extends WebSecurityConfigurerAdapter {
 		OAuth2Authentication auth = (OAuth2Authentication) principal;
 		LOG.info("Authentication request received");
 		if (auth.isAuthenticated()) {
+			@SuppressWarnings("unchecked")
 			LinkedHashMap<String, String> details = (LinkedHashMap<String, String>) auth.getUserAuthentication()
 					.getDetails();
 

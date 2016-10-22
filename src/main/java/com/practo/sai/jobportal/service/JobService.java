@@ -18,7 +18,7 @@ import inti.ws.spring.exception.client.NotFoundException;
 
 public interface JobService {
 
-	public List<JobModel> getJobs() throws JDBCConnectionException;
+	public List<JobModel> getJobs(int eId) throws JDBCConnectionException;
 
 	public JobModel addJob(AddJobModel job) throws BadRequestException;
 
@@ -27,6 +27,8 @@ public interface JobService {
 	public void deleteJob(int jobId) throws BadRequestException;
 
 	public List<JobApplicationModel> getJobApplications(int jobId) throws BadRequestException;
+
+	public List<JobApplicationModel> getMyJobApplications(int eId) throws BadRequestException;
 
 	public JobApplicationModel addJobApplication(int jobId, AddJobAppModel jobApp) throws BadRequestException;
 

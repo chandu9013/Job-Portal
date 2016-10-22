@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"></link>
+</head>
+<meta charset="UTF-8">
+<title>Job Portal - Employee</title>
+</head>
+<body>
+
+	<div class="page-header" id="banner">
+		<div class="row">
+			<div class="col-lg-8 col-md-7 col-sm-6">
+				<h1 style="margin: bottom=15px;">
+					Job Portal
+					<div style="float: right" align="right">
+						<button class="btn btn-info" ng-click="listJobs()"
+							ng-show="page!=1">List Jobs</button>
+						<button class="btn btn-success" ng-click="viewAppliedJobs()"
+							ng-show="page!=2">My Applications</button>
+						<button class="btn btn-danger" ng-click="signoff()">Logout</button>
+					</div>
+				</h1>
+			</div>
+
+		</div>
+	</div>
+
+	<!-- View Jobs -->
+	<div ng-show='page==1'>
+
+		<table class="table">
+			<tr style="background-color: #F2C780">
+				<th>Job Id</th>
+				<th>Category</th>
+				<th>Team</th>
+				<th>Description</th>
+				<th>Posted On</th>
+				<th><button type="button" class="btn btn-info btn-lg">
+						<span class="glyphicon glyphicon-filter"></span> Filter
+					</button></th>
+
+				<!-- <th>Recruited</th> -->
+			</tr>
+			<tr ng-repeat="job in jobs">
+				<td>{{ job.jId }}</td>
+				<td>{{ job.category.categoryName }}</td>
+				<td>{{ job.team.name }}</td>
+				<td>{{ job.description }}</td>
+				<td>{{ job.postedOn|date }}</td>
+				<!-- </td>
+			<td>{{ job.recruited.emailId==null? "N/A":
+				job.recruited.emailId}} -->
+				<td>
+					<button class="btn btn-info" ng-click="applyJob($index)">Apply</button>
+				</td>
+
+
+			</tr>
+
+		</table>
+		{{listError}}
+	</div>
+
+	<!-- View applied Jobs -->
+	<div ng-show='page==2'>
+
+		<table class="table">
+			<tr style="background-color: #F2C780">
+				<th>Job application Id</th>
+				<th>Job Id</th>
+				<th>Category</th>
+				<th>Team</th>
+				<th>Description</th>
+				<th>Posted On</th>
+				<th>Applied On</th>
+				<th></th>
+
+				<!-- <th>Recruited</th> -->
+			</tr>
+			<tr ng-repeat="application in applications">
+				<td>{{ application.jAppId }}</td>
+				<td>{{ application.job.jId }}</td>
+				<td>{{ application.job.category.categoryName }}</td>
+				<td>{{ application.job.team.name }}</td>
+				<td>{{ application.job.description }}</td>
+				<td>{{ application.job.postedOn|date }}</td>
+				<td>{{application.appliedOn|date}}</td>
+				<!-- </td>
+			<td>{{ job.recruited.emailId==null? "N/A":
+				job.recruited.emailId}} -->
+				<td>
+					<button class="btn btn-danger" ng-click="deleteApplication($index)">Delete</button>
+				</td>
+
+
+			</tr>
+
+
+		</table>
+		<div>{{applyError}}</div>
+	</div>
+
+</body>
+</html>

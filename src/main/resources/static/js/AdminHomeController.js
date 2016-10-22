@@ -2,8 +2,8 @@
  * 
  */
 app.controller('AdminHomeController', [ '$scope', 'sharedProperties',
-		'$location', '$http',
-		function($scope, sharedProperties, $location, $http) {
+		'$location', '$http', 'logout',
+		function($scope, sharedProperties, $location, $http,logout) {
 			console.log("Hello ");
 			$scope.session = sharedProperties.getSession();
 			if ($scope.session.name == '') {
@@ -11,22 +11,28 @@ app.controller('AdminHomeController', [ '$scope', 'sharedProperties',
 				console.log("Empty :(");
 				return;
 			}
-			$scope.page = 0;
 			$scope.session = sharedProperties.getSession();
 			console.log("In admin - " + $scope.session.name);
 
 			$scope.welcome = "Hello Admin";
 			var http = $http;
-			$scope.showAdd = true;
+			$scope.jobs=[];
+			$scope.pageno=1;
+			$scope.perpage=5;
 			
-			$scope.listJobs = function() {
+			$scope.listJobs = function(pageno) {
 				console.log("called listJobs");
 				http.get("/jobs").success(function(data) {
-					console.log("got jobs  - " + data[0].jId);
+					console.log("got jobs  - ");
 					$scope.page = 1;
 					$scope.jobs = data;
+					if(data=='')
+						$scope.jobsError="No jobs to show";
+					else
+						$scope.jobsError="";
 				}).error(function() {
 					console.log("didnt get jobs");
+					$scope.jobsError="Error retrieving jobs";
 				});
 			};
 			
@@ -34,7 +40,7 @@ app.controller('AdminHomeController', [ '$scope', 'sharedProperties',
 				http.get("/categories").success(function(data) {
 					console.log("Got categories ");
 					$scope.categories = data;
-
+					// $scope.categories.push({"cid":-1,"categoryName":""});
 					http.get("/teams").success(function(data) {
 						console.log("Got teams  - ");
 						$scope.teams = data;
@@ -87,9 +93,15 @@ app.controller('AdminHomeController', [ '$scope', 'sharedProperties',
 				
 				http.get("/jobs/"+jobId+"/applications").success(function(data){
 					$scope.applications=data;
-					console.log($scope.applications[0].jAppId);
+					$scope.job=$scope.jobs[$index];
+					$scope.page=4;
+					if(data=='')
+						$scope.applicationsError="No applications to show";
+					else
+						$scope.applicationsError="";
 				}).error(function(){
-					
+					console.log("Couldnt get applications");
+					$scope.applicationsError="Error retrieving applications";
 				});
 			};
 
@@ -142,8 +154,26 @@ app.controller('AdminHomeController', [ '$scope', 'sharedProperties',
 				});
 
 			};
+			
+			$scope.signoff=function(){
+				logout();
+			}
+			
+			$scope.approveApplication=function(index){
+				var application=$scope.applications[index];
+				var closeJob={"recruitId":application.employee.eid,"closed":true};
+				http.patch("/jobs/"+$scope.job.jId,closeJob).success(function(data){
+					console.log("Job closed");
+					$scope.listJobs();
+					
+				}).error(function(){
+					
+				});
+			};
 
 			$scope.categModel = null;
 			$scope.teamModel = null;
 			$scope.jobDescription = null;
+			
+			$scope.listJobs();
 		} ]);

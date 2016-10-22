@@ -6,6 +6,16 @@ public class SessionParams {
 
 	private String role;
 
+	private int eId;
+
+	public int geteId() {
+		return eId;
+	}
+
+	public void seteId(int eId) {
+		this.eId = eId;
+	}
+
 	public String getEmailId() {
 		return emailId;
 	}

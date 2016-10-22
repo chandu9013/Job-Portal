@@ -55,7 +55,6 @@ public class MappingUtility {
 			jobModel.setRecruited(recruit);
 			jobModel.setClosed(true);
 		}
-		LOG.debug("mapped Job to JobModel to send to user");
 		return jobModel;
 	}
 
@@ -124,9 +123,12 @@ public class MappingUtility {
 	public JobApplicationModel mapToJobAppModel(JobApplication application) {
 		JobApplicationModel applicationModel = new JobApplicationModel();
 		applicationModel.setAppliedOn(application.getAppliedOn());
-		applicationModel.setEmployee(application.getEmployee());
+
+		applicationModel.setEmployee(
+				new EmployeeModel(application.getEmployee().getEId(), application.getEmployee().getEmailId()));
 		applicationModel.setjAppId(application.getJAppId());
-		applicationModel.setJob(application.getJob());
+		applicationModel.setJob(mapToJobModel(application.getJob()));
+		LOG.debug("Returning applicationModel");
 		return applicationModel;
 	}
 

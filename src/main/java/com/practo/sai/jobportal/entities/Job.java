@@ -4,6 +4,8 @@ package com.practo.sai.jobportal.entities;
 import static javax.persistence.GenerationType.IDENTITY;
 
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,6 +14,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -41,8 +44,7 @@ public class Job implements java.io.Serializable {
 	private Date postedOn;
 	private char deleted;
 	private Team team;
-	// private Set<JobApplication> jobApplications = new
-	// HashSet<JobApplication>(0);
+	private Set<JobApplication> jobApplications = new HashSet<JobApplication>(0);
 
 	public char getDeleted() {
 		return deleted;
@@ -168,13 +170,13 @@ public class Job implements java.io.Serializable {
 		this.team = team;
 	}
 
-	// @OneToMany(fetch = FetchType.EAGER, mappedBy = "job")
-	// public Set<JobApplication> getJobApplications() {
-	// return this.jobApplications;
-	// }
-	//
-	// public void setJobApplications(Set<JobApplication> jobApplications) {
-	// this.jobApplications = jobApplications;
-	// }
+	 @OneToMany(fetch = FetchType.LAZY, mappedBy = "job")
+	 public Set<JobApplication> getJobApplications() {
+	 return this.jobApplications;
+	 }
+	
+	 public void setJobApplications(Set<JobApplication> jobApplications) {
+	 this.jobApplications = jobApplications;
+	 }
 
 }

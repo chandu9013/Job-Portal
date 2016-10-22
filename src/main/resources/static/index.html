@@ -4,8 +4,10 @@
 
 <head>
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-<link rel="stylesheet" type="text/css"
-	href="/webjars/bootstrap/css/bootstrap.min.css" />
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
+	integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7"
+	crossorigin="anonymous"></link>
 <script type="text/javascript" src="/webjars/jquery/jquery.min.js"></script>
 <script type="text/javascript"
 	src="/webjars/bootstrap/js/bootstrap.min.js"></script>
@@ -18,20 +20,45 @@
 	src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.19/angular-cookies.js"></script> -->
 
 <script type="text/javascript" src="app.js"></script>
+
+<style>
+textarea {
+	resize: none;
+}
+
+.table {
+	border-bottom: 0px !important;
+}
+
+.table th, .table td {
+	border: 1px !important;
+}
+
+.fixed-table-container {
+	border: 0px !important;
+}
+
+/* body {
+	background-image: url("supplier-portal-comp-info.jpg");
+} */
+.drop {
+	width: 150px;
+}
+
+/* table {
+	width: 100%;
+	border: 1px solid #d0d0d0;
+} */
+</style>
 </head>
 
 <body ng-app="myApp">
-
-
-	<div>
-		<h1>Job Portal</h1>
+	<div class="container">
+		<div ng-view></div>
 	</div>
-	<div>
-		<!-- For profile pic and logout -->
-	</div>
-	<div ng-view></div>
-
 	<script type="text/javascript" src="js/LoginController.js"></script>
 	<script type="text/javascript" src="js/AdminHomeController.js"></script>
+	<script type="text/javascript" src="js/EmployeeHomeController.js"></script>
+	<script type="text/javascript" src="js/dirPagination.js"></script>
 </body>
 </html>

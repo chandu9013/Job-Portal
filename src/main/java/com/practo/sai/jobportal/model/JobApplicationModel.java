@@ -2,13 +2,10 @@ package com.practo.sai.jobportal.model;
 
 import java.util.Date;
 
-import com.practo.sai.jobportal.entities.Employee;
-import com.practo.sai.jobportal.entities.Job;
-
 public class JobApplicationModel {
 	private Integer jAppId;
-	private Employee employee;
-	private Job job;
+	private EmployeeModel employee;
+	private JobModel job;
 	private Date appliedOn;
 
 	public Integer getjAppId() {
@@ -19,19 +16,19 @@ public class JobApplicationModel {
 		this.jAppId = jAppId;
 	}
 
-	public Employee getEmployee() {
+	public EmployeeModel getEmployee() {
 		return employee;
 	}
 
-	public void setEmployee(Employee employee) {
+	public void setEmployee(EmployeeModel employee) {
 		this.employee = employee;
 	}
 
-	public Job getJob() {
+	public JobModel getJob() {
 		return job;
 	}
 
-	public void setJob(Job job) {
+	public void setJob(JobModel job) {
 		this.job = job;
 	}
 

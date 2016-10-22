@@ -1,95 +1,188 @@
-<div>{{welcome}}</div>
+<!doctype html>
 
-{{session.name}}
+<head>
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
+	integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7"
+	crossorigin="anonymous"></link>
+</head>
+<body>
+
+	<div class="page-header" id="banner">
+		<div class="row">
+			<div class="col-lg-8 col-md-7 col-sm-6">
+				<h1 style="margin: bottom=15px;">
+					Job Portal
+					<div style="float: right" align="right">
+						<button class="btn btn-info" ng-click="listJobs()"
+							ng-show="page!=1">List Jobs</button>
+						<button class="btn btn-success" ng-click="viewAddJob()"
+							ng-show="page!=2">Add Job</button>
+						<button class="btn btn-danger" ng-click="signoff()">Logout</button>
+					</div>
+				</h1>
+			</div>
+
+		</div>
+	</div>
 
 
-<button ng-click="listJobs()" ng-show="page!=1">List Jobs</button>
-<button ng-click="viewAddJob()" ng-show="page!=2">Add Job</button>
+	<!-- List Jobs -->
+	<div ng-show='page==1'>
 
-<div ng-show='page==1'>
+		<table class="table">
+			<tr style="background-color: #F2C780">
+				<th>Job Id</th>
+				<th>Category</th>
+				<th>Team</th>
+				<th>Description</th>
+				<th>Posted On</th>
+				<th>Status</th>
+				<th></th>
 
-	<table>
-		<tr>
-			<th>Job Id</th>
-			<th>Category</th>
-			<th>Team</th>
-			<th>Description</th>
-			<th>Posted On</th>
-			<th>Status</th>
-			<th>Recruited</th>
-		</tr>
-		<tr ng-repeat="job in jobs">
-			<td>{{ job.jId }}</td>
-			<td>{{ job.category.categoryName }}</td>
-			<td>{{ job.team.name }}</td>
-			<td>{{ job.description }}</td>
-			<td>{{ job.postedOn|date }}</td>
-			<td>{{ job.closed ? "Closed":"Open" }}</td>
+				<!-- <th>Recruited</th> -->
+			</tr>
+			<tr ng-repeat="job in jobs">
+				<td>{{ job.jId }}</td>
+				<td>{{ job.category.categoryName }}</td>
+				<td>{{ job.team.name }}</td>
+				<td>{{ job.description }}</td>
+				<td>{{ job.postedOn|date }}</td>
+				<td>{{ job.closed ? "Closed":"Open" }}</td>
+				<!-- </td>
 			<td>{{ job.recruited.emailId==null? "N/A":
-				job.recruited.emailId}} <span><button
-						ng-click="viewApplications($index)">Applications</button>
-					<button ng-click="viewUpdateJob($index)">Edit</button>
-					<button ng-click="deleteJob($index)">Delete</button></span>
-			</td>
+				job.recruited.emailId}} -->
+				<td>
+					<button class="btn btn-info" ng-click="viewApplications($index)">Applications</button>
 
-		</tr>
-	</table>
+					<button class="btn btn-success" ng-click="viewUpdateJob($index)">Edit</button>
 
-</div>
+					<button class="btn btn-danger" ng-click="deleteJob($index)">Delete</button>
+				</td>
 
-<div ng-show="page==2">
-	<h2>Add Job</h2>
-	<table>
-		<tr>
-			<td><label>Category</label></td>
-			<td><select ng-model="categModel"
-				ng-options="category.categoryName for category in categories track by category.cid">
-			</select></td>
-		</tr>
 
-		<tr>
-			<td><label>Team</label></td>
-			<td><select ng-model="teamModel"
-				ng-options="team.name for team in teams track by team.id">
-			</select></td>
-		</tr>
-		<tr>
-			<td><label>Description</label></td>
-			<td><textarea rows="4" cols="50" ng-model="jobDescription"></textarea></td>
-		</tr>
-		<tr>
-			<td><button ng-click="cancel()">Cancel</button></td>
-			<td><button ng-click="publish()">Publish</button></td>
-		</tr>
-	</table>
-	Selected {{categModel}}{{teamModel}}{{jobDescription}}
-</div>
+			</tr>
+		</table>
+		<ul class="pager">
+			<li class="previous"><a href ng-click="">Previous</a></li>
+			<li class="next"><a href ng-click="">Next</a></li>
+		</ul>
 
-<div ng-show="page==3">
-	<h2>Edit Job</h2>
+		<div>{{jobsError}}</div>
 
-	<table>
-		<tr>
-			<td><label>Category</label></td>
-			<td><select ng-model="categModel"
-				ng-options="category.categoryName for category in categories track by category.cid">
-			</select></td>
-		</tr>
+	</div>
 
-		<tr>
-			<td><label>Team</label></td>
-			<td><select ng-model="teamModel"
-				ng-options="team.name for team in teams track by team.id">
-			</select></td>
-		</tr>
-		<tr>
-			<td><label>Description</label></td>
-			<td><textarea rows="4" cols="50" ng-model="jobDescription"></textarea></td>
-		</tr>
-		<tr>
-			<td><button ng-click="cancel()">Cancel</button></td>
-			<td><button ng-click="update()">Save</button></td>
-		</tr>
-	</table>
-	Selected {{categModel}}{{teamModel}}{{jobDescription}}
-</div>
+
+	<!-- Add Job -->
+	<div ng-show="page==2" class="col-md-7">
+		<h2>Add Job</h2>
+
+
+		<table class="table">
+			<tr>
+				<td><label>Category</label></td>
+				<td><select ng-model="categModel" class=" form-control"
+					ng-options="category.categoryName for category in categories track by category.cid">
+				</select></td>
+			</tr>
+
+			<tr>
+				<td><label>Team</label></td>
+				<td><select ng-model="teamModel" class=" form-control"
+					ng-options="team.name for team in teams track by team.id">
+				</select></td>
+			</tr>
+			<tr>
+				<td><label>Description</label></td>
+				<td><textarea class=" form-control" rows="4" cols="50"
+						ng-model="jobDescription"></textarea></td>
+			</tr>
+
+		</table>
+		<center>
+
+			<button class="btn btn-danger" ng-click="cancel()">Cancel</button>
+			<button class="btn btn-success" ng-click="publish()">Publish</button>
+			<
+
+		</center>
+		Selected {{categModel}}{{teamModel}}{{jobDescription}}
+	</div>
+
+	<!-- Edit Jobs -->
+	<div ng-show="page==3" class="col-md-7">
+		<h2>Edit Job</h2>
+
+		<table class="table">
+			<tr>
+				<td><label>Category</label></td>
+				<td><select ng-model="categModel" class=" form-control"
+					ng-options="category.categoryName for category in categories track by category.cid">
+				</select></td>
+			</tr>
+
+			<tr>
+				<td><label>Team</label></td>
+				<td><select ng-model="teamModel" class=" form-control"
+					ng-options="team.name for team in teams track by team.id">
+				</select></td>
+			</tr>
+			<tr>
+				<td><label>Description</label></td>
+				<td><textarea class=" form-control" rows="4" cols="50"
+						ng-model="jobDescription"></textarea></td>
+			</tr>
+
+		</table>
+		<center>
+			<button class="btn btn-danger" ng-click="cancel()">Cancel</button>
+			<button class="btn btn-success" ng-click="update()">Save</button>
+		</center>
+		Selected {{categModel}}{{teamModel}}{{jobDescription}}
+	</div>
+
+	<!-- View Job's applications -->
+	<div ng-show="page==4">
+		<h3>Job</h3>
+		<table class="table">
+			<tr style="background-color: #F2C780">
+				<th>Job Id</th>
+				<th>Category</th>
+				<th>Team</th>
+				<th>Description</th>
+				<th>Posted On</th>
+				<th>Status</th>
+				<!-- <th>Recruited</th> -->
+			</tr>
+			<tr>
+				<td>{{ job.jId }}</td>
+				<td>{{ job.category.categoryName }}</td>
+				<td>{{ job.team.name }}</td>
+				<td>{{ job.description }}</td>
+				<td>{{ job.postedOn|date }}</td>
+				<td>{{ job.closed ? "Closed":"Open" }}</td>
+				<!-- <td>{{ job.recruited.emailId==null? "N/A":
+				job.recruited.emailId}}</td>
+ -->
+			</tr>
+		</table>
+
+		<h3>Applications</h3>
+
+		<table class="table">
+			<tr style="background-color: #71C7F5">
+				<th>Application Id</th>
+				<th>Employee</th>
+				<th>Date</th>
+			</tr>
+			<tr ng-repeat="application in applications">
+				<td>{{ application.jAppId }}</td>
+				<td>{{ application.employee.emailId }}</td>
+				<td>{{ application.appliedOn |date }}</td>
+
+			</tr>
+		</table>
+
+	</div>
+	</div>
+</body>

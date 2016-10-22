@@ -183,7 +183,7 @@ public class JobPortalApplicationTests {
 	@Transactional
 	@Rollback(true)
 	public void getAllJobsTest() throws BadRequestException {
-		List<JobModel> jobModels = jobService.getJobs();
+		List<JobModel> jobModels = jobService.getJobs(12);
 		int size = jobModels.size();
 
 		AddJobModel addJobModel = new AddJobModel();
@@ -195,7 +195,7 @@ public class JobPortalApplicationTests {
 		JobModel jobModel = jobService.addJob(addJobModel);
 		assertTrue(jobModel.getjId() > 0);
 
-		jobModels = jobService.getJobs();
+		jobModels = jobService.getJobs(12);
 		assertEquals(size + 1, jobModels.size());
 	}
 

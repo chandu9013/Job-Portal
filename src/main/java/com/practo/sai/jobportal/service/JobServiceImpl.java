@@ -6,10 +6,12 @@ import org.hibernate.exception.JDBCConnectionException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.practo.sai.jobportal.constants.Constants;
 import com.practo.sai.jobportal.entities.Category;
 import com.practo.sai.jobportal.entities.Employee;
 import com.practo.sai.jobportal.entities.Job;
 import com.practo.sai.jobportal.entities.JobApplication;
+import com.practo.sai.jobportal.entities.Role;
 import com.practo.sai.jobportal.entities.Team;
 import com.practo.sai.jobportal.model.AddJobAppModel;
 import com.practo.sai.jobportal.model.AddJobModel;
@@ -20,8 +22,10 @@ import com.practo.sai.jobportal.model.UpdateJobModel;
 import com.practo.sai.jobportal.repo.CategoryDao;
 import com.practo.sai.jobportal.repo.JobApplicationDao;
 import com.practo.sai.jobportal.repo.JobDao;
+import com.practo.sai.jobportal.repo.RoleDao;
 import com.practo.sai.jobportal.repo.TeamDao;
 import com.practo.sai.jobportal.utility.Logger;
+import com.practo.sai.jobportal.utility.MailSender;
 import com.practo.sai.jobportal.utility.MappingUtility;
 
 import inti.ws.spring.exception.client.BadRequestException;
@@ -35,6 +39,9 @@ public class JobServiceImpl implements JobService {
 	@Autowired
 	MappingUtility mUtility;
 
+	// @Autowired
+	MailSender mailSender;
+
 	@Autowired
 	JobDao jobDao;
 
@@ -46,11 +53,25 @@ public class JobServiceImpl implements JobService {
 
 	@Autowired
 	TeamDao teamDao;
+	@Autowired
+	RoleDao roleDao;
 
 	@Override
-	public List<JobModel> getJobs() throws JDBCConnectionException {
+	public List<JobModel> getJobs(int eId) throws JDBCConnectionException {
 		LOG.info("Servicing request for all jobs");
-		List<Job> jobs = (List<Job>) jobDao.getJobs();
+		List<Job> jobs = null;
+		Employee employee = new Employee();
+		employee.setEId(eId);
+		Role role = roleDao.getRolebyEmployee(employee);
+		if (Constants.ROLE_ADMIN.equalsIgnoreCase(role.getRoleName())) {
+			LOG.debug("Getting jobs added by admin - " + employee.getEId());
+			jobs = (List<Job>) jobDao.getJobsByAdmin(eId);
+		} else {
+			LOG.debug("Getting all jobs for - " + eId);
+			jobs = (List<Job>) jobDao.getJobsNewForEmployee(eId);
+			LOG.debug(jobs.size());
+		}
+
 		List<JobModel> jobModels = mUtility.mapToJobModels(jobs);
 		LOG.info("Response prepared for user");
 		return jobModels;
@@ -107,6 +128,14 @@ public class JobServiceImpl implements JobService {
 	}
 
 	@Override
+	public List<JobApplicationModel> getMyJobApplications(int eId) throws BadRequestException {
+		List<JobApplication> jobApplications;
+		jobApplications = jobApplicationDao.getMyApplications(eId);
+		LOG.debug("Applications fetched from database - " + jobApplications.size());
+		return mUtility.mapToJobAppModels(jobApplications);
+	}
+
+	@Override
 	public JobApplicationModel addJobApplication(int jobId, AddJobAppModel jobApp) throws BadRequestException {
 		if (jobApp.getAppliedBy() <= 0 || jobId <= 0)
 			throw new BadRequestException("Required parameters are either missing or invalid");
@@ -114,6 +143,7 @@ public class JobServiceImpl implements JobService {
 		jobApplicationDao.save(application);
 		LOG.info("Application added to database succefully");
 		application = jobApplicationDao.getApplication(application.getJAppId());
+		LOG.debug("Fetched entire job application to return");
 		return mUtility.mapToJobAppModel(application);
 	}
 

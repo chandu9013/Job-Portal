@@ -11,6 +11,8 @@ public interface JobApplicationDao {
 
 	public List<JobApplication> getApplications(Job job);
 
+	public List<JobApplication> getMyApplications(int eId);
+
 	public JobApplication getApplication(int appId);
 
 	public void update(JobApplication application);

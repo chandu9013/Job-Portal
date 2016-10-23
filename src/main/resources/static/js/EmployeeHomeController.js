@@ -61,7 +61,6 @@ app.controller('EmployeeHomeController', [ '$scope', 'sharedProperties',
 				console.log("Delete $index - " + $scope.applications[index].jAppId);
 				http.delete("/applications/"+$scope.applications[index].jAppId).success(function(status){
 					console.log("Deleted job");
-					// $scope.jobs.splice($index, 1);
 					$scope.listJobs();
 				}).error(function() {
 					console.log("didnt delete job");
@@ -70,7 +69,7 @@ app.controller('EmployeeHomeController', [ '$scope', 'sharedProperties',
 
 			$scope.cancel = function() {
 				$scope.page = 1;
-				$scope.listJobs();
+// $scope.listJobs();
 			}
 			
 			$scope.applyJob=function(index){
@@ -83,10 +82,55 @@ app.controller('EmployeeHomeController', [ '$scope', 'sharedProperties',
 				});
 			}
 			
+			$scope.categModel = null;
+			$scope.teamModel = null;
+			
+			$scope.viewFilters=function(){
+				
+				http.get("/categories").success(function(data) {
+					console.log("Got categories ");
+					$scope.categories = data;
+					http.get("/teams").success(function(data) {
+						console.log("Got teams  - ");
+						$scope.teams = data;
+						$scope.page = 3;
+						
+						$scope.categories.push({"cid":-1,"categoryName":"All"});
+						$scope.teams.push({"id":-1,"name":"All"});
+
+						// Empty the add form
+						//$scope.categModel = null;
+						//$scope.teamModel = null;
+					}).error(function() {
+						console.log("didnt get teams");
+					});
+				}).error(function() {
+					console.log("didnt get categories");
+				});
+			};
+			
+			$scope.applyFilters=function(){
+				$scope.filters={};
+				if(undefined!=$scope.categModel){
+					$scope.filters.cId = $scope.categModel.cid;}
+				
+				if(undefined!=$scope.teamModel){
+					$scope.filters.tId = $scope.teamModel.id;}
+				console.log($scope.filters);
+				$scope.listJobs(1);
+			}
+			
 			$scope.listJobs = function(pageno) {
 				console.log("called listJobs");
+				if(undefined==pageno)
+					pageno=$scope.nextpage;
+				$scope.nextpage=pageno;
 				$scope.jobs=[];
-				http.get("/jobs/"+$scope.perpage+"/"+pageno).success(function(data) {
+				
+				// Set filter parameters
+				
+				
+				http.get("/jobs/"+$scope.perpage+"/"+pageno,{params:$scope.filters}).success(function(data) {
 					console.log("got jobs  - ");
 					$scope.page = 1;
 					$scope.jobs = data.jobs;

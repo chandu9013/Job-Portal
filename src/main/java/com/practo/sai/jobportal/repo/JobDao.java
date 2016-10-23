@@ -3,6 +3,7 @@ package com.practo.sai.jobportal.repo;
 import org.hibernate.exception.JDBCConnectionException;
 
 import com.practo.sai.jobportal.entities.Job;
+import com.practo.sai.jobportal.model.Filter;
 import com.practo.sai.jobportal.model.PageableJobs;
 
 public interface JobDao {
@@ -17,6 +18,7 @@ public interface JobDao {
 
 	public void delete(Job job);
 
-	public PageableJobs getJobsNewForEmployee(int eId, int perpage, int pageno) throws JDBCConnectionException;
+	public PageableJobs getJobsNewForEmployee(int eId, int perpage, int pageno, Filter filter)
+			throws JDBCConnectionException;
 
 }

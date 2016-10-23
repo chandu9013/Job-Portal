@@ -38,7 +38,8 @@
 				<th>Team</th>
 				<th>Description</th>
 				<th>Posted On</th>
-				<th><button type="button" class="btn btn-info btn-lg">
+				<th><button type="button" class="btn btn-info btn-md"
+						ng-click="viewFilters()">
 						<span class="glyphicon glyphicon-filter"></span> Filter
 					</button></th>
 
@@ -105,6 +106,37 @@
 
 		</table>
 		<div>{{applyError}}</div>
+	</div>
+
+	<div ng-show="page==3" class="col-md-7">
+		<h2>Filter Jobs</h2>
+
+
+		<table class="table">
+			<tr>
+				<td><label>Category</label></td>
+				<td><select ng-model="categModel" class=" form-control"
+					ng-options="category.categoryName for category in categories track by category.cid">
+				</select></td>
+			</tr>
+
+			<tr>
+				<td><label>Team</label></td>
+				<td><select ng-model="teamModel" class=" form-control"
+					ng-options="team.name for team in teams track by team.id">
+				</select></td>
+			</tr>
+		</table>
+		<center>
+
+			<button class="btn btn-danger" ng-click="cancel()">Cancel</button>
+			<button type="button" class="btn btn-success"
+				ng-click="applyFilters()">
+				<span class="glyphicon glyphicon-filter"></span>Apply Filter
+			</button>
+
+
+		</center>
 	</div>
 
 </body>

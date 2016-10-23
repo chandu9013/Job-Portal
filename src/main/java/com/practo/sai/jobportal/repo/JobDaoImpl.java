@@ -18,6 +18,7 @@ import org.springframework.stereotype.Repository;
 
 import com.practo.sai.jobportal.entities.Job;
 import com.practo.sai.jobportal.entities.JobApplication;
+import com.practo.sai.jobportal.model.Filter;
 import com.practo.sai.jobportal.model.PageableJobs;
 import com.practo.sai.jobportal.utility.Logger;
 
@@ -53,7 +54,8 @@ public class JobDaoImpl implements JobDao {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public PageableJobs getJobsNewForEmployee(int eId, int perpage, int pageno) throws JDBCConnectionException {
+	public PageableJobs getJobsNewForEmployee(int eId, int perpage, int pageno, Filter filter)
+			throws JDBCConnectionException {
 		// Query query = getSession().createQuery(
 		// "from Job where JId NOT IN (Select job.JId from JobApplication where
 		// employee.EId = :eId)");
@@ -62,16 +64,18 @@ public class JobDaoImpl implements JobDao {
 		DetachedCriteria application = DetachedCriteria.forClass(JobApplication.class)
 				.setProjection(Property.forName("job.JId")).createCriteria("employee").add(Restrictions.eq("EId", eId));
 		DetachedCriteria jobCriteria = DetachedCriteria.forClass(Job.class, "j");
+		addFilter(jobCriteria, filter);
 		jobCriteria.add(Property.forName("JId").notIn(application));
 		jobCriteria.setProjection(Projections.rowCount());
+
 		Long count = (Long) jobCriteria.getExecutableCriteria(getSession()).uniqueResult();
-		int totalPages = (int) ((count / perpage));
+		int totalPages = (int) Math.ceil(((double) count) / perpage);
 
 		application = DetachedCriteria.forClass(JobApplication.class).setProjection(Property.forName("job.JId"))
 				.createCriteria("employee").add(Restrictions.eq("EId", eId));
 		jobCriteria = DetachedCriteria.forClass(Job.class, "j");
+		addFilter(jobCriteria, filter);
 		jobCriteria.add(Property.forName("JId").notIn(application));
-
 		List<Job> jobs = jobCriteria.getExecutableCriteria(getSession()).addOrder(Order.desc("postedOn"))
 				.setFirstResult((pageno - 1) * perpage).setMaxResults(perpage).list();
 
@@ -94,7 +98,7 @@ public class JobDaoImpl implements JobDao {
 		Criteria executableCriteria = employeeCriteria.getExecutableCriteria(getSession());
 		executableCriteria.setProjection(Projections.rowCount());
 		Long count = (Long) executableCriteria.uniqueResult();
-		int totalPages = (int) ((count / perpage));
+		int totalPages = (int) Math.ceil(((double) count) / perpage);
 
 		criteria = DetachedCriteria.forClass(Job.class);
 		employeeCriteria = criteria.createCriteria("employeeByPostedBy");
@@ -118,6 +122,16 @@ public class JobDaoImpl implements JobDao {
 	@Override
 	public void delete(Job job) {
 		getSession().delete(job);
+	}
+
+	private void addFilter(DetachedCriteria criteria, Filter filter) {
+		if (filter.getCategoryId() != null && filter.getCategoryId() != -1) {
+			criteria.createCriteria("category").add(Restrictions.eq("CId", filter.getCategoryId()));
+		}
+
+		if (filter.getTeamId() != null && filter.getTeamId() != -1)
+			criteria.createCriteria("team", "t").add(Restrictions.eq("t.id", filter.getTeamId()));
+
 	}
 
 }

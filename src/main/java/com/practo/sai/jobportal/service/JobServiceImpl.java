@@ -2,32 +2,31 @@ package com.practo.sai.jobportal.service;
 
 import java.util.List;
 
+import javax.mail.AuthenticationFailedException;
+import javax.mail.MessagingException;
+
 import org.hibernate.exception.JDBCConnectionException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.practo.sai.jobportal.constants.Constants;
-import com.practo.sai.jobportal.entities.Category;
 import com.practo.sai.jobportal.entities.Employee;
 import com.practo.sai.jobportal.entities.Job;
 import com.practo.sai.jobportal.entities.JobApplication;
 import com.practo.sai.jobportal.entities.Role;
-import com.practo.sai.jobportal.entities.Team;
 import com.practo.sai.jobportal.model.AddJobAppModel;
 import com.practo.sai.jobportal.model.AddJobModel;
+import com.practo.sai.jobportal.model.Filter;
 import com.practo.sai.jobportal.model.JobApplicationModel;
 import com.practo.sai.jobportal.model.JobModel;
 import com.practo.sai.jobportal.model.PageableJobs;
-import com.practo.sai.jobportal.model.TeamModel;
 import com.practo.sai.jobportal.model.UpdateJobModel;
-import com.practo.sai.jobportal.repo.CategoryDao;
 import com.practo.sai.jobportal.repo.JobApplicationDao;
 import com.practo.sai.jobportal.repo.JobDao;
 import com.practo.sai.jobportal.repo.RoleDao;
-import com.practo.sai.jobportal.repo.TeamDao;
 import com.practo.sai.jobportal.utility.Logger;
-import com.practo.sai.jobportal.utility.MailSender;
 import com.practo.sai.jobportal.utility.MappingUtility;
+import com.practo.sai.jobportal.utility.SmtpMailSender;
 
 import inti.ws.spring.exception.client.BadRequestException;
 import inti.ws.spring.exception.client.NotFoundException;
@@ -40,8 +39,8 @@ public class JobServiceImpl implements JobService {
 	@Autowired
 	MappingUtility mUtility;
 
-	// @Autowired
-	MailSender mailSender;
+	@Autowired
+	SmtpMailSender mailSender;
 
 	@Autowired
 	JobDao jobDao;
@@ -50,15 +49,10 @@ public class JobServiceImpl implements JobService {
 	JobApplicationDao jobApplicationDao;
 
 	@Autowired
-	CategoryDao categoryDao;
-
-	@Autowired
-	TeamDao teamDao;
-	@Autowired
 	RoleDao roleDao;
 
 	@Override
-	public PageableJobs getJobs(int eId, int perpage, int pageno) throws JDBCConnectionException {
+	public PageableJobs getJobs(int eId, int perpage, int pageno, Filter filter) throws JDBCConnectionException {
 		LOG.info("Servicing request for all jobs");
 		List<Job> jobs = null;
 		PageableJobs pageOfJobs = null;
@@ -71,7 +65,7 @@ public class JobServiceImpl implements JobService {
 			pageOfJobs = jobDao.getJobsByAdmin(eId, perpage, pageno);
 		} else {
 			LOG.debug("Getting all jobs for - " + eId);
-			pageOfJobs = jobDao.getJobsNewForEmployee(eId, perpage, pageno);
+			pageOfJobs = jobDao.getJobsNewForEmployee(eId, perpage, pageno,filter);
 		}
 
 		List<JobModel> jobModels = mUtility.mapToJobModels(pageOfJobs.getJobEntities());
@@ -149,8 +143,26 @@ public class JobServiceImpl implements JobService {
 		jobApplicationDao.save(application);
 		LOG.info("Application added to database succefully");
 		application = jobApplicationDao.getApplication(application.getJAppId());
+
 		LOG.debug("Fetched entire job application to return");
-		return mUtility.mapToJobAppModel(application);
+		JobApplicationModel applicationModel = mUtility.mapToJobAppModel(application);
+
+		// Send Email to Admin as well as applier
+		new Thread(new Runnable() {
+
+			@Override
+			public void run() {
+				try {
+					mailSender.sendConfirmationMails(applicationModel);
+				} catch (AuthenticationFailedException e) {
+					LOG.error("Authentication error while sending mail", e);
+				} catch (MessagingException e) {
+					LOG.error("Messaging exception while sending mail", e);
+				}
+			}
+		}).start();
+
+		return applicationModel;
 	}
 
 	@Override
@@ -161,25 +173,6 @@ public class JobServiceImpl implements JobService {
 		application.setJAppId(appId);
 		jobApplicationDao.delete(application);
 
-	}
-
-	@Override
-	public List<Category> getCategories() {
-		List<Category> categories = null;
-		categories = categoryDao.getCategories();
-		return categories;
-	}
-
-	public Employee getEmployee(String emailId) {
-		Employee employee = null;
-		// employee = employeeRepo.findByEmailId(emailId);
-		return employee;
-	}
-
-	@Override
-	public List<TeamModel> getTeams() {
-		List<Team> teams = teamDao.getAll();
-		return mUtility.mapToTeamModels(teams);
 	}
 
 }

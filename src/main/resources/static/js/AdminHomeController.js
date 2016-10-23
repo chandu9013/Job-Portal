@@ -24,7 +24,10 @@ app.controller('AdminHomeController', [ '$scope', 'sharedProperties',
 			$scope.total=0;
 			
 			$scope.listJobs = function(pageno) {
+				if(undefined==pageno)
+					pageno=$scope.nextpage;
 				console.log("called listJobs - "+pageno);
+				$scope.nextpage=pageno;
 				$scope.jobs=[];
 				http.get("/jobs/"+$scope.perpage+"/"+pageno).success(function(data) {
 					console.log("got jobs  - ");
@@ -127,7 +130,7 @@ app.controller('AdminHomeController', [ '$scope', 'sharedProperties',
 
 			$scope.cancel = function() {
 				$scope.page = 1;
-				$scope.listJobs();
+				// $scope.listJobs();
 			}
 
 			$scope.publish = function() {
@@ -139,7 +142,7 @@ app.controller('AdminHomeController', [ '$scope', 'sharedProperties',
 
 				http.post("/jobs", data).success(function(data) {
 					console.log("Job added  - ");
-					$scope.listJobs();
+					$scope.listJobs(1);
 				}).error(function() {
 					console.log("Adding job failed");
 				});

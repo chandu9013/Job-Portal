@@ -3,7 +3,6 @@ package com.practo.sai.jobportal.model;
 import java.util.Date;
 
 import com.practo.sai.jobportal.entities.Category;
-import com.practo.sai.jobportal.entities.Employee;
 
 public class JobModel {
 	private Integer jId;

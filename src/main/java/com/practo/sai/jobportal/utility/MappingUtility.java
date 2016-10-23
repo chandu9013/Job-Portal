@@ -43,7 +43,7 @@ public class MappingUtility {
 		jobModel.setTeam(teamModel);
 
 		EmployeeModel postedBy = new EmployeeModel(job.getEmployeeByPostedBy().getEId(),
-				job.getEmployeeByPostedBy().getEmailId());
+				job.getEmployeeByPostedBy().getEmailId(), job.getEmployeeByPostedBy().getName());
 
 		jobModel.setPostedBy(postedBy);
 		jobModel.setPostedOn(job.getPostedOn());
@@ -51,7 +51,7 @@ public class MappingUtility {
 		EmployeeModel recruit = null;
 		if (job.getEmployeeByRecruitId() != null) {
 			recruit = new EmployeeModel(job.getEmployeeByRecruitId().getEId(),
-					job.getEmployeeByRecruitId().getEmailId());
+					job.getEmployeeByRecruitId().getEmailId(), job.getEmployeeByRecruitId().getName());
 			jobModel.setRecruited(recruit);
 			jobModel.setClosed(true);
 		}
@@ -124,8 +124,8 @@ public class MappingUtility {
 		JobApplicationModel applicationModel = new JobApplicationModel();
 		applicationModel.setAppliedOn(application.getAppliedOn());
 
-		applicationModel.setEmployee(
-				new EmployeeModel(application.getEmployee().getEId(), application.getEmployee().getEmailId()));
+		applicationModel.setEmployee(new EmployeeModel(application.getEmployee().getEId(),
+				application.getEmployee().getEmailId(), application.getEmployee().getName()));
 		applicationModel.setjAppId(application.getJAppId());
 		applicationModel.setJob(mapToJobModel(application.getJob()));
 		LOG.debug("Returning applicationModel");

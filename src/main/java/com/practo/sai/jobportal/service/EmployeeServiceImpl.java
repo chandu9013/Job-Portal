@@ -29,6 +29,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 	public EmployeeModel addEmployee(LoginModel loginModel, Role role) {
 		Employee employee = new Employee();
 		employee.setEmailId(loginModel.getEmailId());
+		employee.setName(loginModel.getName());
 		// Add Employee to DB
 		employeeDao.save(employee);
 		// Add Role to UserRole
@@ -41,7 +42,8 @@ public class EmployeeServiceImpl implements EmployeeService {
 		RoleModel roleModel = new RoleModel();
 		roleModel.setRId(role.getRId());
 		roleModel.setRoleName(role.getRoleName());
-		EmployeeModel employeeModel = new EmployeeModel(employee.getEId(), employee.getEmailId(), roleModel);
+		EmployeeModel employeeModel = new EmployeeModel(employee.getEId(), employee.getEmailId(), roleModel,
+				loginModel.getName());
 		return employeeModel;
 	}
 
@@ -67,7 +69,8 @@ public class EmployeeServiceImpl implements EmployeeService {
 			RoleModel roleModel = new RoleModel();
 			roleModel.setRId(role.getRId());
 			roleModel.setRoleName(role.getRoleName());
-			EmployeeModel employeeModel = new EmployeeModel(employee.getEId(), employee.getEmailId(), roleModel);
+			EmployeeModel employeeModel = new EmployeeModel(employee.getEId(), employee.getEmailId(), roleModel,
+					loginModel.getName());
 			return employeeModel;
 		}
 	}

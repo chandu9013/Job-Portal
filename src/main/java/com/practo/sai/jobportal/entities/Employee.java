@@ -26,6 +26,7 @@ public class Employee implements java.io.Serializable {
 	private Integer EId;
 	private String emailId;
 	private char deleted;
+	private String name;
 	// private Set<JobApplication> jobApplications = new
 	// HashSet<JobApplication>(0);
 	// private Set<UserRole> userRoles = new HashSet<UserRole>(0);
@@ -76,6 +77,15 @@ public class Employee implements java.io.Serializable {
 
 	public void setEmailId(String emailId) {
 		this.emailId = emailId;
+	}
+
+	@Column(name = "name", nullable = false)
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	// @OneToMany(fetch = FetchType.EAGER, mappedBy = "employee")

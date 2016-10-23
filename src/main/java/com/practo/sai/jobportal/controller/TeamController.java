@@ -11,9 +11,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.practo.sai.jobportal.model.TeamModel;
+import com.practo.sai.jobportal.service.AuthenticationService;
 import com.practo.sai.jobportal.service.TeamService;
 import com.practo.sai.jobportal.utility.Logger;
-import com.practo.sai.jobportal.utility.SessionValidator;
 
 import inti.ws.spring.exception.client.UnauthorizedException;
 
@@ -23,7 +23,7 @@ public class TeamController {
 	private static final Logger LOG = Logger.getInstance(TeamController.class);
 
 	@Autowired
-	SessionValidator sessionValidator;
+	AuthenticationService authenticationService;
 
 	@Autowired
 	TeamService teamService;
@@ -33,7 +33,7 @@ public class TeamController {
 	public List<TeamModel> getTeams(HttpSession session) throws UnauthorizedException {
 		List<TeamModel> teams = null;
 		LOG.info("Request received to fetch all the teams");
-		sessionValidator.validateSession(session);
+		authenticationService.validateSession(session);
 		teams = teamService.getTeams();
 		LOG.info("Request to fetch all the categories processed succesfully");
 		return teams;

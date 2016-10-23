@@ -176,11 +176,13 @@
 		<table class="table">
 			<tr style="background-color: #71C7F5">
 				<th>Application Id</th>
-				<th>Employee</th>
+				<th>Name</th>
+				<th>Email</th>
 				<th>Date</th>
 			</tr>
 			<tr ng-repeat="application in applications">
 				<td>{{ application.jAppId }}</td>
+				<td>{{ application.employee.name }}</td>
 				<td>{{ application.employee.emailId }}</td>
 				<td>{{ application.appliedOn |date }}</td>
 

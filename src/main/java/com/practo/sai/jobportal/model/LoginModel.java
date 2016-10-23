@@ -13,4 +13,12 @@ public class LoginModel {
 	public void setEmailId(String emailId) {
 		this.emailId = emailId;
 	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
 }

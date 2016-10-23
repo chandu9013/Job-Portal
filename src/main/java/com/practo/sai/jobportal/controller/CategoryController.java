@@ -11,9 +11,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.practo.sai.jobportal.entities.Category;
+import com.practo.sai.jobportal.service.AuthenticationService;
 import com.practo.sai.jobportal.service.CategoryService;
 import com.practo.sai.jobportal.utility.Logger;
-import com.practo.sai.jobportal.utility.SessionValidator;
 
 import inti.ws.spring.exception.client.UnauthorizedException;
 
@@ -23,7 +23,7 @@ public class CategoryController {
 	private static final Logger LOG = Logger.getInstance(CategoryController.class);
 
 	@Autowired
-	SessionValidator sessionValidator;
+	AuthenticationService authenticationService;
 
 	@Autowired
 	CategoryService categoryService;
@@ -33,7 +33,7 @@ public class CategoryController {
 	public List<Category> getCategories(HttpSession session) throws UnauthorizedException {
 		List<Category> categories = null;
 		LOG.info("Request received to fetch all the categories");
-		sessionValidator.validateSession(session);
+		authenticationService.validateSession(session);
 		categories = categoryService.getCategories();
 		LOG.info("Request to fetch all the categories processed succesfully");
 		return categories;

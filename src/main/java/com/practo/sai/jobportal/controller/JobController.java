@@ -23,9 +23,9 @@ import com.practo.sai.jobportal.model.JobModel;
 import com.practo.sai.jobportal.model.PageableJobs;
 import com.practo.sai.jobportal.model.SessionParams;
 import com.practo.sai.jobportal.model.UpdateJobModel;
+import com.practo.sai.jobportal.service.AuthenticationService;
 import com.practo.sai.jobportal.service.JobService;
 import com.practo.sai.jobportal.utility.Logger;
-import com.practo.sai.jobportal.utility.SessionValidator;
 
 import inti.ws.spring.exception.client.BadRequestException;
 import inti.ws.spring.exception.client.NotFoundException;
@@ -46,7 +46,7 @@ public class JobController {
 	JobService jobService;
 
 	@Autowired
-	SessionValidator sessionValidator;
+	AuthenticationService authenticationService;
 
 	/**
 	 * Controller Method that handles request for fetching all the jobs listed
@@ -63,7 +63,7 @@ public class JobController {
 			@RequestParam(value = "tId", required = false) Integer teamId) throws UnauthorizedException {
 		LOG.info("Request received to fetch jobs");
 		int eId = 14;
-		SessionParams params = sessionValidator.validateSession(session);
+		SessionParams params = authenticationService.validateSession(session);
 		eId = params.geteId();
 
 		LOG.debug("Filters - CategoryId, TeamId " + categoryId + ",,," + teamId);
@@ -92,8 +92,7 @@ public class JobController {
 	public JobModel addJob(@RequestBody AddJobModel job, HttpSession session)
 			throws BadRequestException, UnauthorizedException {
 		LOG.info("Request received to add a new job listing");
-		SessionParams params = sessionValidator.validateSession(session);
-		int eId = params.geteId();
+		authenticationService.validateSession(session);
 		return jobService.addJob(job);
 	}
 
@@ -113,8 +112,7 @@ public class JobController {
 	public JobModel updateJob(@PathVariable int jobId, @RequestBody UpdateJobModel jobModel, HttpSession session)
 			throws BadRequestException, NotFoundException, UnauthorizedException {
 		LOG.info("Request received to update a job listing");
-		SessionParams params = sessionValidator.validateSession(session);
-		int eId = params.geteId();
+		authenticationService.validateSession(session);
 		return jobService.updateJob(jobId, jobModel);
 	}
 
@@ -135,8 +133,7 @@ public class JobController {
 	public void deleteJob(@PathVariable int jobId, HttpSession session)
 			throws NotFoundException, BadRequestException, UnauthorizedException {
 		LOG.info("Request received to deleting a job listing");
-		SessionParams params = sessionValidator.validateSession(session);
-		int eId = params.geteId();
+		authenticationService.validateSession(session);
 		jobService.deleteJob(jobId);
 		LOG.info("Request to delete a job listing processed succesfully");
 	}
@@ -156,8 +153,7 @@ public class JobController {
 	public List<JobApplicationModel> getJobApplications(@PathVariable int jobId, HttpSession session)
 			throws BadRequestException, UnauthorizedException {
 		LOG.info("Request received to fetch all applications for jobId - " + jobId);
-		SessionParams params = sessionValidator.validateSession(session);
-		int eId = params.geteId();
+		authenticationService.validateSession(session);
 		List<JobApplicationModel> jobApplications = null;
 		jobApplications = jobService.getJobApplications(jobId);
 		LOG.info("Request to fetch all applications for jobId - " + jobId + " processed succesfully");
@@ -179,7 +175,7 @@ public class JobController {
 	public JobApplicationModel addJobApplication(@PathVariable int jobId, HttpSession session)
 			throws BadRequestException, UnauthorizedException {
 		LOG.info("Request received to add an applications for jobId - " + jobId);
-		SessionParams params = sessionValidator.validateSession(session);
+		SessionParams params = authenticationService.validateSession(session);
 		int eId = params.geteId();
 		AddJobAppModel jobApp = new AddJobAppModel();
 		jobApp.setAppliedBy(eId);
@@ -192,7 +188,7 @@ public class JobController {
 	@ResponseBody
 	public List<JobApplicationModel> getAppliedJobs(HttpSession session)
 			throws UnauthorizedException, BadRequestException {
-		SessionParams params = sessionValidator.validateSession(session);
+		SessionParams params = authenticationService.validateSession(session);
 		int eId = params.geteId();
 		return jobService.getMyJobApplications(eId);
 	}
@@ -202,8 +198,7 @@ public class JobController {
 	public void deleteJobApplication(@PathVariable int appId, HttpSession session)
 			throws BadRequestException, UnauthorizedException {
 		LOG.info("Request received to delete a job application - " + appId);
-		SessionParams params = sessionValidator.validateSession(session);
-		int eId = params.geteId();
+		authenticationService.validateSession(session);
 		jobService.deleteJobApplication(appId);
 	}
 

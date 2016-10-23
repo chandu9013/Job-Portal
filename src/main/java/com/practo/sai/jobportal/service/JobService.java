@@ -10,6 +10,7 @@ import com.practo.sai.jobportal.model.AddJobAppModel;
 import com.practo.sai.jobportal.model.AddJobModel;
 import com.practo.sai.jobportal.model.JobApplicationModel;
 import com.practo.sai.jobportal.model.JobModel;
+import com.practo.sai.jobportal.model.PageableJobs;
 import com.practo.sai.jobportal.model.TeamModel;
 import com.practo.sai.jobportal.model.UpdateJobModel;
 
@@ -18,7 +19,7 @@ import inti.ws.spring.exception.client.NotFoundException;
 
 public interface JobService {
 
-	public List<JobModel> getJobs(int eId) throws JDBCConnectionException;
+	public PageableJobs getJobs(int eId, int perpage, int pageno) throws JDBCConnectionException;
 
 	public JobModel addJob(AddJobModel job) throws BadRequestException;
 

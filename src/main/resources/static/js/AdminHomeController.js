@@ -16,17 +16,24 @@ app.controller('AdminHomeController', [ '$scope', 'sharedProperties',
 
 			$scope.welcome = "Hello Admin";
 			var http = $http;
+			
+			// Pagination
 			$scope.jobs=[];
 			$scope.pageno=1;
-			$scope.perpage=5;
+			$scope.perpage=3;
+			$scope.total=0;
 			
 			$scope.listJobs = function(pageno) {
-				console.log("called listJobs");
-				http.get("/jobs").success(function(data) {
+				console.log("called listJobs - "+pageno);
+				$scope.jobs=[];
+				http.get("/jobs/"+$scope.perpage+"/"+pageno).success(function(data) {
 					console.log("got jobs  - ");
 					$scope.page = 1;
-					$scope.jobs = data;
-					if(data=='')
+					$scope.jobs = data.jobs;
+					$scope.total=data.totalPages;
+					console.log($scope.total);
+					console.log($scope.jobs);
+					if(data.jobs=='')
 						$scope.jobsError="No jobs to show";
 					else
 						$scope.jobsError="";
@@ -175,5 +182,5 @@ app.controller('AdminHomeController', [ '$scope', 'sharedProperties',
 			$scope.teamModel = null;
 			$scope.jobDescription = null;
 			
-			$scope.listJobs();
+			$scope.listJobs($scope.pageno);
 		} ]);

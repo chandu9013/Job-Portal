@@ -1,16 +1,15 @@
 package com.practo.sai.jobportal.repo;
 
-import java.util.List;
-
 import org.hibernate.exception.JDBCConnectionException;
 
 import com.practo.sai.jobportal.entities.Job;
+import com.practo.sai.jobportal.model.PageableJobs;
 
 public interface JobDao {
 
 	public int save(Job job);
 
-	public List<Job> getJobsByAdmin(int eId);
+	public PageableJobs getJobsByAdmin(int eId, int perpage, int pageno);
 
 	public Job getJob(int jobId);
 
@@ -18,6 +17,6 @@ public interface JobDao {
 
 	public void delete(Job job);
 
-	List<Job> getJobsNewForEmployee(int eId) throws JDBCConnectionException;
+	public PageableJobs getJobsNewForEmployee(int eId, int perpage, int pageno) throws JDBCConnectionException;
 
 }

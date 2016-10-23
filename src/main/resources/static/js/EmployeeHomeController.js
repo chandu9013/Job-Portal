@@ -8,13 +8,18 @@ app.controller('EmployeeHomeController', [ '$scope', 'sharedProperties',
 				console.log("Empty :(");
 				return;
 			}
-			//$scope.page = 0;
+			// $scope.page = 0;
 			$scope.session = sharedProperties.getSession();
 			console.log("In employee - " + $scope.session.name);
 
 			$scope.welcome = "Hello Employee";
 			var http = $http;
-			$scope.showAdd = true;
+			
+			// Pagination
+			$scope.jobs=[];
+			$scope.pageno=1;
+			$scope.perpage=3;
+			$scope.total=0;
 			
 
 			
@@ -78,13 +83,15 @@ app.controller('EmployeeHomeController', [ '$scope', 'sharedProperties',
 				});
 			}
 			
-			$scope.listJobs = function() {
+			$scope.listJobs = function(pageno) {
 				console.log("called listJobs");
-				http.get("/jobs").success(function(data) {
+				$scope.jobs=[];
+				http.get("/jobs/"+$scope.perpage+"/"+pageno).success(function(data) {
 					console.log("got jobs  - ");
 					$scope.page = 1;
-					$scope.jobs = data;
-					if(data==''){
+					$scope.jobs = data.jobs;
+					$scope.total=data.totalPages;
+					if(data.jobs==''){
 						$scope.listError="No jobs to show";}
 					else
 						$scope.listError="";
@@ -101,5 +108,5 @@ app.controller('EmployeeHomeController', [ '$scope', 'sharedProperties',
 				$location.path("/");
 			}
 			
-			$scope.listJobs();
+			$scope.listJobs($scope.pageno);
 		} ]);

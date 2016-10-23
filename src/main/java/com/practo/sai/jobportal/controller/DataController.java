@@ -20,6 +20,7 @@ import com.practo.sai.jobportal.model.AddJobAppModel;
 import com.practo.sai.jobportal.model.AddJobModel;
 import com.practo.sai.jobportal.model.JobApplicationModel;
 import com.practo.sai.jobportal.model.JobModel;
+import com.practo.sai.jobportal.model.PageableJobs;
 import com.practo.sai.jobportal.model.SessionParams;
 import com.practo.sai.jobportal.model.TeamModel;
 import com.practo.sai.jobportal.model.UpdateJobModel;
@@ -51,22 +52,23 @@ public class DataController {
 	 * @return List of Jobs
 	 * @throws UnauthorizedException
 	 */
-	@RequestMapping(value = "/jobs", method = RequestMethod.GET)
+	@RequestMapping(value = "/jobs/{perpage}/{pageno}", method = RequestMethod.GET)
 	@ResponseBody
 	@ResponseStatus(HttpStatus.OK)
-	public List<JobModel> getJobs(HttpSession session) throws UnauthorizedException {
+	public PageableJobs getJobs(HttpSession session, @PathVariable int perpage, @PathVariable int pageno)
+			throws UnauthorizedException {
 		LOG.info("Request received to fetch jobs");
 		int eId = 14;
-		SessionParams params = validateSession(session);
-		eId = params.geteId();
+//		SessionParams params = validateSession(session);
+//		eId = params.geteId();
 		if (eId <= 0) {
 			LOG.debug("No session detected. Access denied");
 			throw new UnauthorizedException("No session detected. Access denied");
 		}
-		List<JobModel> jobModels = null;
-		jobModels = jobService.getJobs(eId);
+		PageableJobs pageOfJobs = null;
+		pageOfJobs = jobService.getJobs(eId, perpage, pageno);
 		LOG.info("Request for all jobs processed succesfully");
-		return jobModels;
+		return pageOfJobs;
 	}
 
 	/**

@@ -17,6 +17,7 @@ import com.practo.sai.jobportal.model.AddJobAppModel;
 import com.practo.sai.jobportal.model.AddJobModel;
 import com.practo.sai.jobportal.model.JobApplicationModel;
 import com.practo.sai.jobportal.model.JobModel;
+import com.practo.sai.jobportal.model.PageableJobs;
 import com.practo.sai.jobportal.model.TeamModel;
 import com.practo.sai.jobportal.model.UpdateJobModel;
 import com.practo.sai.jobportal.repo.CategoryDao;
@@ -57,24 +58,29 @@ public class JobServiceImpl implements JobService {
 	RoleDao roleDao;
 
 	@Override
-	public List<JobModel> getJobs(int eId) throws JDBCConnectionException {
+	public PageableJobs getJobs(int eId, int perpage, int pageno) throws JDBCConnectionException {
 		LOG.info("Servicing request for all jobs");
 		List<Job> jobs = null;
+		PageableJobs pageOfJobs = null;
 		Employee employee = new Employee();
 		employee.setEId(eId);
+		LOG.debug("Paging per page - " + perpage + ", page no - " + pageno);
 		Role role = roleDao.getRolebyEmployee(employee);
 		if (Constants.ROLE_ADMIN.equalsIgnoreCase(role.getRoleName())) {
 			LOG.debug("Getting jobs added by admin - " + employee.getEId());
-			jobs = (List<Job>) jobDao.getJobsByAdmin(eId);
+			pageOfJobs = jobDao.getJobsByAdmin(eId, perpage, pageno);
 		} else {
 			LOG.debug("Getting all jobs for - " + eId);
-			jobs = (List<Job>) jobDao.getJobsNewForEmployee(eId);
-			LOG.debug(jobs.size());
+			pageOfJobs = jobDao.getJobsNewForEmployee(eId, perpage, pageno);
 		}
 
-		List<JobModel> jobModels = mUtility.mapToJobModels(jobs);
+		List<JobModel> jobModels = mUtility.mapToJobModels(pageOfJobs.getJobEntities());
 		LOG.info("Response prepared for user");
-		return jobModels;
+		pageOfJobs.setJobs(jobModels);
+
+		// Since Entities shouldn't be exposed to the users
+		pageOfJobs.setJobEntities(null);
+		return pageOfJobs;
 
 	}
 

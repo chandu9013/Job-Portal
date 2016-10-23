@@ -30,7 +30,7 @@
 	<!-- List Jobs -->
 	<div ng-show='page==1'>
 
-		<table class="table">
+		<table class="table ">
 			<tr style="background-color: #F2C780">
 				<th>Job Id</th>
 				<th>Category</th>
@@ -42,7 +42,8 @@
 
 				<!-- <th>Recruited</th> -->
 			</tr>
-			<tr ng-repeat="job in jobs">
+			<tr dir-paginate="job in jobs|itemsPerPage:perpage"
+				total-items="total*perpage">
 				<td>{{ job.jId }}</td>
 				<td>{{ job.category.categoryName }}</td>
 				<td>{{ job.team.name }}</td>
@@ -63,10 +64,13 @@
 
 			</tr>
 		</table>
-		<ul class="pager">
+		<dir-pagination-controls max-size="8" direction-links="true"
+			boundary-links="true" on-page-change="listJobs(newPageNumber)">
+		</dir-pagination-controls>
+		<!-- <ul class="pager">
 			<li class="previous"><a href ng-click="">Previous</a></li>
 			<li class="next"><a href ng-click="">Next</a></li>
-		</ul>
+		</ul> -->
 
 		<div>{{jobsError}}</div>
 

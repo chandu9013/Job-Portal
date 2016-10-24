@@ -106,8 +106,8 @@ CREATE TABLE `job` (
   `j_id` int(11) NOT NULL AUTO_INCREMENT,
   `description` varchar(255) NOT NULL,
   `is_closed` bit(1) NOT NULL,
-  `last_modified` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `posted_on` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `last_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `posted_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `j_c_id` int(11) NOT NULL,
   `posted_by` int(11) NOT NULL,
   `recruit_id` int(11) DEFAULT NULL,
@@ -150,7 +150,7 @@ DROP TABLE IF EXISTS `job_application`;
 
 CREATE TABLE `job_application` (
   `j_app_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `applied_on` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `applied_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `applied_by` int(11) NOT NULL,
   `job_id` int(11) NOT NULL,
   `deleted` char(1) NOT NULL DEFAULT '0',

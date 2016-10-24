@@ -38,7 +38,7 @@ app.controller('EmployeeHomeController', [ '$scope', 'sharedProperties',
 				
 				console.log("Fetch jobs - ");
 				// Fetch jobs posted by anyone
-				http.get("/jobs/"+jobId+"/applications").success(function(data){
+				http.get("jobs/"+jobId+"/applications").success(function(data){
 					$scope.applications=data;
 					$scope.job=$scope.jobs[$index];
 					console.log($scope.applications[0].jAppId);
@@ -50,7 +50,7 @@ app.controller('EmployeeHomeController', [ '$scope', 'sharedProperties',
 			};
 			
 			$scope.viewAppliedJobs=function(){
-				http.get("/applications").success(function(data){
+				http.get("applications").success(function(data){
 					$scope.applications=data;
 					$scope.page=2;
 					console.log((data));
@@ -69,7 +69,7 @@ app.controller('EmployeeHomeController', [ '$scope', 'sharedProperties',
 				// $scope.jobs.
 				console.log("Delete $index - " + index);
 				console.log("Delete $index - " + $scope.applications[index].jAppId);
-				http.delete("/applications/"+$scope.applications[index].jAppId).success(function(status){
+				http.delete("applications/"+$scope.applications[index].jAppId).success(function(status){
 					console.log("Deleted job");
 					$scope.listJobs();
 				}).error(function() {
@@ -97,10 +97,10 @@ app.controller('EmployeeHomeController', [ '$scope', 'sharedProperties',
 			
 			$scope.viewFilters=function(){
 				
-				http.get("/categories").success(function(data) {
+				http.get("categories").success(function(data) {
 					console.log("Got categories ");
 					$scope.categories = data;
-					http.get("/teams").success(function(data) {
+					http.get("teams").success(function(data) {
 						console.log("Got teams  - ");
 						$scope.teams = data;
 						$scope.page = 3;
@@ -139,7 +139,7 @@ app.controller('EmployeeHomeController', [ '$scope', 'sharedProperties',
 				appScope.heading="Dashboard";
 				
 					
-				http.get("/jobs/"+$scope.perpage+"/"+pageno,{params:$scope.filters}).success(function(data) {
+				http.get("jobs/"+$scope.perpage+"/"+pageno,{params:$scope.filters}).success(function(data) {
 					console.log("got jobs  - ");
 					$scope.page = 1;
 					$scope.jobs = data.jobs;

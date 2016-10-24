@@ -39,7 +39,7 @@ app.controller('AdminHomeController', [ '$scope', 'sharedProperties',
 				console.log("called listJobs - "+pageno);
 				$scope.nextpage=pageno;
 				$scope.jobs=[];
-				http.get("/jobs/"+$scope.perpage+"/"+pageno).success(function(data) {
+				http.get("jobs/"+$scope.perpage+"/"+pageno).success(function(data) {
 					console.log("got jobs  - ");
 					$scope.page = 1;
 					$scope.jobs = data.jobs;
@@ -59,11 +59,11 @@ app.controller('AdminHomeController', [ '$scope', 'sharedProperties',
 			};
 			
 			$scope.viewAddJob = function() {
-				http.get("/categories").success(function(data) {
+				http.get("categories").success(function(data) {
 					console.log("Got categories ");
 					$scope.categories = data;
 					// $scope.categories.push({"cid":-1,"categoryName":""});
-					http.get("/teams").success(function(data) {
+					http.get("teams").success(function(data) {
 						console.log("Got teams  - ");
 						$scope.teams = data;
 						$scope.page = 2;
@@ -88,11 +88,11 @@ app.controller('AdminHomeController', [ '$scope', 'sharedProperties',
 				console.log("Update $index - " + $index);
 				console.log("Update $index - " + $scope.jobs[$index].jId);
 				
-				http.get("/categories").success(function(data) {
+				http.get("categories").success(function(data) {
 					console.log("Got categories ");
 					$scope.categories = data;
 
-					http.get("/teams").success(function(data) {
+					http.get("teams").success(function(data) {
 						console.log("Got teams  - ");
 						$scope.teams = data;
 						$scope.page = 3;
@@ -116,7 +116,7 @@ app.controller('AdminHomeController', [ '$scope', 'sharedProperties',
 				var jobId=$scope.jobs[$index].jId;
 				console.log("Fetch job applications - "+jobId);
 				
-				http.get("/jobs/"+jobId+"/applications").success(function(data){
+				http.get("jobs/"+jobId+"/applications").success(function(data){
 					$scope.applications=data;
 					$scope.job=$scope.jobs[$index];
 					$scope.page=4;
@@ -135,7 +135,7 @@ app.controller('AdminHomeController', [ '$scope', 'sharedProperties',
 				// $scope.jobs.
 				console.log("Delete $index - " + $index);
 				console.log("Delete $index - " + $scope.jobs[$index].jId);
-				http.delete("/jobs/"+$scope.jobs[$index].jId).success(function(status){
+				http.delete("jobs/"+$scope.jobs[$index].jId).success(function(status){
 					console.log("Deleted job");
 					// $scope.jobs.splice($index, 1);
 					$scope.listJobs();
@@ -157,7 +157,7 @@ app.controller('AdminHomeController', [ '$scope', 'sharedProperties',
 				data.teamId = $scope.teamModel.id;
 				data.postedBy = 12;
 
-				http.post("/jobs", data).success(function(data) {
+				http.post("jobs", data).success(function(data) {
 					console.log("Job added  - ");
 					$scope.listJobs(1);
 				}).error(function() {
@@ -173,7 +173,7 @@ app.controller('AdminHomeController', [ '$scope', 'sharedProperties',
 				data.teamId = $scope.teamModel.id;
 				data.postedBy = 12;
 
-				http.patch("/jobs/"+$scope.jobs[$scope.modifyIndex].jId, data).success(function(data) {
+				http.patch("jobs/"+$scope.jobs[$scope.modifyIndex].jId, data).success(function(data) {
 					console.log("Job updated  - ");
 					$scope.listJobs();
 				}).error(function() {
@@ -189,7 +189,7 @@ app.controller('AdminHomeController', [ '$scope', 'sharedProperties',
 			$scope.approveApplication=function(index){
 				var application=$scope.applications[index];
 				var closeJob={"recruitId":application.employee.eid,"closed":true};
-				http.patch("/jobs/"+$scope.job.jId,closeJob).success(function(data){
+				http.patch("jobs/"+$scope.job.jId,closeJob).success(function(data){
 					console.log("Job closed");
 					$scope.listJobs();
 					

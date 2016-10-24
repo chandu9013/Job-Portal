@@ -49,7 +49,7 @@ app.service('sharedProperties', function() {
 app.service('logout', function($http, $location) {
 
 	return logout = function() {
-		$http.post('/logout', {}).success(function() {
+		$http.post('logout', {}).success(function() {
 			self.authenticated = false;
 			$location.path("/");
 			console.log("logout success");

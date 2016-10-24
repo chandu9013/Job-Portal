@@ -1,5 +1,11 @@
 package com.practo.sai.jobportal.utility;
 
+/**
+ * Logger wrapper for {@link org.apache.log4j.Logger}
+ * 
+ * @author Sai Chandra Sekhar Dandu
+ *
+ */
 public class Logger {
 
 	org.apache.log4j.Logger logger;

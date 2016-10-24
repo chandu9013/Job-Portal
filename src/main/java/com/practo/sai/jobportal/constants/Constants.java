@@ -1,5 +1,11 @@
 package com.practo.sai.jobportal.constants;
 
+/**
+ * Class that contains the constants used across the project
+ * 
+ * @author Sai Chandra Sekhar Dandu
+ *
+ */
 public class Constants {
 
 	public static final String EMAIL_ID = "emailId";

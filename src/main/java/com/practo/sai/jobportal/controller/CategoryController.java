@@ -17,17 +17,39 @@ import com.practo.sai.jobportal.utility.Logger;
 
 import inti.ws.spring.exception.client.UnauthorizedException;
 
+/**
+ * Controller that handles all requests related to {@link Category}
+ * 
+ * @author Sai Chandra Sekhar Dandu
+ *
+ */
 @RestController
 public class CategoryController {
 
 	private static final Logger LOG = Logger.getInstance(CategoryController.class);
 
+	/**
+	 * {@link AuthenticationService}
+	 */
 	@Autowired
 	AuthenticationService authenticationService;
 
+	/**
+	 * {@link CategoryService}
+	 */
 	@Autowired
 	CategoryService categoryService;
 
+	/**
+	 * Controller method that handles requests to get all categories
+	 * 
+	 * @param session
+	 *            HttpSession object that holds eId of Employee used for
+	 *            validating session
+	 * @return Iterable list of {@link Category}
+	 * @throws UnauthorizedException
+	 *             Thrown when the user is not logged in
+	 */
 	@RequestMapping(value = "/categories", method = RequestMethod.GET)
 	@ResponseBody
 	public List<Category> getCategories(HttpSession session) throws UnauthorizedException {

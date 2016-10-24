@@ -23,15 +23,37 @@ import com.practo.sai.jobportal.utility.Logger;
 import inti.ws.spring.exception.client.ForbiddenException;
 import inti.ws.spring.exception.client.UnauthorizedException;
 
+/**
+ * Controller that handles requests for Authentication via Google OAuth
+ * 
+ * @author Sai Chandra Sekhar Dandu
+ *
+ */
 @EnableOAuth2Sso
 @RestController
 public class AuthController extends WebSecurityConfigurerAdapter {
 
 	private static final Logger LOG = Logger.getInstance(AuthController.class);
 
+	/**
+	 * {@link AuthenticationService}
+	 */
 	@Autowired
 	AuthenticationService authenticationService;
 
+	/**
+	 * Controller Method that handles the post authentication procedure which
+	 * logs user details to database and returns a response along with a newly
+	 * initiated Session
+	 * 
+	 * @param principal
+	 *            OAuth Response from Google
+	 * @param session
+	 *            HttpSession object to set session attributes
+	 * @return {@link LoginResponse}
+	 * @throws UnauthorizedException
+	 * @throws ForbiddenException
+	 */
 	@RequestMapping(value = "/user", method = RequestMethod.GET)
 	@ResponseStatus(HttpStatus.OK)
 	@ResponseBody
@@ -41,9 +63,13 @@ public class AuthController extends WebSecurityConfigurerAdapter {
 		LOG.debug(principal);
 		if (principal == null)
 			throw new ForbiddenException("Access forbiden");
+
 		return authenticationService.authenticate(principal, session);
 	}
 
+	/**
+	 * Spring OAuth configuration method
+	 */
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.antMatcher("/**").authorizeRequests().antMatchers("/**", "/login**", "/webjars/**", "/js/**").permitAll()

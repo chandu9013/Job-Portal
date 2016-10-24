@@ -18,11 +18,25 @@ import com.practo.sai.jobportal.model.JobModel;
 import com.practo.sai.jobportal.model.TeamModel;
 import com.practo.sai.jobportal.model.UpdateJobModel;
 
+/**
+ * Class that consists of methods that map Entities to/from Response/Request
+ * Models
+ * 
+ * @author Sai Chandra Sekhar Dandu
+ *
+ */
 @Service
 public class MappingUtility {
 
 	private static final Logger LOG = Logger.getInstance(MappingUtility.class);
 
+	/**
+	 * Maps List of {@link Job} to {@link JobModel}
+	 * 
+	 * @param jobs
+	 *            {@link Job}
+	 * @return {@link JobModel}
+	 */
 	public List<JobModel> mapToJobModels(List<Job> jobs) {
 		LOG.debug("Mapping all Jobs to JobModels to return to user");
 		List<JobModel> jobModels = new ArrayList<>();
@@ -32,6 +46,13 @@ public class MappingUtility {
 		return jobModels;
 	}
 
+	/**
+	 * Maps {@link Job} to {@link JobModel}
+	 * 
+	 * @param job
+	 *            {@link Job}
+	 * @return {@link JobModel}
+	 */
 	public JobModel mapToJobModel(Job job) {
 		JobModel jobModel = new JobModel();
 		jobModel.setCategory(job.getCategory());
@@ -58,6 +79,13 @@ public class MappingUtility {
 		return jobModel;
 	}
 
+	/**
+	 * Maps {@link AddJobModel} to {@link Job}
+	 * 
+	 * @param jobModel
+	 *            {@link AddJobAppModel}
+	 * @return {@link Job}
+	 */
 	public Job mapFromAddJob(AddJobModel jobModel) {
 		Job job = new Job();
 		job.setDescription(jobModel.getDescription());
@@ -77,6 +105,17 @@ public class MappingUtility {
 		return job;
 	}
 
+	/**
+	 * Maps {@link UpdateJobModel} to {@link Job}
+	 * 
+	 * @param jobId
+	 *            Id of the job to be updated
+	 * @param jobModel
+	 *            Object containing fields to be updated {@link UpdateJobModel}
+	 * @param job
+	 *            {@link Job}
+	 * @return
+	 */
 	public Job mapFromUpdateJob(int jobId, UpdateJobModel jobModel, Job job) {
 
 		if (jobModel.getDescription() != null)
@@ -105,6 +144,15 @@ public class MappingUtility {
 		return job;
 	}
 
+	/**
+	 * Maps {@link AddJobAppModel} to Entity {@link JobApplication}
+	 * 
+	 * @param jobId
+	 *            Id of the job to be updated
+	 * @param appModel
+	 *            {@link AddJobAppModel}
+	 * @return Entity {@link JobApplication}
+	 */
 	public JobApplication mapFromAddJobAppModel(int jobId, AddJobAppModel appModel) {
 		JobApplication application = new JobApplication();
 
@@ -120,6 +168,12 @@ public class MappingUtility {
 		return application;
 	}
 
+	/**
+	 * 
+	 * @param application
+	 *            {@link JobApplication}
+	 * @return {@link JobApplicationModel}
+	 */
 	public JobApplicationModel mapToJobAppModel(JobApplication application) {
 		JobApplicationModel applicationModel = new JobApplicationModel();
 		applicationModel.setAppliedOn(application.getAppliedOn());

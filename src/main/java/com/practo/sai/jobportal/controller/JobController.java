@@ -42,9 +42,15 @@ public class JobController {
 
 	private static final Logger LOG = Logger.getInstance(JobController.class);
 
+	/**
+	 * {@link JobService}
+	 */
 	@Autowired
 	JobService jobService;
 
+	/**
+	 * {@link AuthenticationService}
+	 */
 	@Autowired
 	AuthenticationService authenticationService;
 
@@ -52,8 +58,11 @@ public class JobController {
 	 * Controller Method that handles request for fetching all the jobs listed
 	 * so far
 	 * 
-	 * @return List of Jobs
+	 * @param session
+	 *            HttpSession object used to validate user session
+	 * @return List of Jobs {@link PageableJobs}
 	 * @throws UnauthorizedException
+	 *             Thrown when user doesn't have a valid session
 	 */
 	@RequestMapping(value = "/jobs/{perpage}/{pageno}", method = RequestMethod.GET)
 	@ResponseBody
@@ -80,11 +89,15 @@ public class JobController {
 	/**
 	 * Controller Method that handles requests for Adding a new job listing
 	 * 
+	 * @param session
+	 *            HttpSession object used to validate user session
 	 * @param job
-	 *            Job listing that needs to be added
-	 * @return
+	 *            {@link AddJobAppModel} Job listing that needs to be added
+	 * @return {@link JobModel}
 	 * @throws BadRequestException
+	 *             thrown when required parameters are missing or invalid
 	 * @throws UnauthorizedException
+	 *             Thrown when User doesn't have a valid Session
 	 */
 	@RequestMapping(value = "/jobs", method = RequestMethod.POST)
 	@ResponseBody
@@ -100,11 +113,18 @@ public class JobController {
 	 * Controller Method that handles requests for updating a Job listing
 	 * 
 	 * @param jobId
+	 *            Identifier of the Job that needs to be updated
 	 * @param jobModel
-	 * @return
+	 *            {@link UpdateJobModel}
+	 * @param session
+	 *            HttpSession object used to validate user session
+	 * @return {@link JobModel} Consisting of all the updated information
 	 * @throws BadRequestException
+	 *             Thrown when required parameters are missing or invalid
 	 * @throws NotFoundException
+	 *             Thrown when the Job referred by jobId is not present
 	 * @throws UnauthorizedException
+	 *             Thrown when user doesn't have a valid session
 	 */
 	@RequestMapping(value = "/jobs/{jobId}", method = RequestMethod.PATCH)
 	@ResponseBody
@@ -121,11 +141,15 @@ public class JobController {
 	 * listings
 	 * 
 	 * @param jobId
-	 * @param jobModel
-	 * @return
+	 *            Identifier of the Job that needs to be deleted
+	 * @param session
+	 *            HttpSession object used to validate user session
 	 * @throws NotFoundException
+	 *             Thrown when the Job referred by jobId is not present
 	 * @throws BadRequestException
+	 *             Thrown when required parameters are missing or invalid
 	 * @throws UnauthorizedException
+	 *             Thrown when user doesn't have a valid session
 	 */
 	@RequestMapping(value = "/jobs/{jobId}", method = RequestMethod.DELETE)
 	@ResponseBody
@@ -142,10 +166,14 @@ public class JobController {
 	 * Controller Method that handles requests for fetching all job applications
 	 * 
 	 * @param jobId
-	 *            ID of the job for which to fetch applications
-	 * @return List of applications
+	 *            Id of the job for which to fetch applications
+	 * @param session
+	 *            HttpSession object used to validate user session
+	 * @return List of applications {@link JobApplicationModel}
 	 * @throws BadRequestException
+	 *             Thrown when required parameters are missing or invalid
 	 * @throws UnauthorizedException
+	 *             Thrown when user doesn't have a valid session
 	 */
 	@RequestMapping(value = "/jobs/{jobId}/applications", method = RequestMethod.GET)
 	@ResponseBody
@@ -162,12 +190,18 @@ public class JobController {
 	}
 
 	/**
+	 * Controller method that handles requests for creating a new job
+	 * application
 	 * 
 	 * @param jobId
-	 * @param jobApp
-	 * @return
+	 *            Identifier of the Job
+	 * @param session
+	 *            HttpSession object used to validate user session
+	 * @return job application object {@link JobApplicationModel}
 	 * @throws BadRequestException
+	 *             Thrown when required parameters are missing or invalid
 	 * @throws UnauthorizedException
+	 *             Thrown when user doesn't have a valid session
 	 */
 	@RequestMapping(value = "/jobs/{jobId}/applications", method = RequestMethod.POST)
 	@ResponseBody
@@ -183,6 +217,18 @@ public class JobController {
 		return applicationModel;
 	}
 
+	/**
+	 * Controller method that handles requests for fetching all applications for
+	 * a job
+	 * 
+	 * @param session
+	 *            HttpSession object used to validate the user's session
+	 * @return List of Job applications {@link JobApplicationModel}
+	 * @throws UnauthorizedException
+	 *             Thrown when user doesn't have a valid session
+	 * @throws BadRequestException
+	 *             Thrown when required parameters are missing or invalid
+	 */
 	@RequestMapping(value = "/applications", method = RequestMethod.GET)
 	@ResponseStatus(HttpStatus.OK)
 	@ResponseBody
@@ -193,6 +239,18 @@ public class JobController {
 		return jobService.getMyJobApplications(eId);
 	}
 
+	/**
+	 * Controller method that handles requests for deleting a job application
+	 * 
+	 * @param appId
+	 *            Id of the application that is to be deleted
+	 * @param session
+	 *            HttpSession object used to validate the user's session
+	 * @throws BadRequestException
+	 *             Thrown when required parameters are missing or invalid
+	 * @throws UnauthorizedException
+	 *             Thrown when user doesn't have a valid session
+	 */
 	@RequestMapping(value = "/applications/{appId}", method = RequestMethod.DELETE)
 	@ResponseStatus(HttpStatus.OK)
 	public void deleteJobApplication(@PathVariable int appId, HttpSession session)

@@ -6,9 +6,15 @@ app
 				[ '$scope', '$http', '$location', 'sharedProperties', 'logout',
 
 				function($scope, $http, $location, sharedProperties, logout) {
+
+					// App scope
+					var appElement = document.querySelector('[ng-app=myApp]');
+					var appScope = angular.element(appElement).scope();
+					appScope.heading = "";
+
 					console.log("Hello");
 					http = $http;
-					$http.get("/user").success(function(data) {
+					$http.get("user").success(function(data) {
 						console.log("success login");
 						this.session = sharedProperties.getSession();
 						console.log(session.name);

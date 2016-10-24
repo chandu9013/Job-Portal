@@ -15,5 +15,6 @@ public class Constants {
 	public static final String SESSION_KEY_EID = "eId";
 	public static final String ROLE_EMPLOYEE = "Employee";
 	public static final String ROLE_ADMIN = "Admin";
+	public static final String ACCEPTED_DOMAIN = "practo.com";
 
 }

@@ -36,13 +36,14 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 					.getDetails();
 
 			String domain = details.get(Constants.KEY_DOMAIN);
-			if (!"practo.com".equalsIgnoreCase(domain))
+			if (!Constants.ACCEPTED_DOMAIN.equalsIgnoreCase(domain))
 				throw new UnauthorizedException("Unauthorized user");
 			String email = details.get(Constants.KEY_EMAIL);
 			String name = details.get(Constants.KEY_NAME);
 
 			LoginModel loginModel = new LoginModel();
 			loginModel.setEmailId(email);
+			loginModel.setName(name);
 
 			EmployeeModel employee = employeeService.addEmployeeIfNotExist(loginModel);
 

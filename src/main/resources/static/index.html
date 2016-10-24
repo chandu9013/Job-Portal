@@ -22,6 +22,36 @@
 <script type="text/javascript" src="app.js"></script>
 
 <style>
+header.marquee a.marquee-img {
+	display: inline-block;
+	margin: 35px auto 0;
+}
+
+body {
+	background-color: #E9F4F7 !important;
+}
+
+header.marquee {
+	color: white;
+	text-align: center;
+	padding: 20px 0;
+	background-image: url(images.jpeg);
+	/* background-color: #b84d45; */
+}
+
+header.marquee .marquee-brand {
+	font-size: 5rem;
+	line-height: 5rem;
+	font-family: 'PT Sans Caption', Helvetica, Arial, sans-serif;
+	font-weight: 700;
+}
+
+header.marquee a.marquee-img {
+	display: inline-block;
+	margin: 35px auto 0;
+	opacity: 0.2
+}
+
 textarea {
 	resize: none;
 }
@@ -38,9 +68,6 @@ textarea {
 	border: 0px !important;
 }
 
-/* body {
-	background-image: url("supplier-portal-comp-info.jpg");
-} */
 .drop {
 	width: 150px;
 }
@@ -53,6 +80,20 @@ textarea {
 </head>
 
 <body ng-app="myApp">
+
+	<header class="marquee">
+		<div class="container-fluid">
+			<div class="marquee-brand">Job Portal</div>
+			<h3 class="marquee heading">{{heading}}</h3>
+
+			<!--     <a class="marquee-img">
+<img src="/images/bg.png" alt=""></img>
+</a> -->
+
+
+		</div>
+	</header>
+
 	<div class="container">
 		<div ng-view></div>
 	</div>

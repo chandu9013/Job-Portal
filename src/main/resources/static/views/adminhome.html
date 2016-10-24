@@ -10,15 +10,20 @@
 
 	<div class="page-header" id="banner">
 		<div class="row">
-			<div class="col-lg-8 col-md-7 col-sm-6">
-				<h1 style="margin: bottom=15px;">
-					Job Portal
+			<div>
+				<h1 style="margin: bottom=1px;">
+					<img style="height: 30px" src="{{pic}}" /> <label id="name"
+						style="font-size: 20px">{{name}} </label> <label id="role"
+						style="font-size: 10px"> ({{role}})</label>
 					<div style="float: right" align="right">
 						<button class="btn btn-info" ng-click="listJobs()"
 							ng-show="page!=1">List Jobs</button>
 						<button class="btn btn-success" ng-click="viewAddJob()"
 							ng-show="page!=2">Add Job</button>
-						<button class="btn btn-danger" ng-click="signoff()">Logout</button>
+
+						<button class="btn btn-danger" ng-click="signoff()">
+							<span></span>Logout
+						</button>
 					</div>
 				</h1>
 			</div>
@@ -79,7 +84,7 @@
 
 	<!-- Add Job -->
 	<div ng-show="page==2" class="col-md-7">
-		<h2>Add Job</h2>
+		<!-- <h2>Add Job</h2> -->
 
 
 		<table class="table">
@@ -147,7 +152,7 @@
 
 	<!-- View Job's applications -->
 	<div ng-show="page==4">
-		<h3>Job</h3>
+		<!-- <h3>Job</h3> -->
 		<table class="table">
 			<tr style="background-color: #F2C780">
 				<th>Job Id</th>
@@ -171,7 +176,7 @@
 			</tr>
 		</table>
 
-		<h3>Applications</h3>
+		<!-- <h3>Applications</h3> -->
 
 		<table class="table">
 			<tr style="background-color: #71C7F5">

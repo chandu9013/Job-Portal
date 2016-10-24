@@ -13,6 +13,16 @@ app.controller('AdminHomeController', [ '$scope', 'sharedProperties',
 			}
 			$scope.session = sharedProperties.getSession();
 			console.log("In admin - " + $scope.session.name);
+			
+			// Show profile pic
+			$scope.pic=session.picUrl;
+			$scope.name=session.name;
+			$scope.role=session.role.roleName;
+			console.log("pic url" - $scope.pic);
+			
+			var appElement = document.querySelector('[ng-app=myApp]');
+			var appScope=angular.element(appElement).scope();
+			
 
 			$scope.welcome = "Hello Admin";
 			var http = $http;
@@ -36,6 +46,8 @@ app.controller('AdminHomeController', [ '$scope', 'sharedProperties',
 					$scope.total=data.totalPages;
 					console.log($scope.total);
 					console.log($scope.jobs);
+					
+					appScope.heading="Dashboard";
 					if(data.jobs=='')
 						$scope.jobsError="No jobs to show";
 					else
@@ -55,6 +67,8 @@ app.controller('AdminHomeController', [ '$scope', 'sharedProperties',
 						console.log("Got teams  - ");
 						$scope.teams = data;
 						$scope.page = 2;
+						
+						appScope.heading="Add Job";
 
 						// Empty the add form
 						$scope.categModel = null;
@@ -82,6 +96,7 @@ app.controller('AdminHomeController', [ '$scope', 'sharedProperties',
 						console.log("Got teams  - ");
 						$scope.teams = data;
 						$scope.page = 3;
+						appScope.heading="Edit Job";
 
 						// Empty the add form
 						$scope.categModel = $scope.jobs[$index].category;
@@ -105,6 +120,7 @@ app.controller('AdminHomeController', [ '$scope', 'sharedProperties',
 					$scope.applications=data;
 					$scope.job=$scope.jobs[$index];
 					$scope.page=4;
+					appScope.heading="Applications";
 					if(data=='')
 						$scope.applicationsError="No applications to show";
 					else
@@ -130,6 +146,7 @@ app.controller('AdminHomeController', [ '$scope', 'sharedProperties',
 
 			$scope.cancel = function() {
 				$scope.page = 1;
+				appScope.heading="Dashboard";
 				// $scope.listJobs();
 			}
 

@@ -11,6 +11,15 @@ app.controller('EmployeeHomeController', [ '$scope', 'sharedProperties',
 			// $scope.page = 0;
 			$scope.session = sharedProperties.getSession();
 			console.log("In employee - " + $scope.session.name);
+			
+			// Show profile pic
+			$scope.pic=session.picUrl;
+			$scope.name=session.name;
+			$scope.role=session.role.roleName;
+			
+			// App scope
+			var appElement = document.querySelector('[ng-app=myApp]');
+			var appScope=angular.element(appElement).scope();
 
 			$scope.welcome = "Hello Employee";
 			var http = $http;
@@ -45,6 +54,7 @@ app.controller('EmployeeHomeController', [ '$scope', 'sharedProperties',
 					$scope.applications=data;
 					$scope.page=2;
 					console.log((data));
+					appScope.heading="My Applications";
 					if(data==''){
 						$scope.applyError="No applications to show";}
 					else
@@ -99,8 +109,8 @@ app.controller('EmployeeHomeController', [ '$scope', 'sharedProperties',
 						$scope.teams.push({"id":-1,"name":"All"});
 
 						// Empty the add form
-						//$scope.categModel = null;
-						//$scope.teamModel = null;
+						// $scope.categModel = null;
+						// $scope.teamModel = null;
 					}).error(function() {
 						console.log("didnt get teams");
 					});
@@ -126,15 +136,15 @@ app.controller('EmployeeHomeController', [ '$scope', 'sharedProperties',
 					pageno=$scope.nextpage;
 				$scope.nextpage=pageno;
 				$scope.jobs=[];
+				appScope.heading="Dashboard";
 				
-				// Set filter parameters
-				
-				
+					
 				http.get("/jobs/"+$scope.perpage+"/"+pageno,{params:$scope.filters}).success(function(data) {
 					console.log("got jobs  - ");
 					$scope.page = 1;
 					$scope.jobs = data.jobs;
 					$scope.total=data.totalPages;
+					appScope.heading="Dashboard";
 					if(data.jobs==''){
 						$scope.listError="No jobs to show";}
 					else

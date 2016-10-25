@@ -60,6 +60,7 @@ public class AuthController extends WebSecurityConfigurerAdapter {
 	public LoginResponse loginUser(Principal principal, HttpSession session)
 			throws UnauthorizedException, ForbiddenException {
 		LOG.info("Request received for authentication");
+		System.out.println("Request received for authentication ZZZZZZZZZZ");
 		LOG.debug(principal);
 		if (principal == null)
 			throw new ForbiddenException("Access forbiden");

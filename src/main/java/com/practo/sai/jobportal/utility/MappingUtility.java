@@ -12,6 +12,7 @@ import com.practo.sai.jobportal.entities.JobApplication;
 import com.practo.sai.jobportal.entities.Team;
 import com.practo.sai.jobportal.model.AddJobAppModel;
 import com.practo.sai.jobportal.model.AddJobModel;
+import com.practo.sai.jobportal.model.CategoryModel;
 import com.practo.sai.jobportal.model.EmployeeModel;
 import com.practo.sai.jobportal.model.JobApplicationModel;
 import com.practo.sai.jobportal.model.JobModel;
@@ -52,7 +53,7 @@ public class MappingUtility {
    */
   public JobModel mapToJobModel(Job job) {
     JobModel jobModel = new JobModel();
-    jobModel.setCategory(job.getCategory());
+    jobModel.setCategory(mapToCategoryModel(job.getCategory()));
     jobModel.setDescription(job.getDescription());
     jobModel.setjId(job.getJId());
     jobModel.setLastModified(job.getLastModified());
@@ -133,6 +134,12 @@ public class MappingUtility {
       recruit.setEId(jobModel.getRecruitId());
       job.setEmployeeByRecruitId(recruit);
     }
+    LOG.debug("Team Id - " + jobModel.getTeamId());
+    if (jobModel.getTeamId() > 0) {
+      Team team = new Team();
+      team.setId(jobModel.getTeamId());
+      job.setTeam(team);
+    }
 
     return job;
   }
@@ -197,6 +204,11 @@ public class MappingUtility {
 
   private TeamModel mapToTeamModel(Team team) {
     return new TeamModel(team.getId(), team.getName());
+  }
+
+  public CategoryModel mapToCategoryModel(Category category) {
+    return new CategoryModel(category.getCId(), category.getCategoryName());
+
   }
 
 }

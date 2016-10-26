@@ -2,15 +2,22 @@ package com.practo.sai.jobportal.model;
 
 public class CategoryModel {
 
-  private int cId;
-  private String categoryName;
 
-  public int getcId() {
-    return cId;
+  public CategoryModel(int cId, String categoryName) {
+    super();
+    this.CId = cId;
+    this.categoryName = categoryName;
   }
 
-  public void setcId(int cId) {
-    this.cId = cId;
+  private int CId;
+  private String categoryName;
+
+  public int getCId() {
+    return CId;
+  }
+
+  public void setCId(int cId) {
+    this.CId = cId;
   }
 
   public String getCategoryName() {

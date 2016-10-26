@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -88,7 +89,7 @@ public class Job implements java.io.Serializable {
     this.JId = JId;
   }
 
-  @ManyToOne(fetch = FetchType.EAGER)
+  @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "j_c_id", nullable = false)
   public Category getCategory() {
     return this.category;
@@ -98,7 +99,7 @@ public class Job implements java.io.Serializable {
     this.category = category;
   }
 
-  @ManyToOne(fetch = FetchType.EAGER)
+  @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "posted_by", nullable = false)
   public Employee getEmployeeByPostedBy() {
     return this.employeeByPostedBy;
@@ -108,7 +109,7 @@ public class Job implements java.io.Serializable {
     this.employeeByPostedBy = employeeByPostedBy;
   }
 
-  @ManyToOne(fetch = FetchType.EAGER)
+  @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "recruit_id")
   public Employee getEmployeeByRecruitId() {
     return this.employeeByRecruitId;
@@ -168,7 +169,7 @@ public class Job implements java.io.Serializable {
     this.team = team;
   }
 
-  @OneToMany(fetch = FetchType.LAZY, mappedBy = "job")
+  @OneToMany(fetch = FetchType.LAZY, mappedBy = "job", cascade = CascadeType.ALL)
   public Set<JobApplication> getJobApplications() {
     return this.jobApplications;
   }

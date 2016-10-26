@@ -41,7 +41,7 @@ public class UserRole implements java.io.Serializable {
     this.id = id;
   }
 
-  @ManyToOne(fetch = FetchType.EAGER)
+  @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "e_id", nullable = false)
   public Employee getEmployee() {
     return this.employee;
@@ -51,7 +51,7 @@ public class UserRole implements java.io.Serializable {
     this.employee = employee;
   }
 
-  @ManyToOne(fetch = FetchType.EAGER)
+  @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "r_id", nullable = false)
   public Role getRole() {
     return this.role;

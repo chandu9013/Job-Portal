@@ -171,7 +171,7 @@ app.controller('AdminHomeController', [ '$scope', 'sharedProperties',
 				data.categoryId = $scope.categModel.cid;
 				data.description = $scope.jobDescription;
 				data.teamId = $scope.teamModel.id;
-
+				console.log("Team id - "+data.teamId);
 				http.patch("jobs/"+$scope.jobs[$scope.modifyIndex].jId, data).success(function(data) {
 					console.log("Job updated  - ");
 					$scope.listJobs();

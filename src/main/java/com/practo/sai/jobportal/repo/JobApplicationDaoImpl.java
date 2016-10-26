@@ -63,10 +63,12 @@ public class JobApplicationDaoImpl implements JobApplicationDao {
   @Override
   public List<JobApplication> getMyApplications(int eId) {
     LOG.debug(eId);
-    DetachedCriteria criteria = DetachedCriteria.forClass(JobApplication.class);
+    DetachedCriteria criteria = DetachedCriteria.forClass(JobApplication.class, "ja")
+        .createCriteria("ja.job", "j").add(Restrictions.ne("j.deleted", '1'));
 
-    DetachedCriteria employeeCriteria = criteria.createCriteria("employee");
-    employeeCriteria.add(Restrictions.eq("EId", eId));
+    DetachedCriteria employeeCriteria = criteria.createCriteria("ja.employee", "e");
+    employeeCriteria.add(Restrictions.eq("e.EId", eId));
+
     Criteria executableCriteria = employeeCriteria.getExecutableCriteria(getSession());
     return executableCriteria.list();
   }

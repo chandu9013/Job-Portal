@@ -1,11 +1,17 @@
 package com.practo.sai.jobportal.entities;
 // Generated Oct 17, 2016 1:36:19 PM by Hibernate Tools 4.3.1
 
+import java.util.HashSet;
+import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
@@ -27,11 +33,10 @@ public class Employee implements java.io.Serializable {
   private String emailId;
   private char deleted;
   private String name;
-  // private Set<JobApplication> jobApplications = new
-  // HashSet<JobApplication>(0);
-  // private Set<UserRole> userRoles = new HashSet<UserRole>(0);
-  // private Set<Job> jobsForPostedBy = new HashSet<Job>(0);
-  // private Set<Job> jobsForRecruitId = new HashSet<Job>(0);
+  private Set<JobApplication> jobApplications = new HashSet<JobApplication>(0);
+  private Set<UserRole> userRoles = new HashSet<UserRole>(0);
+  private Set<Job> jobsForPostedBy = new HashSet<Job>(0);
+  private Set<Job> jobsForRecruitId = new HashSet<Job>(0);
 
   public char getDeleted() {
     return deleted;
@@ -47,15 +52,14 @@ public class Employee implements java.io.Serializable {
     this.emailId = emailId;
   }
 
-  // public Employee(String emailId, Set<JobApplication> jobApplications,
-  // Set<UserRole> userRoles,
-  // Set<Job> jobsForPostedBy, Set<Job> jobsForRecruitId) {
-  // this.emailId = emailId;
-  // this.jobApplications = jobApplications;
-  // this.userRoles = userRoles;
-  // this.jobsForPostedBy = jobsForPostedBy;
-  // this.jobsForRecruitId = jobsForRecruitId;
-  // }
+  public Employee(String emailId, Set<JobApplication> jobApplications, Set<UserRole> userRoles,
+      Set<Job> jobsForPostedBy, Set<Job> jobsForRecruitId) {
+    this.emailId = emailId;
+    this.jobApplications = jobApplications;
+    this.userRoles = userRoles;
+    this.jobsForPostedBy = jobsForPostedBy;
+    this.jobsForRecruitId = jobsForRecruitId;
+  }
 
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
@@ -87,40 +91,40 @@ public class Employee implements java.io.Serializable {
     this.name = name;
   }
 
-  // @OneToMany(fetch = FetchType.EAGER, mappedBy = "employee")
-  // public Set<JobApplication> getJobApplications() {
-  // return this.jobApplications;
-  // }
-  //
-  // public void setJobApplications(Set<JobApplication> jobApplications) {
-  // this.jobApplications = jobApplications;
-  // }
+  @OneToMany(fetch = FetchType.LAZY, mappedBy = "employee", cascade = CascadeType.ALL)
+  public Set<JobApplication> getJobApplications() {
+    return this.jobApplications;
+  }
 
-  // //@OneToMany(fetch = FetchType.EAGER, mappedBy = "employee")
-  // public Set<UserRole> getUserRoles() {
-  // return this.userRoles;
-  // }
-  //
-  // public void setUserRoles(Set<UserRole> userRoles) {
-  // this.userRoles = userRoles;
-  // }
+  public void setJobApplications(Set<JobApplication> jobApplications) {
+    this.jobApplications = jobApplications;
+  }
 
-  // @OneToMany(fetch = FetchType.EAGER, mappedBy = "employeeByPostedBy")
-  // public Set<Job> getJobsForPostedBy() {
-  // return this.jobsForPostedBy;
-  // }
-  //
-  // public void setJobsForPostedBy(Set<Job> jobsForPostedBy) {
-  // this.jobsForPostedBy = jobsForPostedBy;
-  // }
-  //
-  // //@OneToMany(fetch = FetchType.EAGER, mappedBy = "employeeByRecruitId")
-  // public Set<Job> getJobsForRecruitId() {
-  // return this.jobsForRecruitId;
-  // }
-  //
-  // public void setJobsForRecruitId(Set<Job> jobsForRecruitId) {
-  // this.jobsForRecruitId = jobsForRecruitId;
-  // }
+  @OneToMany(fetch = FetchType.LAZY, mappedBy = "employee", cascade = CascadeType.ALL)
+  public Set<UserRole> getUserRoles() {
+    return this.userRoles;
+  }
+
+  public void setUserRoles(Set<UserRole> userRoles) {
+    this.userRoles = userRoles;
+  }
+
+  @OneToMany(fetch = FetchType.LAZY, mappedBy = "employeeByPostedBy", cascade = CascadeType.ALL)
+  public Set<Job> getJobsForPostedBy() {
+    return this.jobsForPostedBy;
+  }
+
+  public void setJobsForPostedBy(Set<Job> jobsForPostedBy) {
+    this.jobsForPostedBy = jobsForPostedBy;
+  }
+
+  @OneToMany(fetch = FetchType.LAZY, mappedBy = "employeeByRecruitId", cascade = CascadeType.ALL)
+  public Set<Job> getJobsForRecruitId() {
+    return this.jobsForRecruitId;
+  }
+
+  public void setJobsForRecruitId(Set<Job> jobsForRecruitId) {
+    this.jobsForRecruitId = jobsForRecruitId;
+  }
 
 }

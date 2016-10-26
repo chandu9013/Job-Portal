@@ -68,7 +68,7 @@ public class JobApplication implements java.io.Serializable {
     this.JAppId = JAppId;
   }
 
-  @ManyToOne(fetch = FetchType.EAGER)
+  @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "applied_by", nullable = false)
   public Employee getEmployee() {
     return this.employee;
@@ -78,8 +78,9 @@ public class JobApplication implements java.io.Serializable {
     this.employee = employee;
   }
 
-  @ManyToOne(fetch = FetchType.EAGER)
+  @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "job_id", nullable = false)
+  @Where(clause = "job.deleted <> '1'")
   public Job getJob() {
     return this.job;
   }

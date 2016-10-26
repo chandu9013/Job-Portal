@@ -6,7 +6,7 @@ import com.practo.sai.jobportal.entities.Category;
 
 public class JobModel {
   private Integer jId;
-  private Category category;
+  private CategoryModel category;
   private EmployeeModel postedBy;
   private EmployeeModel recruited;
   private String description;
@@ -31,11 +31,11 @@ public class JobModel {
     this.recruited = recruited;
   }
 
-  public Category getCategory() {
+  public CategoryModel getCategory() {
     return category;
   }
 
-  public void setCategory(Category category) {
+  public void setCategory(CategoryModel category) {
     this.category = category;
   }
 

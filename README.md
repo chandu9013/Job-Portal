@@ -1,5 +1,7 @@
 # Job-Portal
 
+[![Travis](https://img.shields.io/travis/chandu9013/Job-Portal.svg)](https://github.com/chandu9013/Job-Portal)
+
 This application facilitates an Admin within a company to advertise for openings in teams across a company and
 employees of the company can apply to the same.
 - Done using Spring Tool Suite (http://spring.io/tools/sts/all) 

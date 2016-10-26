@@ -3,7 +3,9 @@
  */
 var app = angular.module("myApp", [ 'ngRoute',
 		'angularUtils.directives.dirPagination' ]);
-app.config(function($routeProvider) {
+app.config(function($routeProvider, $locationProvider) {
+	$locationProvider.html5Mode(true);
+	$locationProvider.hashPrefix('!');
 	$routeProvider.when('/', {
 		controller : "LoginController",
 		templateUrl : "views/login.html"

@@ -1,8 +1,6 @@
 package com.practo.sai.jobportal.entities;
 // Generated Oct 17, 2016 1:36:19 PM by Hibernate Tools 4.3.1
 
-import static javax.persistence.GenerationType.IDENTITY;
-
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -11,6 +9,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -79,7 +78,7 @@ public class Job implements java.io.Serializable {
 	// }
 
 	@Id
-	@GeneratedValue(strategy = IDENTITY)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 
 	@Column(name = "j_id", unique = true, nullable = false)
 	public Integer getJId() {
@@ -170,13 +169,13 @@ public class Job implements java.io.Serializable {
 		this.team = team;
 	}
 
-	 @OneToMany(fetch = FetchType.LAZY, mappedBy = "job")
-	 public Set<JobApplication> getJobApplications() {
-	 return this.jobApplications;
-	 }
-	
-	 public void setJobApplications(Set<JobApplication> jobApplications) {
-	 this.jobApplications = jobApplications;
-	 }
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "job")
+	public Set<JobApplication> getJobApplications() {
+		return this.jobApplications;
+	}
+
+	public void setJobApplications(Set<JobApplication> jobApplications) {
+		this.jobApplications = jobApplications;
+	}
 
 }

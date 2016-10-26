@@ -70,7 +70,5 @@ public class SmtpMailSender {
 		// attachments, etc.
 
 		javaMailSender.send(message);
-
 	}
-
 }

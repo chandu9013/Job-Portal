@@ -2,6 +2,8 @@ package com.practo.sai.jobportal.service;
 
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +16,7 @@ public class CategoryServiceImpl implements CategoryService {
 	@Autowired
 	CategoryDao categoryDao;
 
+	@Transactional
 	@Override
 	public List<Category> getCategories() {
 		List<Category> categories = null;

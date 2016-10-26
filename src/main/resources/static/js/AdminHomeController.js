@@ -155,7 +155,6 @@ app.controller('AdminHomeController', [ '$scope', 'sharedProperties',
 				data.categoryId = $scope.categModel.cid;
 				data.description = $scope.jobDescription;
 				data.teamId = $scope.teamModel.id;
-				data.postedBy = 12;
 
 				http.post("jobs", data).success(function(data) {
 					console.log("Job added  - ");
@@ -171,7 +170,6 @@ app.controller('AdminHomeController', [ '$scope', 'sharedProperties',
 				data.categoryId = $scope.categModel.cid;
 				data.description = $scope.jobDescription;
 				data.teamId = $scope.teamModel.id;
-				data.postedBy = 12;
 
 				http.patch("jobs/"+$scope.jobs[$scope.modifyIndex].jId, data).success(function(data) {
 					console.log("Job updated  - ");

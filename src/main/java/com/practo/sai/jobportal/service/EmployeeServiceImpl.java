@@ -1,5 +1,7 @@
 package com.practo.sai.jobportal.service;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,6 +27,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 	@Autowired
 	EmployeeDao employeeDao;
 
+	@Transactional
 	@Override
 	public EmployeeModel addEmployee(LoginModel loginModel, Role role) {
 		Employee employee = new Employee();
@@ -47,6 +50,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 		return employeeModel;
 	}
 
+	@Transactional
 	@Override
 	public EmployeeModel addEmployee(LoginModel loginModel) {
 
@@ -58,6 +62,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 		return employeeModel;
 	}
 
+	@Transactional
 	@Override
 	public EmployeeModel addEmployeeIfNotExist(LoginModel loginModel) {
 		Employee employee = employeeDao.getEmployeeByEmail(loginModel.getEmailId());

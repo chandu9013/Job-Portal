@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.mail.AuthenticationFailedException;
 import javax.mail.MessagingException;
+import javax.transaction.Transactional;
 
 import org.hibernate.exception.JDBCConnectionException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,7 @@ import com.practo.sai.jobportal.model.JobApplicationModel;
 import com.practo.sai.jobportal.model.JobModel;
 import com.practo.sai.jobportal.model.PageableJobs;
 import com.practo.sai.jobportal.model.UpdateJobModel;
+import com.practo.sai.jobportal.repo.EmployeeDao;
 import com.practo.sai.jobportal.repo.JobApplicationDao;
 import com.practo.sai.jobportal.repo.JobDao;
 import com.practo.sai.jobportal.repo.RoleDao;
@@ -51,6 +53,10 @@ public class JobServiceImpl implements JobService {
 	@Autowired
 	RoleDao roleDao;
 
+	@Autowired
+	EmployeeDao employeeDao;
+
+	@Transactional
 	@Override
 	public PageableJobs getJobs(int eId, int perpage, int pageno, Filter filter) throws JDBCConnectionException {
 		LOG.info("Servicing request for all jobs");
@@ -65,7 +71,7 @@ public class JobServiceImpl implements JobService {
 			pageOfJobs = jobDao.getJobsByAdmin(eId, perpage, pageno);
 		} else {
 			LOG.debug("Getting all jobs for - " + eId);
-			pageOfJobs = jobDao.getJobsNewForEmployee(eId, perpage, pageno,filter);
+			pageOfJobs = jobDao.getJobsNewForEmployee(eId, perpage, pageno, filter);
 		}
 
 		List<JobModel> jobModels = mUtility.mapToJobModels(pageOfJobs.getJobEntities());
@@ -78,6 +84,7 @@ public class JobServiceImpl implements JobService {
 
 	}
 
+	@Transactional
 	@Override
 	public JobModel addJob(AddJobModel jobModel) throws BadRequestException {
 		if (jobModel.getCategoryId() <= 0 || jobModel.getDescription() == null || jobModel.getDescription().equals("")
@@ -90,6 +97,7 @@ public class JobServiceImpl implements JobService {
 		return mUtility.mapToJobModel(job);
 	}
 
+	@Transactional
 	@Override
 	public JobModel updateJob(int jobId, UpdateJobModel jobModel) throws BadRequestException, NotFoundException {
 		if (jobId <= 0 || jobModel == null)
@@ -104,6 +112,7 @@ public class JobServiceImpl implements JobService {
 		return mUtility.mapToJobModel(job);
 	}
 
+	@Transactional
 	@Override
 	public void deleteJob(int jobId) throws BadRequestException {
 		if (jobId <= 0)
@@ -114,6 +123,7 @@ public class JobServiceImpl implements JobService {
 		jobDao.delete(job);
 	}
 
+	@Transactional
 	@Override
 	public List<JobApplicationModel> getJobApplications(int jobId) throws BadRequestException {
 		if (jobId <= 0)
@@ -127,6 +137,7 @@ public class JobServiceImpl implements JobService {
 		return mUtility.mapToJobAppModels(jobApplications);
 	}
 
+	@Transactional
 	@Override
 	public List<JobApplicationModel> getMyJobApplications(int eId) throws BadRequestException {
 		List<JobApplication> jobApplications;
@@ -135,16 +146,21 @@ public class JobServiceImpl implements JobService {
 		return mUtility.mapToJobAppModels(jobApplications);
 	}
 
+	@Transactional
 	@Override
 	public JobApplicationModel addJobApplication(int jobId, AddJobAppModel jobApp) throws BadRequestException {
 		if (jobApp.getAppliedBy() <= 0 || jobId <= 0)
 			throw new BadRequestException("Required parameters are either missing or invalid");
-		JobApplication application = mUtility.mapFromAddJobAppModel(jobId, jobApp);
+		Employee employee = employeeDao.getEmployee(jobApp.getAppliedBy());
+		Job job = jobDao.getJob(jobId);
+
+		JobApplication application = new JobApplication();
+		application.setJob(job);
+		application.setEmployee(employee);
+
 		jobApplicationDao.save(application);
 		LOG.info("Application added to database succefully");
-		application = jobApplicationDao.getApplication(application.getJAppId());
 
-		LOG.debug("Fetched entire job application to return");
 		JobApplicationModel applicationModel = mUtility.mapToJobAppModel(application);
 
 		// Send Email to Admin as well as applier
@@ -165,6 +181,7 @@ public class JobServiceImpl implements JobService {
 		return applicationModel;
 	}
 
+	@Transactional
 	@Override
 	public void deleteJobApplication(int appId) throws BadRequestException {
 		if (appId <= 0)

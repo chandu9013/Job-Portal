@@ -1,7 +1,5 @@
 package com.practo.sai.jobportal.repo;
 
-import javax.transaction.Transactional;
-
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -11,10 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.practo.sai.jobportal.entities.Employee;
-import com.practo.sai.jobportal.entities.JobApplication;
 
 @Repository
-@Transactional
+// @Transactional
 public class EmployeeDaoImpl implements EmployeeDao {
 
 	@Autowired

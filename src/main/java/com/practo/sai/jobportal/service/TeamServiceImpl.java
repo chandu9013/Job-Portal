@@ -2,6 +2,8 @@ package com.practo.sai.jobportal.service;
 
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +21,7 @@ public class TeamServiceImpl implements TeamService {
 	@Autowired
 	TeamDao teamDao;
 
+	@Transactional
 	@Override
 	public List<TeamModel> getTeams() {
 		List<Team> teams = teamDao.getAll();

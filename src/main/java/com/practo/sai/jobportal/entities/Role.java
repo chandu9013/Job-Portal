@@ -1,11 +1,10 @@
 package com.practo.sai.jobportal.entities;
 // Generated Oct 17, 2016 1:36:19 PM by Hibernate Tools 4.3.1
 
-import static javax.persistence.GenerationType.IDENTITY;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
@@ -19,7 +18,7 @@ public class Role implements java.io.Serializable {
 
 	private Integer RId;
 	private String roleName;
-//	private Set<UserRole> userRoles = new HashSet<UserRole>(0);
+	// private Set<UserRole> userRoles = new HashSet<UserRole>(0);
 
 	public Role() {
 	}
@@ -28,13 +27,13 @@ public class Role implements java.io.Serializable {
 		this.roleName = roleName;
 	}
 
-//	public Role(String roleName, Set<UserRole> userRoles) {
-//		this.roleName = roleName;
-//		this.userRoles = userRoles;
-//	}
+	// public Role(String roleName, Set<UserRole> userRoles) {
+	// this.roleName = roleName;
+	// this.userRoles = userRoles;
+	// }
 
 	@Id
-	@GeneratedValue(strategy = IDENTITY)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 
 	@Column(name = "r_id", unique = true, nullable = false)
 	public Integer getRId() {
@@ -54,13 +53,13 @@ public class Role implements java.io.Serializable {
 		this.roleName = roleName;
 	}
 
-	//@OneToMany(fetch = FetchType.EAGER, mappedBy = "role")
-//	public Set<UserRole> getUserRoles() {
-//		return this.userRoles;
-//	}
-//
-//	public void setUserRoles(Set<UserRole> userRoles) {
-//		this.userRoles = userRoles;
-//	}
+	// @OneToMany(fetch = FetchType.EAGER, mappedBy = "role")
+	// public Set<UserRole> getUserRoles() {
+	// return this.userRoles;
+	// }
+	//
+	// public void setUserRoles(Set<UserRole> userRoles) {
+	// this.userRoles = userRoles;
+	// }
 
 }

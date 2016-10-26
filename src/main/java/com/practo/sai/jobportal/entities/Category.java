@@ -1,11 +1,10 @@
 package com.practo.sai.jobportal.entities;
 // Generated Oct 17, 2016 1:36:19 PM by Hibernate Tools 4.3.1
 
-import static javax.persistence.GenerationType.IDENTITY;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
@@ -19,7 +18,7 @@ public class Category implements java.io.Serializable {
 
 	private Integer CId;
 	private String categoryName;
-//	private Set<Job> jobs = new HashSet<Job>(0);
+	// private Set<Job> jobs = new HashSet<Job>(0);
 
 	public Category() {
 	}
@@ -28,13 +27,13 @@ public class Category implements java.io.Serializable {
 		this.categoryName = categoryName;
 	}
 
-//	public Category(String categoryName, Set<Job> jobs) {
-//		this.categoryName = categoryName;
-//		this.jobs = jobs;
-//	}
+	// public Category(String categoryName, Set<Job> jobs) {
+	// this.categoryName = categoryName;
+	// this.jobs = jobs;
+	// }
 
 	@Id
-	@GeneratedValue(strategy = IDENTITY)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 
 	@Column(name = "c_id", unique = true, nullable = false)
 	public Integer getCId() {
@@ -55,12 +54,12 @@ public class Category implements java.io.Serializable {
 	}
 
 	// @OneToMany(fetch = FetchType.EAGER, mappedBy = "category")
-//	public Set<Job> getJobs() {
-//		return this.jobs;
-//	}
+	// public Set<Job> getJobs() {
+	// return this.jobs;
+	// }
 
-//	public void setJobs(Set<Job> jobs) {
-//		this.jobs = jobs;
-//	}
+	// public void setJobs(Set<Job> jobs) {
+	// this.jobs = jobs;
+	// }
 
 }

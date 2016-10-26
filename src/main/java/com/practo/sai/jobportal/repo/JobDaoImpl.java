@@ -2,8 +2,6 @@ package com.practo.sai.jobportal.repo;
 
 import java.util.List;
 
-import javax.transaction.Transactional;
-
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -29,7 +27,7 @@ import com.practo.sai.jobportal.utility.Logger;
  *
  */
 @Repository
-@Transactional
+// @Transactional
 public class JobDaoImpl implements JobDao {
 
 	private static final Logger LOG = Logger.getInstance(JobDaoImpl.class);

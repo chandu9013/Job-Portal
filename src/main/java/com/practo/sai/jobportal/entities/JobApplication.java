@@ -1,21 +1,19 @@
 package com.practo.sai.jobportal.entities;
 // Generated Oct 17, 2016 1:36:19 PM by Hibernate Tools 4.3.1
 
-import static javax.persistence.GenerationType.IDENTITY;
-
 import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.persistence.UniqueConstraint;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.SQLDelete;
@@ -60,7 +58,7 @@ public class JobApplication implements java.io.Serializable {
 	}
 
 	@Id
-	@GeneratedValue(strategy = IDENTITY)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 
 	@Column(name = "j_app_id", unique = true, nullable = false)
 	public Integer getJAppId() {

@@ -105,7 +105,9 @@ public class JobController {
 	public JobModel addJob(@RequestBody AddJobModel job, HttpSession session)
 			throws BadRequestException, UnauthorizedException {
 		LOG.info("Request received to add a new job listing");
-		authenticationService.validateSession(session);
+		SessionParams sessionParams = authenticationService.validateSession(session);
+		int eId = sessionParams.geteId();
+		job.setPostedBy(eId);
 		return jobService.addJob(job);
 	}
 
@@ -132,7 +134,9 @@ public class JobController {
 	public JobModel updateJob(@PathVariable int jobId, @RequestBody UpdateJobModel jobModel, HttpSession session)
 			throws BadRequestException, NotFoundException, UnauthorizedException {
 		LOG.info("Request received to update a job listing");
-		authenticationService.validateSession(session);
+		SessionParams sessionParams = authenticationService.validateSession(session);
+		int eId = sessionParams.geteId();
+		jobModel.setPostedBy(eId);
 		return jobService.updateJob(jobId, jobModel);
 	}
 

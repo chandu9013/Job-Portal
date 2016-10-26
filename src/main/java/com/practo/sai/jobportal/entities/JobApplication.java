@@ -29,75 +29,74 @@ import org.hibernate.annotations.Where;
 @Where(clause = "deleted <> '1'")
 public class JobApplication implements java.io.Serializable {
 
-	private Integer JAppId;
-	private Employee employee;
-	private Job job;
-	private Date appliedOn;
-	private char deleted;
+  private Integer JAppId;
+  private Employee employee;
+  private Job job;
+  private Date appliedOn;
+  private char deleted;
 
-	public char getDeleted() {
-		return deleted;
-	}
+  public char getDeleted() {
+    return deleted;
+  }
 
-	public void setDeleted(char deleted) {
-		this.deleted = deleted;
-	}
+  public void setDeleted(char deleted) {
+    this.deleted = deleted;
+  }
 
-	public JobApplication() {
-	}
+  public JobApplication() {}
 
-	public JobApplication(Employee employee, Job job) {
-		this.employee = employee;
-		this.job = job;
-	}
+  public JobApplication(Employee employee, Job job) {
+    this.employee = employee;
+    this.job = job;
+  }
 
-	public JobApplication(Employee employee, Job job, Date appliedOn) {
-		this.employee = employee;
-		this.job = job;
-		this.appliedOn = appliedOn;
-	}
+  public JobApplication(Employee employee, Job job, Date appliedOn) {
+    this.employee = employee;
+    this.job = job;
+    this.appliedOn = appliedOn;
+  }
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+  @Id
+  @GeneratedValue(strategy = GenerationType.AUTO)
 
-	@Column(name = "j_app_id", unique = true, nullable = false)
-	public Integer getJAppId() {
-		return this.JAppId;
-	}
+  @Column(name = "j_app_id", unique = true, nullable = false)
+  public Integer getJAppId() {
+    return this.JAppId;
+  }
 
-	public void setJAppId(Integer JAppId) {
-		this.JAppId = JAppId;
-	}
+  public void setJAppId(Integer JAppId) {
+    this.JAppId = JAppId;
+  }
 
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "applied_by", nullable = false)
-	public Employee getEmployee() {
-		return this.employee;
-	}
+  @ManyToOne(fetch = FetchType.EAGER)
+  @JoinColumn(name = "applied_by", nullable = false)
+  public Employee getEmployee() {
+    return this.employee;
+  }
 
-	public void setEmployee(Employee employee) {
-		this.employee = employee;
-	}
+  public void setEmployee(Employee employee) {
+    this.employee = employee;
+  }
 
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "job_id", nullable = false)
-	public Job getJob() {
-		return this.job;
-	}
+  @ManyToOne(fetch = FetchType.EAGER)
+  @JoinColumn(name = "job_id", nullable = false)
+  public Job getJob() {
+    return this.job;
+  }
 
-	public void setJob(Job job) {
-		this.job = job;
-	}
+  public void setJob(Job job) {
+    this.job = job;
+  }
 
-	@CreationTimestamp
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "applied_on", length = 19)
-	public Date getAppliedOn() {
-		return this.appliedOn;
-	}
+  @CreationTimestamp
+  @Temporal(TemporalType.TIMESTAMP)
+  @Column(name = "applied_on", length = 19)
+  public Date getAppliedOn() {
+    return this.appliedOn;
+  }
 
-	public void setAppliedOn(Date appliedOn) {
-		this.appliedOn = appliedOn;
-	}
+  public void setAppliedOn(Date appliedOn) {
+    this.appliedOn = appliedOn;
+  }
 
 }

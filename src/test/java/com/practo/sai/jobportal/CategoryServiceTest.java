@@ -16,16 +16,16 @@ import com.practo.sai.jobportal.service.CategoryService;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-@ContextConfiguration(classes = { TestDatabaseConfig.class })
+@ContextConfiguration(classes = {TestDatabaseConfig.class})
 public class CategoryServiceTest {
 
-	@Autowired
-	CategoryService categoryService;
+  @Autowired
+  CategoryService categoryService;
 
-	@Test
-	public void getCategoriesTest() {
-		List<Category> categories = categoryService.getCategories();
-		assertEquals(2, categories.size());
-	}
+  @Test
+  public void getCategoriesTest() {
+    List<Category> categories = categoryService.getCategories();
+    assertEquals(2, categories.size());
+  }
 
 }

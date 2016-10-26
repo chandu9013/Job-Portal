@@ -19,8 +19,7 @@ import com.practo.sai.jobportal.model.TeamModel;
 import com.practo.sai.jobportal.model.UpdateJobModel;
 
 /**
- * Class that consists of methods that map Entities to/from Response/Request
- * Models
+ * Class that consists of methods that map Entities to/from Response/Request Models
  * 
  * @author Sai Chandra Sekhar Dandu
  *
@@ -28,185 +27,176 @@ import com.practo.sai.jobportal.model.UpdateJobModel;
 @Service
 public class MappingUtility {
 
-	private static final Logger LOG = Logger.getInstance(MappingUtility.class);
+  private static final Logger LOG = Logger.getInstance(MappingUtility.class);
 
-	/**
-	 * Maps List of {@link Job} to {@link JobModel}
-	 * 
-	 * @param jobs
-	 *            {@link Job}
-	 * @return {@link JobModel}
-	 */
-	public List<JobModel> mapToJobModels(List<Job> jobs) {
-		LOG.debug("Mapping all Jobs to JobModels to return to user");
-		List<JobModel> jobModels = new ArrayList<>();
-		for (Job job : jobs) {
-			jobModels.add(mapToJobModel(job));
-		}
-		return jobModels;
-	}
+  /**
+   * Maps List of {@link Job} to {@link JobModel}
+   * 
+   * @param jobs {@link Job}
+   * @return {@link JobModel}
+   */
+  public List<JobModel> mapToJobModels(List<Job> jobs) {
+    LOG.debug("Mapping all Jobs to JobModels to return to user");
+    List<JobModel> jobModels = new ArrayList<>();
+    for (Job job : jobs) {
+      jobModels.add(mapToJobModel(job));
+    }
+    return jobModels;
+  }
 
-	/**
-	 * Maps {@link Job} to {@link JobModel}
-	 * 
-	 * @param job
-	 *            {@link Job}
-	 * @return {@link JobModel}
-	 */
-	public JobModel mapToJobModel(Job job) {
-		JobModel jobModel = new JobModel();
-		jobModel.setCategory(job.getCategory());
-		jobModel.setDescription(job.getDescription());
-		jobModel.setjId(job.getJId());
-		jobModel.setLastModified(job.getLastModified());
+  /**
+   * Maps {@link Job} to {@link JobModel}
+   * 
+   * @param job {@link Job}
+   * @return {@link JobModel}
+   */
+  public JobModel mapToJobModel(Job job) {
+    JobModel jobModel = new JobModel();
+    jobModel.setCategory(job.getCategory());
+    jobModel.setDescription(job.getDescription());
+    jobModel.setjId(job.getJId());
+    jobModel.setLastModified(job.getLastModified());
 
-		TeamModel teamModel = new TeamModel(job.getTeam().getId(), job.getTeam().getName());
-		jobModel.setTeam(teamModel);
+    TeamModel teamModel = new TeamModel(job.getTeam().getId(), job.getTeam().getName());
+    jobModel.setTeam(teamModel);
 
-		EmployeeModel postedBy = new EmployeeModel(job.getEmployeeByPostedBy().getEId(),
-				job.getEmployeeByPostedBy().getEmailId(), job.getEmployeeByPostedBy().getName());
+    EmployeeModel postedBy = new EmployeeModel(job.getEmployeeByPostedBy().getEId(),
+        job.getEmployeeByPostedBy().getEmailId(), job.getEmployeeByPostedBy().getName());
 
-		jobModel.setPostedBy(postedBy);
-		jobModel.setPostedOn(job.getPostedOn());
+    jobModel.setPostedBy(postedBy);
+    jobModel.setPostedOn(job.getPostedOn());
 
-		EmployeeModel recruit = null;
-		if (job.getEmployeeByRecruitId() != null) {
-			recruit = new EmployeeModel(job.getEmployeeByRecruitId().getEId(),
-					job.getEmployeeByRecruitId().getEmailId(), job.getEmployeeByRecruitId().getName());
-			jobModel.setRecruited(recruit);
-			jobModel.setClosed(true);
-		}
-		return jobModel;
-	}
+    EmployeeModel recruit = null;
+    if (job.getEmployeeByRecruitId() != null) {
+      recruit = new EmployeeModel(job.getEmployeeByRecruitId().getEId(),
+          job.getEmployeeByRecruitId().getEmailId(), job.getEmployeeByRecruitId().getName());
+      jobModel.setRecruited(recruit);
+      jobModel.setClosed(true);
+    }
+    return jobModel;
+  }
 
-	/**
-	 * Maps {@link AddJobModel} to {@link Job}
-	 * 
-	 * @param jobModel
-	 *            {@link AddJobAppModel}
-	 * @return {@link Job}
-	 */
-	public Job mapFromAddJob(AddJobModel jobModel) {
-		Job job = new Job();
-		job.setDescription(jobModel.getDescription());
+  /**
+   * Maps {@link AddJobModel} to {@link Job}
+   * 
+   * @param jobModel {@link AddJobAppModel}
+   * @return {@link Job}
+   */
+  public Job mapFromAddJob(AddJobModel jobModel) {
+    Job job = new Job();
+    job.setDescription(jobModel.getDescription());
 
-		Category category = new Category();
-		category.setCId(jobModel.getCategoryId());
-		job.setCategory(category);
+    Category category = new Category();
+    category.setCId(jobModel.getCategoryId());
+    job.setCategory(category);
 
-		Employee admin = new Employee();
-		admin.setEId(jobModel.getPostedBy());
-		job.setEmployeeByPostedBy(admin);
+    Employee admin = new Employee();
+    admin.setEId(jobModel.getPostedBy());
+    job.setEmployeeByPostedBy(admin);
 
-		Team team = new Team();
-		team.setId(jobModel.getTeamId());
-		job.setTeam(team);
-		LOG.debug("Mapped from AddJobModel to Job");
-		return job;
-	}
+    Team team = new Team();
+    team.setId(jobModel.getTeamId());
+    job.setTeam(team);
+    LOG.debug("Mapped from AddJobModel to Job");
+    return job;
+  }
 
-	/**
-	 * Maps {@link UpdateJobModel} to {@link Job}
-	 * 
-	 * @param jobId
-	 *            Id of the job to be updated
-	 * @param jobModel
-	 *            Object containing fields to be updated {@link UpdateJobModel}
-	 * @param job
-	 *            {@link Job}
-	 * @return
-	 */
-	public Job mapFromUpdateJob(int jobId, UpdateJobModel jobModel, Job job) {
+  /**
+   * Maps {@link UpdateJobModel} to {@link Job}
+   * 
+   * @param jobId Id of the job to be updated
+   * @param jobModel Object containing fields to be updated {@link UpdateJobModel}
+   * @param job {@link Job}
+   * @return
+   */
+  public Job mapFromUpdateJob(int jobId, UpdateJobModel jobModel, Job job) {
 
-		if (jobModel.getDescription() != null)
-			job.setDescription(jobModel.getDescription());
+    if (jobModel.getDescription() != null)
+      job.setDescription(jobModel.getDescription());
 
-		if (jobModel.getCategoryId() > 0) {
-			Category category = new Category();
-			category.setCId(jobModel.getCategoryId());
-			job.setCategory(category);
-		}
+    if (jobModel.getCategoryId() > 0) {
+      Category category = new Category();
+      category.setCId(jobModel.getCategoryId());
+      job.setCategory(category);
+    }
 
-		// if (jobModel.getPostedBy() > 0) {
-		// Employee admin = new Employee();
-		// admin.setEId(jobModel.getPostedBy());
-		// job.setEmployeeByPostedBy(admin);
-		// }
-		LOG.debug("isClosed - " + jobModel.isClosed());
-		job.setIsClosed(jobModel.isClosed());
+    // if (jobModel.getPostedBy() > 0) {
+    // Employee admin = new Employee();
+    // admin.setEId(jobModel.getPostedBy());
+    // job.setEmployeeByPostedBy(admin);
+    // }
+    LOG.debug("isClosed - " + jobModel.isClosed());
+    job.setIsClosed(jobModel.isClosed());
 
-		if (jobModel.getRecruitId() > 0) {
-			Employee recruit = new Employee();
-			recruit.setEId(jobModel.getRecruitId());
-			job.setEmployeeByRecruitId(recruit);
-		}
+    if (jobModel.getRecruitId() > 0) {
+      Employee recruit = new Employee();
+      recruit.setEId(jobModel.getRecruitId());
+      job.setEmployeeByRecruitId(recruit);
+    }
 
-		return job;
-	}
+    return job;
+  }
 
-	/**
-	 * Maps {@link AddJobAppModel} to Entity {@link JobApplication}
-	 * 
-	 * @param jobId
-	 *            Id of the job to be updated
-	 * @param appModel
-	 *            {@link AddJobAppModel}
-	 * @return Entity {@link JobApplication}
-	 */
-	public JobApplication mapFromAddJobAppModel(int jobId, AddJobAppModel appModel) {
-		JobApplication application = new JobApplication();
+  /**
+   * Maps {@link AddJobAppModel} to Entity {@link JobApplication}
+   * 
+   * @param jobId Id of the job to be updated
+   * @param appModel {@link AddJobAppModel}
+   * @return Entity {@link JobApplication}
+   */
+  public JobApplication mapFromAddJobAppModel(int jobId, AddJobAppModel appModel) {
+    JobApplication application = new JobApplication();
 
-		Employee applier = new Employee();
-		applier.setEId(appModel.getAppliedBy());
+    Employee applier = new Employee();
+    applier.setEId(appModel.getAppliedBy());
 
-		application.setEmployee(applier);
+    application.setEmployee(applier);
 
-		Job job = new Job();
-		job.setJId(jobId);
-		application.setJob(job);
+    Job job = new Job();
+    job.setJId(jobId);
+    application.setJob(job);
 
-		return application;
-	}
+    return application;
+  }
 
-	/**
-	 * 
-	 * @param application
-	 *            {@link JobApplication}
-	 * @return {@link JobApplicationModel}
-	 */
-	public JobApplicationModel mapToJobAppModel(JobApplication application) {
-		JobApplicationModel applicationModel = new JobApplicationModel();
-		applicationModel.setAppliedOn(application.getAppliedOn());
+  /**
+   * 
+   * @param application {@link JobApplication}
+   * @return {@link JobApplicationModel}
+   */
+  public JobApplicationModel mapToJobAppModel(JobApplication application) {
+    JobApplicationModel applicationModel = new JobApplicationModel();
+    applicationModel.setAppliedOn(application.getAppliedOn());
 
-		applicationModel.setEmployee(new EmployeeModel(application.getEmployee().getEId(),
-				application.getEmployee().getEmailId(), application.getEmployee().getName()));
-		applicationModel.setjAppId(application.getJAppId());
-		applicationModel.setJob(mapToJobModel(application.getJob()));
-		LOG.debug("Returning applicationModel");
-		return applicationModel;
-	}
+    applicationModel.setEmployee(new EmployeeModel(application.getEmployee().getEId(),
+        application.getEmployee().getEmailId(), application.getEmployee().getName()));
+    applicationModel.setjAppId(application.getJAppId());
+    applicationModel.setJob(mapToJobModel(application.getJob()));
+    LOG.debug("Returning applicationModel");
+    return applicationModel;
+  }
 
-	public List<JobApplicationModel> mapToJobAppModels(List<JobApplication> applications) {
-		List<JobApplicationModel> jobApplicationModels = new ArrayList<>();
-		for (JobApplication application : applications) {
-			jobApplicationModels.add(mapToJobAppModel(application));
-		}
-		LOG.debug("JobApplications mapped to JobApplicationModels to send to user");
-		return jobApplicationModels;
+  public List<JobApplicationModel> mapToJobAppModels(List<JobApplication> applications) {
+    List<JobApplicationModel> jobApplicationModels = new ArrayList<>();
+    for (JobApplication application : applications) {
+      jobApplicationModels.add(mapToJobAppModel(application));
+    }
+    LOG.debug("JobApplications mapped to JobApplicationModels to send to user");
+    return jobApplicationModels;
 
-	}
+  }
 
-	public List<TeamModel> mapToTeamModels(List<Team> teams) {
-		LOG.debug("Mapping all Teams to TeamModels to return to user");
-		List<TeamModel> teamModels = new ArrayList<>();
-		for (Team team : teams) {
-			teamModels.add(mapToTeamModel(team));
-		}
-		return teamModels;
-	}
+  public List<TeamModel> mapToTeamModels(List<Team> teams) {
+    LOG.debug("Mapping all Teams to TeamModels to return to user");
+    List<TeamModel> teamModels = new ArrayList<>();
+    for (Team team : teams) {
+      teamModels.add(mapToTeamModel(team));
+    }
+    return teamModels;
+  }
 
-	private TeamModel mapToTeamModel(Team team) {
-		return new TeamModel(team.getId(), team.getName());
-	}
+  private TeamModel mapToTeamModel(Team team) {
+    return new TeamModel(team.getId(), team.getName());
+  }
 
 }

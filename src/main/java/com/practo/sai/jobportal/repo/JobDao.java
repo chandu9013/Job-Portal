@@ -8,17 +8,17 @@ import com.practo.sai.jobportal.model.PageableJobs;
 
 public interface JobDao {
 
-	public int save(Job job);
+  public int save(Job job);
 
-	public PageableJobs getJobsByAdmin(int eId, int perpage, int pageno);
+  public PageableJobs getJobsByAdmin(int eId, int perpage, int pageno);
 
-	public Job getJob(int jobId);
+  public Job getJob(int jobId);
 
-	public void update(Job job);
+  public void update(Job job);
 
-	public void delete(Job job);
+  public void delete(Job job);
 
-	public PageableJobs getJobsNewForEmployee(int eId, int perpage, int pageno, Filter filter)
-			throws JDBCConnectionException;
+  public PageableJobs getJobsNewForEmployee(int eId, int perpage, int pageno, Filter filter)
+      throws JDBCConnectionException;
 
 }

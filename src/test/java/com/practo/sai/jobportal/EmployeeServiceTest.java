@@ -17,19 +17,19 @@ import com.practo.sai.jobportal.service.EmployeeService;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @TestComponent
-@ContextConfiguration(classes = { TestDatabaseConfig.class })
+@ContextConfiguration(classes = {TestDatabaseConfig.class})
 public class EmployeeServiceTest {
 
-	@Autowired
-	EmployeeService employeeService;
+  @Autowired
+  EmployeeService employeeService;
 
-	@Test
-	public void addEmployeeIfNotExist() {
-		LoginModel login = new LoginModel();
-		login.setEmailId("sai.chandra@practo.com");
-		login.setName("Sai Chandra Sekhar Dandu");
+  @Test
+  public void addEmployeeIfNotExist() {
+    LoginModel login = new LoginModel();
+    login.setEmailId("sai.chandra@practo.com");
+    login.setName("Sai Chandra Sekhar Dandu");
 
-		EmployeeModel employee = employeeService.addEmployeeIfNotExist(login);
-		assertEquals((Integer) 12, employee.getEId());
-	}
+    EmployeeModel employee = employeeService.addEmployeeIfNotExist(login);
+    assertEquals((Integer) 12, employee.getEId());
+  }
 }

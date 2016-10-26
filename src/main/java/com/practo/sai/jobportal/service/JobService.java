@@ -17,20 +17,23 @@ import inti.ws.spring.exception.client.NotFoundException;
 
 public interface JobService {
 
-	public PageableJobs getJobs(int eId, int perpage, int pageno, Filter filter) throws JDBCConnectionException;
+  public PageableJobs getJobs(int eId, int perpage, int pageno, Filter filter)
+      throws JDBCConnectionException;
 
-	public JobModel addJob(AddJobModel job) throws BadRequestException;
+  public JobModel addJob(AddJobModel job) throws BadRequestException;
 
-	public JobModel updateJob(int jobId, UpdateJobModel jobModel) throws BadRequestException, NotFoundException;
+  public JobModel updateJob(int jobId, UpdateJobModel jobModel)
+      throws BadRequestException, NotFoundException;
 
-	public void deleteJob(int jobId) throws BadRequestException;
+  public void deleteJob(int jobId) throws BadRequestException;
 
-	public List<JobApplicationModel> getJobApplications(int jobId) throws BadRequestException;
+  public List<JobApplicationModel> getJobApplications(int jobId) throws BadRequestException;
 
-	public List<JobApplicationModel> getMyJobApplications(int eId) throws BadRequestException;
+  public List<JobApplicationModel> getMyJobApplications(int eId) throws BadRequestException;
 
-	public JobApplicationModel addJobApplication(int jobId, AddJobAppModel jobApp) throws BadRequestException;
+  public JobApplicationModel addJobApplication(int jobId, AddJobAppModel jobApp)
+      throws BadRequestException;
 
-	public void deleteJobApplication(int appId) throws BadRequestException;
+  public void deleteJobApplication(int appId) throws BadRequestException;
 
 }

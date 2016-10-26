@@ -14,30 +14,30 @@ import com.practo.sai.jobportal.entities.Employee;
 // @Transactional
 public class EmployeeDaoImpl implements EmployeeDao {
 
-	@Autowired
-	private SessionFactory sessionFactory;
+  @Autowired
+  private SessionFactory sessionFactory;
 
-	private Session getSession() {
-		return sessionFactory.getCurrentSession();
-	}
+  private Session getSession() {
+    return sessionFactory.getCurrentSession();
+  }
 
-	@Override
-	public void save(Employee employee) {
-		getSession().save(employee);
-	}
+  @Override
+  public void save(Employee employee) {
+    getSession().save(employee);
+  }
 
-	@Override
-	public Employee getEmployee(int eId) {
-		return getSession().get(Employee.class, eId);
-	}
+  @Override
+  public Employee getEmployee(int eId) {
+    return getSession().get(Employee.class, eId);
+  }
 
-	@Override
-	public Employee getEmployeeByEmail(String email) {
-		DetachedCriteria criteria = DetachedCriteria.forClass(Employee.class);
+  @Override
+  public Employee getEmployeeByEmail(String email) {
+    DetachedCriteria criteria = DetachedCriteria.forClass(Employee.class);
 
-		criteria.add(Restrictions.eq("emailId", email));
-		Criteria executableCriteria = criteria.getExecutableCriteria(getSession());
-		return (Employee) executableCriteria.uniqueResult();
-	}
+    criteria.add(Restrictions.eq("emailId", email));
+    Criteria executableCriteria = criteria.getExecutableCriteria(getSession());
+    return (Employee) executableCriteria.uniqueResult();
+  }
 
 }

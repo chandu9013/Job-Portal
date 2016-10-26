@@ -4,10 +4,10 @@ import com.practo.sai.jobportal.entities.Employee;
 
 public interface EmployeeDao {
 
-	public void save(Employee employee);
+  public void save(Employee employee);
 
-	public Employee getEmployee(int eId);
+  public Employee getEmployee(int eId);
 
-	public Employee getEmployeeByEmail(String email);
+  public Employee getEmployeeByEmail(String email);
 
 }

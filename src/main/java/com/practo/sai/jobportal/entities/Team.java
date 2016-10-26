@@ -10,27 +10,27 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "team", catalog = "job_portal")
 public class Team {
-	private Integer id;
-	private String name;
+  private Integer id;
+  private String name;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "id", unique = true, nullable = false)
-	public Integer getId() {
-		return id;
-	}
+  @Id
+  @GeneratedValue(strategy = GenerationType.AUTO)
+  @Column(name = "id", unique = true, nullable = false)
+  public Integer getId() {
+    return id;
+  }
 
-	public void setId(Integer id) {
-		this.id = id;
-	}
+  public void setId(Integer id) {
+    this.id = id;
+  }
 
-	@Column(name = "name")
-	public String getName() {
-		return name;
-	}
+  @Column(name = "name")
+  public String getName() {
+    return name;
+  }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+  public void setName(String name) {
+    this.name = name;
+  }
 
 }

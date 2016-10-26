@@ -18,48 +18,47 @@ import javax.persistence.Table;
 @Table(name = "user_role", catalog = "job_portal")
 public class UserRole implements java.io.Serializable {
 
-	private Integer id;
-	private Employee employee;
-	private Role role;
+  private Integer id;
+  private Employee employee;
+  private Role role;
 
-	public UserRole() {
-	}
+  public UserRole() {}
 
-	public UserRole(Employee employee, Role role) {
-		this.employee = employee;
-		this.role = role;
-	}
+  public UserRole(Employee employee, Role role) {
+    this.employee = employee;
+    this.role = role;
+  }
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+  @Id
+  @GeneratedValue(strategy = GenerationType.AUTO)
 
-	@Column(name = "id", unique = true, nullable = false)
-	public Integer getId() {
-		return this.id;
-	}
+  @Column(name = "id", unique = true, nullable = false)
+  public Integer getId() {
+    return this.id;
+  }
 
-	public void setId(Integer id) {
-		this.id = id;
-	}
+  public void setId(Integer id) {
+    this.id = id;
+  }
 
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "e_id", nullable = false)
-	public Employee getEmployee() {
-		return this.employee;
-	}
+  @ManyToOne(fetch = FetchType.EAGER)
+  @JoinColumn(name = "e_id", nullable = false)
+  public Employee getEmployee() {
+    return this.employee;
+  }
 
-	public void setEmployee(Employee employee) {
-		this.employee = employee;
-	}
+  public void setEmployee(Employee employee) {
+    this.employee = employee;
+  }
 
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "r_id", nullable = false)
-	public Role getRole() {
-		return this.role;
-	}
+  @ManyToOne(fetch = FetchType.EAGER)
+  @JoinColumn(name = "r_id", nullable = false)
+  public Role getRole() {
+    return this.role;
+  }
 
-	public void setRole(Role role) {
-		this.role = role;
-	}
+  public void setRole(Role role) {
+    this.role = role;
+  }
 
 }

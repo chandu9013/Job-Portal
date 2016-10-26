@@ -27,37 +27,36 @@ import inti.ws.spring.exception.client.UnauthorizedException;
 @RestController
 public class TeamController {
 
-	private static final Logger LOG = Logger.getInstance(TeamController.class);
+  private static final Logger LOG = Logger.getInstance(TeamController.class);
 
-	/**
-	 * {@link AuthenticationService}
-	 */
-	@Autowired
-	AuthenticationService authenticationService;
+  /**
+   * {@link AuthenticationService}
+   */
+  @Autowired
+  AuthenticationService authenticationService;
 
-	/**
-	 * {@link TeamService}
-	 */
-	@Autowired
-	TeamService teamService;
+  /**
+   * {@link TeamService}
+   */
+  @Autowired
+  TeamService teamService;
 
-	/**
-	 * Method to handle requests for fetching all teams {@link Team}
-	 * 
-	 * @param session
-	 *            {@link HttpSession} object used to validate user's session
-	 * @return
-	 * @throws UnauthorizedException
-	 */
-	@RequestMapping(value = "/teams", method = RequestMethod.GET)
-	@ResponseBody
-	public List<TeamModel> getTeams(HttpSession session) throws UnauthorizedException {
-		List<TeamModel> teams = null;
-		LOG.info("Request received to fetch all the teams");
-		authenticationService.validateSession(session);
-		teams = teamService.getTeams();
-		LOG.info("Request to fetch all the categories processed succesfully");
-		return teams;
-	}
+  /**
+   * Method to handle requests for fetching all teams {@link Team}
+   * 
+   * @param session {@link HttpSession} object used to validate user's session
+   * @return
+   * @throws UnauthorizedException
+   */
+  @RequestMapping(value = "/teams", method = RequestMethod.GET)
+  @ResponseBody
+  public List<TeamModel> getTeams(HttpSession session) throws UnauthorizedException {
+    List<TeamModel> teams = null;
+    LOG.info("Request received to fetch all the teams");
+    authenticationService.validateSession(session);
+    teams = teamService.getTeams();
+    LOG.info("Request to fetch all the categories processed succesfully");
+    return teams;
+  }
 
 }

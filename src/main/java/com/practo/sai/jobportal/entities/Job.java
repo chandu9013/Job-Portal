@@ -33,149 +33,148 @@ import org.hibernate.annotations.Where;
 @Where(clause = "deleted <> '1'")
 public class Job implements java.io.Serializable {
 
-	private Integer JId;
-	private Category category;
-	private Employee employeeByPostedBy;
-	private Employee employeeByRecruitId;
-	private String description;
-	private boolean isClosed;
-	private Date lastModified;
-	private Date postedOn;
-	private char deleted;
-	private Team team;
-	private Set<JobApplication> jobApplications = new HashSet<JobApplication>(0);
+  private Integer JId;
+  private Category category;
+  private Employee employeeByPostedBy;
+  private Employee employeeByRecruitId;
+  private String description;
+  private boolean isClosed;
+  private Date lastModified;
+  private Date postedOn;
+  private char deleted;
+  private Team team;
+  private Set<JobApplication> jobApplications = new HashSet<JobApplication>(0);
 
-	public char getDeleted() {
-		return deleted;
-	}
+  public char getDeleted() {
+    return deleted;
+  }
 
-	public void setDeleted(char deleted) {
-		this.deleted = deleted;
-	}
+  public void setDeleted(char deleted) {
+    this.deleted = deleted;
+  }
 
-	public Job() {
-	}
+  public Job() {}
 
-	public Job(Category category, Employee employeeByPostedBy, String description, boolean isClosed) {
-		this.category = category;
-		this.employeeByPostedBy = employeeByPostedBy;
-		this.description = description;
-		this.isClosed = isClosed;
-	}
+  public Job(Category category, Employee employeeByPostedBy, String description, boolean isClosed) {
+    this.category = category;
+    this.employeeByPostedBy = employeeByPostedBy;
+    this.description = description;
+    this.isClosed = isClosed;
+  }
 
-	// public Job(Category category, Employee employeeByPostedBy, Employee
-	// employeeByRecruitId, String description,
-	// boolean isClosed, Date lastModified, Date postedOn, Set<JobApplication>
-	// jobApplications) {
-	// this.category = category;
-	// this.employeeByPostedBy = employeeByPostedBy;
-	// this.employeeByRecruitId = employeeByRecruitId;
-	// this.description = description;
-	// this.isClosed = isClosed;
-	// this.lastModified = lastModified;
-	// this.postedOn = postedOn;
-	// this.jobApplications = jobApplications;
-	// }
+  // public Job(Category category, Employee employeeByPostedBy, Employee
+  // employeeByRecruitId, String description,
+  // boolean isClosed, Date lastModified, Date postedOn, Set<JobApplication>
+  // jobApplications) {
+  // this.category = category;
+  // this.employeeByPostedBy = employeeByPostedBy;
+  // this.employeeByRecruitId = employeeByRecruitId;
+  // this.description = description;
+  // this.isClosed = isClosed;
+  // this.lastModified = lastModified;
+  // this.postedOn = postedOn;
+  // this.jobApplications = jobApplications;
+  // }
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+  @Id
+  @GeneratedValue(strategy = GenerationType.AUTO)
 
-	@Column(name = "j_id", unique = true, nullable = false)
-	public Integer getJId() {
-		return this.JId;
-	}
+  @Column(name = "j_id", unique = true, nullable = false)
+  public Integer getJId() {
+    return this.JId;
+  }
 
-	public void setJId(Integer JId) {
-		this.JId = JId;
-	}
+  public void setJId(Integer JId) {
+    this.JId = JId;
+  }
 
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "j_c_id", nullable = false)
-	public Category getCategory() {
-		return this.category;
-	}
+  @ManyToOne(fetch = FetchType.EAGER)
+  @JoinColumn(name = "j_c_id", nullable = false)
+  public Category getCategory() {
+    return this.category;
+  }
 
-	public void setCategory(Category category) {
-		this.category = category;
-	}
+  public void setCategory(Category category) {
+    this.category = category;
+  }
 
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "posted_by", nullable = false)
-	public Employee getEmployeeByPostedBy() {
-		return this.employeeByPostedBy;
-	}
+  @ManyToOne(fetch = FetchType.EAGER)
+  @JoinColumn(name = "posted_by", nullable = false)
+  public Employee getEmployeeByPostedBy() {
+    return this.employeeByPostedBy;
+  }
 
-	public void setEmployeeByPostedBy(Employee employeeByPostedBy) {
-		this.employeeByPostedBy = employeeByPostedBy;
-	}
+  public void setEmployeeByPostedBy(Employee employeeByPostedBy) {
+    this.employeeByPostedBy = employeeByPostedBy;
+  }
 
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "recruit_id")
-	public Employee getEmployeeByRecruitId() {
-		return this.employeeByRecruitId;
-	}
+  @ManyToOne(fetch = FetchType.EAGER)
+  @JoinColumn(name = "recruit_id")
+  public Employee getEmployeeByRecruitId() {
+    return this.employeeByRecruitId;
+  }
 
-	public void setEmployeeByRecruitId(Employee employeeByRecruitId) {
-		this.employeeByRecruitId = employeeByRecruitId;
-	}
+  public void setEmployeeByRecruitId(Employee employeeByRecruitId) {
+    this.employeeByRecruitId = employeeByRecruitId;
+  }
 
-	@Column(name = "description", nullable = false)
-	public String getDescription() {
-		return this.description;
-	}
+  @Column(name = "description", nullable = false)
+  public String getDescription() {
+    return this.description;
+  }
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
+  public void setDescription(String description) {
+    this.description = description;
+  }
 
-	@Column(name = "is_closed", nullable = false)
-	public boolean isIsClosed() {
-		return this.isClosed;
-	}
+  @Column(name = "is_closed", nullable = false)
+  public boolean isIsClosed() {
+    return this.isClosed;
+  }
 
-	public void setIsClosed(boolean isClosed) {
-		this.isClosed = isClosed;
-	}
+  public void setIsClosed(boolean isClosed) {
+    this.isClosed = isClosed;
+  }
 
-	@UpdateTimestamp
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "last_modified", length = 19)
-	public Date getLastModified() {
-		return this.lastModified;
-	}
+  @UpdateTimestamp
+  @Temporal(TemporalType.TIMESTAMP)
+  @Column(name = "last_modified", length = 19)
+  public Date getLastModified() {
+    return this.lastModified;
+  }
 
-	public void setLastModified(Date lastModified) {
-		this.lastModified = lastModified;
-	}
+  public void setLastModified(Date lastModified) {
+    this.lastModified = lastModified;
+  }
 
-	@CreationTimestamp
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "posted_on", length = 19)
-	public Date getPostedOn() {
-		return this.postedOn;
-	}
+  @CreationTimestamp
+  @Temporal(TemporalType.TIMESTAMP)
+  @Column(name = "posted_on", length = 19)
+  public Date getPostedOn() {
+    return this.postedOn;
+  }
 
-	public void setPostedOn(Date postedOn) {
-		this.postedOn = postedOn;
-	}
+  public void setPostedOn(Date postedOn) {
+    this.postedOn = postedOn;
+  }
 
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "team_id", nullable = false)
-	public Team getTeam() {
-		return this.team;
-	}
+  @ManyToOne(fetch = FetchType.EAGER)
+  @JoinColumn(name = "team_id", nullable = false)
+  public Team getTeam() {
+    return this.team;
+  }
 
-	public void setTeam(Team team) {
-		this.team = team;
-	}
+  public void setTeam(Team team) {
+    this.team = team;
+  }
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "job")
-	public Set<JobApplication> getJobApplications() {
-		return this.jobApplications;
-	}
+  @OneToMany(fetch = FetchType.LAZY, mappedBy = "job")
+  public Set<JobApplication> getJobApplications() {
+    return this.jobApplications;
+  }
 
-	public void setJobApplications(Set<JobApplication> jobApplications) {
-		this.jobApplications = jobApplications;
-	}
+  public void setJobApplications(Set<JobApplication> jobApplications) {
+    this.jobApplications = jobApplications;
+  }
 
 }

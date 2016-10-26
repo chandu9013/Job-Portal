@@ -6,6 +6,6 @@ import com.practo.sai.jobportal.entities.Team;
 
 public interface TeamDao {
 
-	public List<Team> getAll();
+  public List<Team> getAll();
 
 }

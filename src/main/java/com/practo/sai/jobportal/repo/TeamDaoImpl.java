@@ -13,17 +13,17 @@ import com.practo.sai.jobportal.entities.Team;
 // @Transactional
 public class TeamDaoImpl implements TeamDao {
 
-	@Autowired
-	private SessionFactory sessionFactory;
+  @Autowired
+  private SessionFactory sessionFactory;
 
-	private Session getSession() {
-		return sessionFactory.getCurrentSession();
-	}
+  private Session getSession() {
+    return sessionFactory.getCurrentSession();
+  }
 
-	@SuppressWarnings("unchecked")
-	@Override
-	public List<Team> getAll() {
-		return getSession().createQuery("from Team").list();
-	}
+  @SuppressWarnings("unchecked")
+  @Override
+  public List<Team> getAll() {
+    return getSession().createQuery("from Team").list();
+  }
 
 }

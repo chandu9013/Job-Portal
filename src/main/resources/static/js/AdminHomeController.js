@@ -83,8 +83,6 @@ app.controller('AdminHomeController', [ '$scope', 'sharedProperties',
 			};
 			
 			$scope.viewUpdateJob = function($index) {
-				$scope.page = 3;
-				$scope.index = $index;
 				console.log("Update $index - " + $index);
 				console.log("Update $index - " + $scope.jobs[$index].jId);
 				
@@ -95,8 +93,11 @@ app.controller('AdminHomeController', [ '$scope', 'sharedProperties',
 					http.get("teams").success(function(data) {
 						console.log("Got teams  - ");
 						$scope.teams = data;
+						
 						$scope.page = 3;
+						$scope.index = $index;
 						appScope.heading="Edit Job";
+						
 
 						// Empty the add form
 						$scope.categModel = $scope.jobs[$index].category;

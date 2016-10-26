@@ -17,57 +17,57 @@ import com.practo.sai.jobportal.utility.Logger;
 @Repository
 public class JobApplicationDaoImpl implements JobApplicationDao {
 
-	private static final Logger LOG = Logger.getInstance(JobApplicationDaoImpl.class);
+  private static final Logger LOG = Logger.getInstance(JobApplicationDaoImpl.class);
 
-	@Autowired
-	private SessionFactory sessionFactory;
+  @Autowired
+  private SessionFactory sessionFactory;
 
-	private Session getSession() {
-		return sessionFactory.getCurrentSession();
-	}
+  private Session getSession() {
+    return sessionFactory.getCurrentSession();
+  }
 
-	@Override
-	public void save(JobApplication application) {
-		System.out.println("jobApplication --- " + application.getEmployee().getEId());
-		getSession().save(application);
-	}
+  @Override
+  public void save(JobApplication application) {
+    System.out.println("jobApplication --- " + application.getEmployee().getEId());
+    getSession().save(application);
+  }
 
-	@Override
-	@SuppressWarnings("unchecked")
-	public List<JobApplication> getApplications(Job job) {
-		LOG.debug(job.getJId());
-		DetachedCriteria criteria = DetachedCriteria.forClass(JobApplication.class);
+  @Override
+  @SuppressWarnings("unchecked")
+  public List<JobApplication> getApplications(Job job) {
+    LOG.debug(job.getJId());
+    DetachedCriteria criteria = DetachedCriteria.forClass(JobApplication.class);
 
-		DetachedCriteria jobCriteria = criteria.createCriteria("job");
-		jobCriteria.add(Restrictions.eq("JId", job.getJId()));
-		Criteria executableCriteria = jobCriteria.getExecutableCriteria(getSession());
-		return executableCriteria.list();
-	}
+    DetachedCriteria jobCriteria = criteria.createCriteria("job");
+    jobCriteria.add(Restrictions.eq("JId", job.getJId()));
+    Criteria executableCriteria = jobCriteria.getExecutableCriteria(getSession());
+    return executableCriteria.list();
+  }
 
-	@Override
-	public JobApplication getApplication(int appId) {
-		return getSession().get(JobApplication.class, appId);
-	}
+  @Override
+  public JobApplication getApplication(int appId) {
+    return getSession().get(JobApplication.class, appId);
+  }
 
-	@Override
-	public void delete(JobApplication application) {
-		getSession().delete(application);
-	}
+  @Override
+  public void delete(JobApplication application) {
+    getSession().delete(application);
+  }
 
-	@Override
-	public void update(JobApplication application) {
-		// TODO Auto-generated method stub
+  @Override
+  public void update(JobApplication application) {
+    // TODO Auto-generated method stub
 
-	}
+  }
 
-	@Override
-	public List<JobApplication> getMyApplications(int eId) {
-		LOG.debug(eId);
-		DetachedCriteria criteria = DetachedCriteria.forClass(JobApplication.class);
+  @Override
+  public List<JobApplication> getMyApplications(int eId) {
+    LOG.debug(eId);
+    DetachedCriteria criteria = DetachedCriteria.forClass(JobApplication.class);
 
-		DetachedCriteria employeeCriteria = criteria.createCriteria("employee");
-		employeeCriteria.add(Restrictions.eq("EId", eId));
-		Criteria executableCriteria = employeeCriteria.getExecutableCriteria(getSession());
-		return executableCriteria.list();
-	}
+    DetachedCriteria employeeCriteria = criteria.createCriteria("employee");
+    employeeCriteria.add(Restrictions.eq("EId", eId));
+    Criteria executableCriteria = employeeCriteria.getExecutableCriteria(getSession());
+    return executableCriteria.list();
+  }
 }

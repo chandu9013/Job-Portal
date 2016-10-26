@@ -16,35 +16,35 @@ import com.practo.sai.jobportal.entities.UserRole;
 // @Transactional
 public class RoleDaoImpl implements RoleDao {
 
-	@Autowired
-	private SessionFactory sessionFactory;
+  @Autowired
+  private SessionFactory sessionFactory;
 
-	private Session getSession() {
-		return sessionFactory.getCurrentSession();
-	}
+  private Session getSession() {
+    return sessionFactory.getCurrentSession();
+  }
 
-	@Override
-	public Role getRoleByName(String role) {
-		DetachedCriteria criteria = DetachedCriteria.forClass(Role.class);
+  @Override
+  public Role getRoleByName(String role) {
+    DetachedCriteria criteria = DetachedCriteria.forClass(Role.class);
 
-		criteria.add(Restrictions.eq("roleName", role));
-		Criteria executableCriteria = criteria.getExecutableCriteria(getSession());
-		return (Role) executableCriteria.uniqueResult();
-	}
+    criteria.add(Restrictions.eq("roleName", role));
+    Criteria executableCriteria = criteria.getExecutableCriteria(getSession());
+    return (Role) executableCriteria.uniqueResult();
+  }
 
-	@Override
-	public void addUserRole(UserRole userRole) {
-		getSession().save(userRole);
-	}
+  @Override
+  public void addUserRole(UserRole userRole) {
+    getSession().save(userRole);
+  }
 
-	@Override
-	public Role getRolebyEmployee(Employee employee) {
-		DetachedCriteria criteria = DetachedCriteria.forClass(UserRole.class);
+  @Override
+  public Role getRolebyEmployee(Employee employee) {
+    DetachedCriteria criteria = DetachedCriteria.forClass(UserRole.class);
 
-		DetachedCriteria employeeCriteria = criteria.createCriteria("employee");
-		employeeCriteria.add(Restrictions.eq("EId", employee.getEId()));
-		Criteria executableCriteria = employeeCriteria.getExecutableCriteria(getSession());
-		UserRole userRole = (UserRole) executableCriteria.uniqueResult();
-		return userRole.getRole();
-	}
+    DetachedCriteria employeeCriteria = criteria.createCriteria("employee");
+    employeeCriteria.add(Restrictions.eq("EId", employee.getEId()));
+    Criteria executableCriteria = employeeCriteria.getExecutableCriteria(getSession());
+    UserRole userRole = (UserRole) executableCriteria.uniqueResult();
+    return userRole.getRole();
+  }
 }

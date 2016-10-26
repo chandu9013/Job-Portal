@@ -26,39 +26,36 @@ import inti.ws.spring.exception.client.UnauthorizedException;
 @RestController
 public class CategoryController {
 
-	private static final Logger LOG = Logger.getInstance(CategoryController.class);
+  private static final Logger LOG = Logger.getInstance(CategoryController.class);
 
-	/**
-	 * {@link AuthenticationService}
-	 */
-	@Autowired
-	AuthenticationService authenticationService;
+  /**
+   * {@link AuthenticationService}
+   */
+  @Autowired
+  AuthenticationService authenticationService;
 
-	/**
-	 * {@link CategoryService}
-	 */
-	@Autowired
-	CategoryService categoryService;
+  /**
+   * {@link CategoryService}
+   */
+  @Autowired
+  CategoryService categoryService;
 
-	/**
-	 * Controller method that handles requests to get all categories
-	 * 
-	 * @param session
-	 *            HttpSession object that holds eId of Employee used for
-	 *            validating session
-	 * @return Iterable list of {@link Category}
-	 * @throws UnauthorizedException
-	 *             Thrown when the user is not logged in
-	 */
-	@RequestMapping(value = "/categories", method = RequestMethod.GET)
-	@ResponseBody
-	public List<Category> getCategories(HttpSession session) throws UnauthorizedException {
-		List<Category> categories = null;
-		LOG.info("Request received to fetch all the categories");
-		authenticationService.validateSession(session);
-		categories = categoryService.getCategories();
-		LOG.info("Request to fetch all the categories processed succesfully");
-		return categories;
-	}
+  /**
+   * Controller method that handles requests to get all categories
+   * 
+   * @param session HttpSession object that holds eId of Employee used for validating session
+   * @return Iterable list of {@link Category}
+   * @throws UnauthorizedException Thrown when the user is not logged in
+   */
+  @RequestMapping(value = "/categories", method = RequestMethod.GET)
+  @ResponseBody
+  public List<Category> getCategories(HttpSession session) throws UnauthorizedException {
+    List<Category> categories = null;
+    LOG.info("Request received to fetch all the categories");
+    authenticationService.validateSession(session);
+    categories = categoryService.getCategories();
+    LOG.info("Request to fetch all the categories processed succesfully");
+    return categories;
+  }
 
 }

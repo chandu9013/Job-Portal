@@ -14,18 +14,18 @@ import com.practo.sai.jobportal.utility.Logger;
 // @Transactional
 public class CategoryDaoImpl implements CategoryDao {
 
-	private static final Logger LOG = Logger.getInstance(JobApplicationDaoImpl.class);
+  private static final Logger LOG = Logger.getInstance(JobApplicationDaoImpl.class);
 
-	@Autowired
-	private SessionFactory sessionFactory;
+  @Autowired
+  private SessionFactory sessionFactory;
 
-	private Session getSession() {
-		return sessionFactory.getCurrentSession();
-	}
+  private Session getSession() {
+    return sessionFactory.getCurrentSession();
+  }
 
-	@Override
-	public List<Category> getCategories() {
-		return getSession().createQuery("from Category").list();
-	}
+  @Override
+  public List<Category> getCategories() {
+    return getSession().createQuery("from Category").list();
+  }
 
 }

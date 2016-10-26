@@ -6,6 +6,6 @@ import com.practo.sai.jobportal.entities.Category;
 
 public interface CategoryService {
 
-	public List<Category> getCategories();
+  public List<Category> getCategories();
 
 }

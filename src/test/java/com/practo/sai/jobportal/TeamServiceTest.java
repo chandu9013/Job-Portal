@@ -15,15 +15,15 @@ import com.practo.sai.jobportal.service.TeamService;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @TestComponent
-@ContextConfiguration(classes = { TestDatabaseConfig.class })
+@ContextConfiguration(classes = {TestDatabaseConfig.class})
 public class TeamServiceTest {
 
-	@Autowired
-	private TeamService teamService;
+  @Autowired
+  private TeamService teamService;
 
-	@Test
-	public void getTeams() {
-		assertEquals(4, teamService.getTeams().size());
-	}
+  @Test
+  public void getTeams() {
+    assertEquals(4, teamService.getTeams().size());
+  }
 
 }

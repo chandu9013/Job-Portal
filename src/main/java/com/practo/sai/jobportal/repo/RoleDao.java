@@ -6,10 +6,10 @@ import com.practo.sai.jobportal.entities.UserRole;
 
 public interface RoleDao {
 
-	public Role getRoleByName(String role);
+  public Role getRoleByName(String role);
 
-	public void addUserRole(UserRole userRole);
+  public void addUserRole(UserRole userRole);
 
-	public Role getRolebyEmployee(Employee employee);
+  public Role getRolebyEmployee(Employee employee);
 
 }

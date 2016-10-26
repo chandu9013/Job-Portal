@@ -15,17 +15,17 @@ import com.practo.sai.jobportal.utility.MappingUtility;
 @Service
 public class TeamServiceImpl implements TeamService {
 
-	@Autowired
-	MappingUtility mUtility;
+  @Autowired
+  MappingUtility mUtility;
 
-	@Autowired
-	TeamDao teamDao;
+  @Autowired
+  TeamDao teamDao;
 
-	@Transactional
-	@Override
-	public List<TeamModel> getTeams() {
-		List<Team> teams = teamDao.getAll();
-		return mUtility.mapToTeamModels(teams);
-	}
+  @Transactional
+  @Override
+  public List<TeamModel> getTeams() {
+    List<Team> teams = teamDao.getAll();
+    return mUtility.mapToTeamModels(teams);
+  }
 
 }

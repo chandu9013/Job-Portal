@@ -6,9 +6,9 @@ import com.practo.sai.jobportal.model.LoginModel;
 
 public interface EmployeeService {
 
-	public EmployeeModel addEmployee(LoginModel loginModel);
+  public EmployeeModel addEmployee(LoginModel loginModel);
 
-	public EmployeeModel addEmployee(LoginModel loginModel, Role role);
+  public EmployeeModel addEmployee(LoginModel loginModel, Role role);
 
-	public EmployeeModel addEmployeeIfNotExist(LoginModel loginModel);
+  public EmployeeModel addEmployeeIfNotExist(LoginModel loginModel);
 }

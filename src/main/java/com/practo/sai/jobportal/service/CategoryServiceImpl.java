@@ -13,15 +13,15 @@ import com.practo.sai.jobportal.repo.CategoryDao;
 @Service
 public class CategoryServiceImpl implements CategoryService {
 
-	@Autowired
-	CategoryDao categoryDao;
+  @Autowired
+  CategoryDao categoryDao;
 
-	@Transactional
-	@Override
-	public List<Category> getCategories() {
-		List<Category> categories = null;
-		categories = categoryDao.getCategories();
-		return categories;
-	}
+  @Transactional
+  @Override
+  public List<Category> getCategories() {
+    List<Category> categories = null;
+    categories = categoryDao.getCategories();
+    return categories;
+  }
 
 }

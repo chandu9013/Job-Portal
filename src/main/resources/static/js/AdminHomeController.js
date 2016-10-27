@@ -59,6 +59,9 @@ app.controller('AdminHomeController', [ '$scope', 'sharedProperties',
 			};
 			
 			$scope.viewAddJob = function() {
+				$scope.addCategoryError='';
+				$scope.addTeamError='';
+				$scope.addDescriptionError='';
 				http.get("categories").success(function(data) {
 					console.log("Got categories ");
 					$scope.categories = data;

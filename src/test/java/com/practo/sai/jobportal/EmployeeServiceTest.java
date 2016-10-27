@@ -31,7 +31,7 @@ public class EmployeeServiceTest {
     login.setName("Sai Chandra Sekhar Dandu");
 
     EmployeeModel employee = employeeService.addEmployeeIfNotExist(login);
-    assertEquals((Integer) 12, employee.getEId());
+    assertEquals((Integer) 100, employee.getEId());
   }
 
   @Test

@@ -46,7 +46,7 @@ public class JobServiceTests {
     AddJobModel addJobModel = new AddJobModel();
     addJobModel.setDescription("2 Years experienced dev for PHP");
     addJobModel.setCategoryId(1);
-    addJobModel.setPostedBy(12);
+    addJobModel.setPostedBy(100);
     addJobModel.setTeamId(2);
 
     // Save and Get Test
@@ -72,7 +72,7 @@ public class JobServiceTests {
     AddJobModel addJobModel = new AddJobModel();
     addJobModel.setDescription("2 Years experienced dev for PHP");
     addJobModel.setCategoryId(1);
-    addJobModel.setPostedBy(12);
+    addJobModel.setPostedBy(100);
     addJobModel.setTeamId(1);
 
     // Save and Get Test
@@ -88,7 +88,7 @@ public class JobServiceTests {
 
     AddJobModel addJobModel = new AddJobModel();
     addJobModel.setDescription("2 Years experienced dev for PHP");
-    addJobModel.setPostedBy(12);
+    addJobModel.setPostedBy(100);
     addJobModel.setTeamId(1);
 
     jobService.addJob(addJobModel);
@@ -99,7 +99,7 @@ public class JobServiceTests {
 
     AddJobModel addJobModel = new AddJobModel();
     addJobModel.setCategoryId(1);
-    addJobModel.setPostedBy(12);
+    addJobModel.setPostedBy(100);
     addJobModel.setTeamId(1);
 
     // Save and Get Test
@@ -124,7 +124,7 @@ public class JobServiceTests {
     AddJobModel addJobModel = new AddJobModel();
     addJobModel.setDescription("2 Years experienced dev for PHP");
     addJobModel.setCategoryId(1);
-    addJobModel.setPostedBy(12);
+    addJobModel.setPostedBy(100);
 
     // Save and Get Test
     jobService.addJob(addJobModel);
@@ -135,7 +135,7 @@ public class JobServiceTests {
     AddJobModel addJobModel = new AddJobModel();
     addJobModel.setDescription("2 Years experienced dev for PHP");
     addJobModel.setCategoryId(1);
-    addJobModel.setPostedBy(12);
+    addJobModel.setPostedBy(100);
     addJobModel.setTeamId(1);
 
     // Save and Get Test
@@ -155,7 +155,7 @@ public class JobServiceTests {
     AddJobModel addJobModel = new AddJobModel();
     addJobModel.setDescription("2 Years experienced dev for PHP");
     addJobModel.setCategoryId(1);
-    addJobModel.setPostedBy(12);
+    addJobModel.setPostedBy(100);
     addJobModel.setTeamId(1);
 
     // Save and Get Test
@@ -176,7 +176,7 @@ public class JobServiceTests {
     AddJobModel addJobModel = new AddJobModel();
     addJobModel.setDescription("2 Years experienced dev for PHP");
     addJobModel.setCategoryId(1);
-    addJobModel.setPostedBy(12);
+    addJobModel.setPostedBy(100);
     addJobModel.setTeamId(1);;
 
     // Save and Get Test
@@ -185,7 +185,7 @@ public class JobServiceTests {
 
     UpdateJobModel updateJobModel = new UpdateJobModel();
     updateJobModel.setClosed(true);
-    updateJobModel.setRecruitId(15);
+    updateJobModel.setRecruitId(150);
 
     JobModel updatedJobModel = jobService.updateJob(jobModel.getjId(), updateJobModel);
     assertTrue(updatedJobModel.isClosed());
@@ -203,27 +203,27 @@ public class JobServiceTests {
 
   @Test
   public void getAllJobsTest() throws BadRequestException {
-    PageableJobs pageOfJobs = jobService.getJobs(12, 100, 1, null);
+    PageableJobs pageOfJobs = jobService.getJobs(100, 100, 1, null);
     int size = pageOfJobs.getJobs().size();
 
     AddJobModel addJobModel = new AddJobModel();
     addJobModel.setDescription("2 Years experienced dev for PHP");
     addJobModel.setCategoryId(1);
-    addJobModel.setPostedBy(12);
+    addJobModel.setPostedBy(100);
     addJobModel.setTeamId(1);
 
     // Save and Get Test
     JobModel jobModel = jobService.addJob(addJobModel);
     assertTrue(jobModel.getjId() > 0);
 
-    pageOfJobs = jobService.getJobs(12, 100, 1, null);
+    pageOfJobs = jobService.getJobs(100, 100, 1, null);
     assertEquals(size + 1, pageOfJobs.getJobs().size());
   }
 
   @Test
   public void getJobsForEmployee() {
     Filter filter = new Filter(4, 1);
-    PageableJobs pageOfJobs = jobService.getJobs(15, 100, 1, filter);
+    PageableJobs pageOfJobs = jobService.getJobs(150, 100, 1, filter);
     pageOfJobs.getJobs().size();
   }
 
@@ -234,7 +234,7 @@ public class JobServiceTests {
     AddJobModel addJobModel = new AddJobModel();
     addJobModel.setDescription("2 Years experienced dev for PHP");
     addJobModel.setCategoryId(1);
-    addJobModel.setPostedBy(12);
+    addJobModel.setPostedBy(100);
     addJobModel.setTeamId(1);
 
     // Save and Get Test
@@ -242,7 +242,7 @@ public class JobServiceTests {
     assertTrue(jobModel.getjId() > 0);
 
     AddJobAppModel addJobAppModel = new AddJobAppModel();
-    addJobAppModel.setAppliedBy(15);
+    addJobAppModel.setAppliedBy(150);
 
     jobService.addJobApplication(jobModel.getjId(), addJobAppModel);
   }
@@ -284,7 +284,7 @@ public class JobServiceTests {
     AddJobModel addJobModel = new AddJobModel();
     addJobModel.setDescription("2 Years experienced dev for PHP");
     addJobModel.setCategoryId(1);
-    addJobModel.setPostedBy(12);
+    addJobModel.setPostedBy(100);
     addJobModel.setTeamId(1);
 
     // Save and Get Test
@@ -292,7 +292,7 @@ public class JobServiceTests {
     assertTrue(jobModel.getjId() > 0);
 
     AddJobAppModel addJobAppModel = new AddJobAppModel();
-    addJobAppModel.setAppliedBy(15);
+    addJobAppModel.setAppliedBy(150);
 
     JobApplicationModel jobApplicationModel =
         jobService.addJobApplication(jobModel.getjId(), addJobAppModel);
@@ -317,7 +317,7 @@ public class JobServiceTests {
     AddJobModel addJobModel = new AddJobModel();
     addJobModel.setDescription("2 Years experienced dev for PHP");
     addJobModel.setCategoryId(1);
-    addJobModel.setPostedBy(12);
+    addJobModel.setPostedBy(100);
     addJobModel.setTeamId(1);
 
     // Save and Get Test
@@ -329,7 +329,7 @@ public class JobServiceTests {
     int size = jobApplicationModels.size();
 
     AddJobAppModel addJobAppModel = new AddJobAppModel();
-    addJobAppModel.setAppliedBy(15);
+    addJobAppModel.setAppliedBy(150);
 
     jobService.addJobApplication(jobModel.getjId(), addJobAppModel);
 
@@ -343,22 +343,22 @@ public class JobServiceTests {
     AddJobModel addJobModel = new AddJobModel();
     addJobModel.setDescription("2 Years experienced dev for PHP");
     addJobModel.setCategoryId(1);
-    addJobModel.setPostedBy(12);
+    addJobModel.setPostedBy(100);
     addJobModel.setTeamId(1);
 
     // Save and Get Test
     JobModel jobModel = jobService.addJob(addJobModel);
     assertTrue(jobModel.getjId() > 0);
 
-    List<JobApplicationModel> jobApplicationModels = jobService.getMyJobApplications(15);
+    List<JobApplicationModel> jobApplicationModels = jobService.getMyJobApplications(150);
     int size = jobApplicationModels.size();
 
     AddJobAppModel addJobAppModel = new AddJobAppModel();
-    addJobAppModel.setAppliedBy(15);
+    addJobAppModel.setAppliedBy(150);
 
     jobService.addJobApplication(jobModel.getjId(), addJobAppModel);
 
-    jobApplicationModels = jobService.getMyJobApplications(15);
+    jobApplicationModels = jobService.getMyJobApplications(150);
 
     assertEquals(size + 1, jobApplicationModels.size());
   }

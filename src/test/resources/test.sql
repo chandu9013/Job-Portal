@@ -1,8 +1,8 @@
 INSERT INTO category (c_id, category_name) values (4,'QA')
 INSERT INTO category (c_id, category_name) values(1,'Developer')
 	
-INSERT INTO employee (e_id, email_id, deleted, name) VALUES (12,'sai.chandra@practo.com','0','Sai Chandra Sekhar D')
-INSERT INTO employee (e_id, email_id, deleted, name) VALUES	(15,'abhilash.sunkam@practo.com','0','Abhilash Sunkam')	
+INSERT INTO employee (e_id, email_id, deleted, name) VALUES (100,'sai.chandra@practo.com','0','Sai Chandra Sekhar D')
+INSERT INTO employee (e_id, email_id, deleted, name) VALUES	(150,'abhilash.sunkam@practo.com','0','Abhilash Sunkam')	
 	
 INSERT INTO role (r_id, role_name) VALUES (1,'Admin')
 INSERT INTO role (r_id, role_name) VALUES (2,'Employee')
@@ -12,8 +12,8 @@ INSERT INTO team (id, name) VALUES (2,'Insta')
 INSERT INTO team (id, name) VALUES (3,'Querent')
 INSERT INTO team (id, name) VALUES (4,'Saphire')
 	
-INSERT INTO user_role (id, e_id, r_id) VALUES (9,12,1)
-INSERT INTO user_role (id, e_id, r_id) VALUES (12,15,2)	
+INSERT INTO user_role (id, e_id, r_id) VALUES (9,100,1)
+INSERT INTO user_role (id, e_id, r_id) VALUES (12,150,2)	
 	
 	
 INSERT INTO job (j_id, description, is_closed, last_modified, posted_on, j_c_id, posted_by, recruit_id, deleted, team_id) VALUES (186,'Relatively fresher required for Java J2EE, Spring Boot',b'0','2016-10-23 14:56:34','2016-10-20 11:02:46',1,12,NULL,'0',1)

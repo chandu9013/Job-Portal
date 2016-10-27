@@ -1,8 +1,8 @@
 package com.practo.sai.jobportal.model;
 
-import com.practo.sai.jobportal.entities.Job;
-
 import java.util.List;
+
+import com.practo.sai.jobportal.entities.Job;
 
 
 public class PageableJobs {

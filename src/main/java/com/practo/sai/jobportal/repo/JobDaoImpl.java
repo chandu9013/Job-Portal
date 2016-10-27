@@ -23,41 +23,57 @@ import com.practo.sai.jobportal.utility.Logger;
 /**
  * DAO Implementation that performs CRUD operations on Job Entity
  * 
- * @author saichandrasekhardandu
+ * @author Sai Chandra Sekhar Dandu
  *
  */
 @Repository
-// @Transactional
 public class JobDaoImpl implements JobDao {
 
+  /**
+   * Logger for this class
+   */
   private static final Logger LOG = Logger.getInstance(JobDaoImpl.class);
 
+  /**
+   * {@link SessionFactory}
+   */
   @Autowired
   private SessionFactory sessionFactory;
 
+  /**
+   * Method that returns current session
+   * 
+   * @return {@link Session}
+   */
   private Session getSession() {
     return sessionFactory.getCurrentSession();
   }
 
+  /**
+   * Method to add a new job
+   */
   @Override
   public int save(Job job) {
     getSession().save(job);
     return job.getJId();
   }
 
+  /**
+   * Method to retrieve a Job based on Id
+   */
   @Override
   public Job getJob(int jobId) {
     return getSession().get(Job.class, jobId);
   }
 
+  /**
+   * Method to retrieve jobs open for an employee based on filtering requested
+   */
   @SuppressWarnings("unchecked")
   @Override
   public PageableJobs getJobsNewForEmployee(int eId, int perpage, int pageno, Filter filter)
       throws JDBCConnectionException {
-    // Query query = getSession().createQuery(
-    // "from Job where JId NOT IN (Select job.JId from JobApplication where
-    // employee.EId = :eId)");
-    // query.setParameter("eId", eId);
+
     // Get the total number of items for pagination purpose
     DetachedCriteria application =
         DetachedCriteria.forClass(JobApplication.class).setProjection(Property.forName("job.JId"))
@@ -88,11 +104,13 @@ public class JobDaoImpl implements JobDao {
 
   }
 
+  /**
+   * Method to retrieve jobs added by an admin with employee id eId
+   */
   @SuppressWarnings("unchecked")
   @Override
   public PageableJobs getJobsByAdmin(int eId, int perpage, int pageno)
       throws JDBCConnectionException {
-    // return getSession().createQuery("from Job").list();
     DetachedCriteria criteria = DetachedCriteria.forClass(Job.class);
 
     DetachedCriteria employeeCriteria = criteria.createCriteria("employeeByPostedBy");
@@ -117,16 +135,28 @@ public class JobDaoImpl implements JobDao {
     return new PageableJobs(totalPages, jobs);
   }
 
+  /**
+   * Method to update an existing job
+   */
   @Override
   public void update(Job job) {
     getSession().update(job);
   }
 
+  /**
+   * Method to delete an existing Job
+   */
   @Override
   public void delete(Job job) {
     getSession().delete(job);
   }
 
+  /**
+   * Method that adds criterias necessary to apply the requested filters.
+   * 
+   * @param criteria {@link DetachedCriteria} to which filters should be applied
+   * @param filter {@link Filter}
+   */
   private void addFilter(DetachedCriteria criteria, Filter filter) {
     if (filter.getCategoryId() != null && filter.getCategoryId() != -1) {
       criteria.createCriteria("category").add(Restrictions.eq("CId", filter.getCategoryId()));

@@ -14,6 +14,12 @@ import com.practo.sai.jobportal.entities.Job;
 import com.practo.sai.jobportal.entities.JobApplication;
 import com.practo.sai.jobportal.utility.Logger;
 
+/**
+ * Class that handles all database operations on {@link JobApplication}
+ * 
+ * @author Sai Chandra Sekhar Dandu
+ *
+ */
 @Repository
 public class JobApplicationDaoImpl implements JobApplicationDao {
 
@@ -26,12 +32,18 @@ public class JobApplicationDaoImpl implements JobApplicationDao {
     return sessionFactory.getCurrentSession();
   }
 
+  /**
+   * Method to add new job application
+   */
   @Override
   public void save(JobApplication application) {
     System.out.println("jobApplication --- " + application.getEmployee().getEId());
     getSession().save(application);
   }
 
+  /**
+   * Method to get applications mapped to a job.
+   */
   @Override
   @SuppressWarnings("unchecked")
   public List<JobApplication> getApplications(Job job) {
@@ -44,22 +56,27 @@ public class JobApplicationDaoImpl implements JobApplicationDao {
     return executableCriteria.list();
   }
 
+  /**
+   * Method to retrieve an application based on application id.
+   */
   @Override
   public JobApplication getApplication(int appId) {
     return getSession().get(JobApplication.class, appId);
   }
 
+  /**
+   * Method to delete an existing applications.
+   */
   @Override
   public void delete(JobApplication application) {
     getSession().delete(application);
   }
 
-  @Override
-  public void update(JobApplication application) {
-    // TODO Auto-generated method stub
 
-  }
-
+  /**
+   * Method to retrieve applications for an employee.
+   */
+  @SuppressWarnings("unchecked")
   @Override
   public List<JobApplication> getMyApplications(int eId) {
     LOG.debug(eId);
@@ -71,5 +88,10 @@ public class JobApplicationDaoImpl implements JobApplicationDao {
 
     Criteria executableCriteria = employeeCriteria.getExecutableCriteria(getSession());
     return executableCriteria.list();
+  }
+
+  @Override
+  public void update(JobApplication application) {
+    // TODO Auto-generated method stub
   }
 }

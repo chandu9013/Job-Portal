@@ -64,7 +64,7 @@ public class AuthController extends WebSecurityConfigurerAdapter {
   }
 
   /**
-   * Spring OAuth configuration method
+   * Spring OAuth configuration method.
    */
   @Override
   protected void configure(HttpSecurity http) throws Exception {

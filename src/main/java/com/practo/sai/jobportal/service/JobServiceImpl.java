@@ -33,35 +33,64 @@ import com.practo.sai.jobportal.utility.SmtpMailSender;
 import inti.ws.spring.exception.client.BadRequestException;
 import inti.ws.spring.exception.client.NotFoundException;
 
+/**
+ * Service that handles all requests regarding {@link Job} and {@link JobApplication}
+ * 
+ * @author Sai Chandra Sekhar Dandu
+ *
+ */
 @Service
 public class JobServiceImpl implements JobService {
 
+  /**
+   * Logger for this class
+   */
   private static final Logger LOG = Logger.getInstance(JobServiceImpl.class);
 
+  /**
+   * {@link MappingUtility}
+   */
   @Autowired
   MappingUtility mUtility;
 
+  /**
+   * {@link SmtpMailSender}
+   */
   @Autowired
   SmtpMailSender mailSender;
 
+  /**
+   * {@link JobDao}
+   */
   @Autowired
   JobDao jobDao;
 
+  /**
+   * {@link JobApplicationDao}
+   */
   @Autowired
   JobApplicationDao jobApplicationDao;
 
+  /**
+   * {@link RoleDao}
+   */
   @Autowired
   RoleDao roleDao;
 
+  /**
+   * {@link EmployeeDao}
+   */
   @Autowired
   EmployeeDao employeeDao;
 
+  /**
+   * Method to retrieve jobs posted by an admin or jobs available to an employee
+   */
   @Transactional
   @Override
   public PageableJobs getJobs(int eId, int perpage, int pageno, Filter filter)
       throws JDBCConnectionException {
     LOG.info("Servicing request for all jobs");
-    List<Job> jobs = null;
     PageableJobs pageOfJobs = null;
     Employee employee = new Employee();
     employee.setEId(eId);
@@ -85,6 +114,9 @@ public class JobServiceImpl implements JobService {
 
   }
 
+  /**
+   * Method to add a job to the database.
+   */
   @Transactional
   @Override
   public JobModel addJob(AddJobModel jobModel) throws BadRequestException {
@@ -99,6 +131,9 @@ public class JobServiceImpl implements JobService {
     return mUtility.mapToJobModel(job);
   }
 
+  /**
+   * Method to update an existing job.
+   */
   @Transactional
   @Override
   public JobModel updateJob(int jobId, UpdateJobModel jobModel)
@@ -107,14 +142,19 @@ public class JobServiceImpl implements JobService {
       throw new BadRequestException("Required parameters are either missing or invalid");
     LOG.info("Processing request for updating job - " + jobId);
     Job job = jobDao.getJob(jobId);
-    if (job == null)
+    if (job == null) {
+      LOG.error("Job not found for id - " + jobId);
       throw new NotFoundException("Requested Job doesn't exist");
+    }
     mUtility.mapFromUpdateJob(jobId, jobModel, job);
     jobDao.update(job);
     LOG.info("Update Job processed. Mapping response");
     return mUtility.mapToJobModel(job);
   }
 
+  /**
+   * Method to delete an existing job.
+   */
   @Transactional
   @Override
   public void deleteJob(int jobId) throws BadRequestException {
@@ -126,6 +166,9 @@ public class JobServiceImpl implements JobService {
     jobDao.delete(job);
   }
 
+  /**
+   * Method to retrieve job applications for a given jobId
+   */
   @Transactional
   @Override
   public List<JobApplicationModel> getJobApplications(int jobId) throws BadRequestException {
@@ -140,6 +183,9 @@ public class JobServiceImpl implements JobService {
     return mUtility.mapToJobAppModels(jobApplications);
   }
 
+  /**
+   * Method that fetches all the applications submitted by an employee.
+   */
   @Transactional
   @Override
   public List<JobApplicationModel> getMyJobApplications(int eId) throws BadRequestException {
@@ -149,6 +195,9 @@ public class JobServiceImpl implements JobService {
     return mUtility.mapToJobAppModels(jobApplications);
   }
 
+  /**
+   * Method to submit a new application by an employee.
+   */
   @Transactional
   @Override
   public JobApplicationModel addJobApplication(int jobId, AddJobAppModel jobApp)
@@ -185,6 +234,9 @@ public class JobServiceImpl implements JobService {
     return applicationModel;
   }
 
+  /**
+   * Method to delete an existing job application
+   */
   @Transactional
   @Override
   public void deleteJobApplication(int appId) throws BadRequestException {

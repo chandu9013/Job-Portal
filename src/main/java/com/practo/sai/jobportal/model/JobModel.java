@@ -2,8 +2,6 @@ package com.practo.sai.jobportal.model;
 
 import java.util.Date;
 
-import com.practo.sai.jobportal.entities.Category;
-
 public class JobModel {
   private Integer jId;
   private CategoryModel category;

@@ -10,6 +10,12 @@ import org.springframework.stereotype.Repository;
 
 import com.practo.sai.jobportal.entities.Employee;
 
+/**
+ * Class that handles all database operations on {@link Employee}
+ * 
+ * @author Sai Chandra Sekhar Dandu
+ *
+ */
 @Repository
 // @Transactional
 public class EmployeeDaoImpl implements EmployeeDao {

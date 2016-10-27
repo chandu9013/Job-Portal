@@ -144,27 +144,27 @@ public class MappingUtility {
     return job;
   }
 
-  /**
-   * Maps {@link AddJobAppModel} to Entity {@link JobApplication}
-   * 
-   * @param jobId Id of the job to be updated
-   * @param appModel {@link AddJobAppModel}
-   * @return Entity {@link JobApplication}
-   */
-  public JobApplication mapFromAddJobAppModel(int jobId, AddJobAppModel appModel) {
-    JobApplication application = new JobApplication();
-
-    Employee applier = new Employee();
-    applier.setEId(appModel.getAppliedBy());
-
-    application.setEmployee(applier);
-
-    Job job = new Job();
-    job.setJId(jobId);
-    application.setJob(job);
-
-    return application;
-  }
+  // /**
+  // * Maps {@link AddJobAppModel} to Entity {@link JobApplication}
+  // *
+  // * @param jobId Id of the job to be updated
+  // * @param appModel {@link AddJobAppModel}
+  // * @return Entity {@link JobApplication}
+  // */
+  // public JobApplication mapFromAddJobAppModel(int jobId, AddJobAppModel appModel) {
+  // JobApplication application = new JobApplication();
+  //
+  // Employee applier = new Employee();
+  // applier.setEId(appModel.getAppliedBy());
+  //
+  // application.setEmployee(applier);
+  //
+  // Job job = new Job();
+  // job.setJId(jobId);
+  // application.setJob(job);
+  //
+  // return application;
+  // }
 
   /**
    * 
@@ -183,6 +183,12 @@ public class MappingUtility {
     return applicationModel;
   }
 
+  /**
+   * Maps List of {@link JobApplication} to {@link JobApplicationModel}
+   * 
+   * @param applications List of {@link JobApplication}
+   * @return List of {@link JobApplicationModel}
+   */
   public List<JobApplicationModel> mapToJobAppModels(List<JobApplication> applications) {
     List<JobApplicationModel> jobApplicationModels = new ArrayList<>();
     for (JobApplication application : applications) {
@@ -193,6 +199,12 @@ public class MappingUtility {
 
   }
 
+  /**
+   * Maps List of {@link Team} to {@link TeamModel}
+   * 
+   * @param teams List of {@link Team}
+   * @return List of {@link TeamModel}
+   */
   public List<TeamModel> mapToTeamModels(List<Team> teams) {
     LOG.debug("Mapping all Teams to TeamModels to return to user");
     List<TeamModel> teamModels = new ArrayList<>();
@@ -202,10 +214,22 @@ public class MappingUtility {
     return teamModels;
   }
 
+  /**
+   * Maps {@link Team} to {@link TeamModel}
+   * 
+   * @param team {@link Team}
+   * @return {@link TeamModel}
+   */
   private TeamModel mapToTeamModel(Team team) {
     return new TeamModel(team.getId(), team.getName());
   }
 
+  /**
+   * Maps {@link Category} to {@link CategoryModel}
+   * 
+   * @param category {@link Category}
+   * @return {@link CategoryModel}
+   */
   public CategoryModel mapToCategoryModel(Category category) {
     return new CategoryModel(category.getCId(), category.getCategoryName());
 

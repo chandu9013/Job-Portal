@@ -9,8 +9,13 @@ import org.springframework.stereotype.Repository;
 
 import com.practo.sai.jobportal.entities.Team;
 
+/**
+ * DAO that deals with database operations on {@link Team}
+ * 
+ * @author Sai Chandra Sekhar Dandu
+ *
+ */
 @Repository
-// @Transactional
 public class TeamDaoImpl implements TeamDao {
 
   @Autowired
@@ -20,6 +25,9 @@ public class TeamDaoImpl implements TeamDao {
     return sessionFactory.getCurrentSession();
   }
 
+  /**
+   * Method to retrieve all teams
+   */
   @SuppressWarnings("unchecked")
   @Override
   public List<Team> getAll() {

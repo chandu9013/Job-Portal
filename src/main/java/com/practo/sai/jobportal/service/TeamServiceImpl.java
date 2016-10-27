@@ -12,15 +12,30 @@ import com.practo.sai.jobportal.model.TeamModel;
 import com.practo.sai.jobportal.repo.TeamDao;
 import com.practo.sai.jobportal.utility.MappingUtility;
 
+/**
+ * Service that handles are requests regarding {@link Team}
+ * 
+ * @author saichandrasekhardandu
+ *
+ */
 @Service
 public class TeamServiceImpl implements TeamService {
 
+  /**
+   * {@link MappingUtility}
+   */
   @Autowired
   MappingUtility mUtility;
 
+  /**
+   * {@link TeamDao}
+   */
   @Autowired
   TeamDao teamDao;
 
+  /**
+   * Method to retrieve all teams in the repository.
+   */
   @Transactional
   @Override
   public List<TeamModel> getTeams() {

@@ -12,12 +12,14 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.context.TestComponent;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.practo.sai.jobportal.model.AddJobAppModel;
 import com.practo.sai.jobportal.model.AddJobModel;
+import com.practo.sai.jobportal.model.Filter;
 import com.practo.sai.jobportal.model.JobApplicationModel;
 import com.practo.sai.jobportal.model.JobModel;
 import com.practo.sai.jobportal.model.PageableJobs;
@@ -29,6 +31,7 @@ import inti.ws.spring.exception.client.NotFoundException;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
+@TestComponent
 @ContextConfiguration(classes = {TestDatabaseConfig.class})
 public class JobServiceTests {
 
@@ -59,6 +62,11 @@ public class JobServiceTests {
     jobService.deleteJob(-1);
   }
 
+  @Test(expected = BadRequestException.class)
+  public void deleteJobInvalidId2() throws BadRequestException {
+    jobService.deleteJob(0);
+  }
+
   @Test
   public void addJobTest() throws BadRequestException {
     AddJobModel addJobModel = new AddJobModel();
@@ -83,8 +91,7 @@ public class JobServiceTests {
     addJobModel.setPostedBy(12);
     addJobModel.setTeamId(1);
 
-    // Save and Get Test
-    JobModel jobModel = jobService.addJob(addJobModel);
+    jobService.addJob(addJobModel);
   }
 
   @Test(expected = BadRequestException.class)
@@ -96,7 +103,7 @@ public class JobServiceTests {
     addJobModel.setTeamId(1);
 
     // Save and Get Test
-    JobModel jobModel = jobService.addJob(addJobModel);
+    jobService.addJob(addJobModel);
   }
 
   @Test(expected = BadRequestException.class)
@@ -108,7 +115,7 @@ public class JobServiceTests {
     addJobModel.setTeamId(1);
 
     // Save and Get Test
-    JobModel jobModel = jobService.addJob(addJobModel);
+    jobService.addJob(addJobModel);
   }
 
   @Test(expected = BadRequestException.class)
@@ -120,7 +127,7 @@ public class JobServiceTests {
     addJobModel.setPostedBy(12);
 
     // Save and Get Test
-    JobModel jobModel = jobService.addJob(addJobModel);
+    jobService.addJob(addJobModel);
   }
 
   @Test
@@ -138,7 +145,7 @@ public class JobServiceTests {
     UpdateJobModel updateJobModel = new UpdateJobModel();
     updateJobModel.setDescription("3 Years experienced dev for PHP");
 
-    JobModel updatedJobModel = jobService.updateJob(1, updateJobModel);
+    JobModel updatedJobModel = jobService.updateJob(jobModel.getjId(), updateJobModel);
 
     assertNotEquals(updatedJobModel.getDescription(), jobModel.getDescription());
   }
@@ -180,8 +187,18 @@ public class JobServiceTests {
     updateJobModel.setClosed(true);
     updateJobModel.setRecruitId(15);
 
-    JobModel updatedJobModel = jobService.updateJob(1, updateJobModel);
+    JobModel updatedJobModel = jobService.updateJob(jobModel.getjId(), updateJobModel);
     assertTrue(updatedJobModel.isClosed());
+  }
+
+  @Test(expected = BadRequestException.class)
+  public void updateJobNoJobId() throws BadRequestException, NotFoundException {
+    jobService.updateJob(0, null);
+  }
+
+  @Test(expected = BadRequestException.class)
+  public void updateJobNoJob() throws BadRequestException, NotFoundException {
+    jobService.updateJob(1500, null);
   }
 
   @Test
@@ -201,6 +218,13 @@ public class JobServiceTests {
 
     pageOfJobs = jobService.getJobs(12, 100, 1, null);
     assertEquals(size + 1, pageOfJobs.getJobs().size());
+  }
+
+  @Test
+  public void getJobsForEmployee() {
+    Filter filter = new Filter(4, 1);
+    PageableJobs pageOfJobs = jobService.getJobs(15, 100, 1, filter);
+    pageOfJobs.getJobs().size();
   }
 
   ///////////////////////// Unit Tests for JobApplication
@@ -239,6 +263,22 @@ public class JobServiceTests {
     jobService.addJobApplication(jobModel.getjId(), addJobAppModel);
   }
 
+  @Test(expected = BadRequestException.class)
+  public void addJobApplicationNoJob() throws BadRequestException {
+    AddJobModel addJobModel = new AddJobModel();
+    addJobModel.setDescription("2 Years experienced dev for PHP");
+    addJobModel.setCategoryId(1);
+    addJobModel.setPostedBy(1);
+
+    // Save and Get Test
+    JobModel jobModel = jobService.addJob(addJobModel);
+    assertTrue(jobModel.getjId() > 0);
+
+    AddJobAppModel addJobAppModel = new AddJobAppModel();
+
+    jobService.addJobApplication(-1, addJobAppModel);
+  }
+
   @Test
   public void deleteJobApplication() throws BadRequestException {
     AddJobModel addJobModel = new AddJobModel();
@@ -259,6 +299,16 @@ public class JobServiceTests {
 
     jobService.deleteJobApplication(jobApplicationModel.getjAppId());
 
+  }
+
+  @Test(expected = BadRequestException.class)
+  public void deleteJobApplicationNotExists() throws BadRequestException {
+    jobService.deleteJobApplication(-1);
+  }
+
+  @Test(expected = BadRequestException.class)
+  public void deleteJobApplicationNotExists2() throws BadRequestException {
+    jobService.deleteJobApplication(0);
   }
 
   @Test
@@ -284,6 +334,31 @@ public class JobServiceTests {
     jobService.addJobApplication(jobModel.getjId(), addJobAppModel);
 
     jobApplicationModels = jobService.getJobApplications(jobModel.getjId());
+
+    assertEquals(size + 1, jobApplicationModels.size());
+  }
+
+  @Test
+  public void getMyApplications() throws BadRequestException {
+    AddJobModel addJobModel = new AddJobModel();
+    addJobModel.setDescription("2 Years experienced dev for PHP");
+    addJobModel.setCategoryId(1);
+    addJobModel.setPostedBy(12);
+    addJobModel.setTeamId(1);
+
+    // Save and Get Test
+    JobModel jobModel = jobService.addJob(addJobModel);
+    assertTrue(jobModel.getjId() > 0);
+
+    List<JobApplicationModel> jobApplicationModels = jobService.getMyJobApplications(15);
+    int size = jobApplicationModels.size();
+
+    AddJobAppModel addJobAppModel = new AddJobAppModel();
+    addJobAppModel.setAppliedBy(15);
+
+    jobService.addJobApplication(jobModel.getjId(), addJobAppModel);
+
+    jobApplicationModels = jobService.getMyJobApplications(15);
 
     assertEquals(size + 1, jobApplicationModels.size());
   }

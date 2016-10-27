@@ -18,14 +18,29 @@ import com.practo.sai.jobportal.utility.Logger;
 
 import inti.ws.spring.exception.client.UnauthorizedException;
 
+/**
+ * @see AuthenticationService
+ * @author Sai Chandra Sekhar Dandu
+ *
+ */
 @Service
 public class AuthenticationServiceImpl implements AuthenticationService {
 
+  /**
+   * Logger for this class.
+   */
   private static final Logger LOG = Logger.getInstance(AuthenticationServiceImpl.class);
 
+  /**
+   * {@link EmployeeService}
+   */
   @Autowired
   private EmployeeService employeeService;
 
+  /**
+   * Method that checks if user is authenticated via OAuth. If so saves the user information in
+   * database and provides a success response to the user.
+   */
   @Override
   public LoginResponse authenticate(Principal principal, HttpSession session)
       throws UnauthorizedException {
@@ -63,24 +78,24 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     }
   }
 
+  /**
+   * Method that validates a user's session by checking if the session has attributes set during
+   * user's authentication.
+   */
   @Override
   public SessionParams validateSession(HttpSession session) throws UnauthorizedException {
     SessionParams sessionParams;
     if (session == null)
       throw new UnauthorizedException("Please login to continue");
     String emailId = (String) session.getAttribute(Constants.SESSION_KEY_EMAIL);
-    // String role = (String)
-    // session.getAttribute(Constants.SESSION_KEY_ROLE);
     Integer eId = (Integer) session.getAttribute(Constants.SESSION_KEY_EID);
     LOG.debug(eId + ",,," + emailId);
     if (emailId != null && !emailId.equals("") && eId != null) {
       sessionParams = new SessionParams();
       sessionParams.setEmailId(emailId);
-      // sessionParams.setRole(role);
       sessionParams.seteId(eId);
       LOG.debug("Session validated for - " + eId);
     } else {
-      LOG.error("No session");
       throw new UnauthorizedException("Please login to continue");
     }
     return sessionParams;

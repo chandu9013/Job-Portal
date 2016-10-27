@@ -7,6 +7,12 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+/**
+ * Team Entity.
+ * 
+ * @author Sai Chandra Sekhar Dandu
+ *
+ */
 @Entity
 @Table(name = "team", catalog = "job_portal")
 public class Team {

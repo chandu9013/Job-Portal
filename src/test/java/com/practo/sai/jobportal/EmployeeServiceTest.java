@@ -1,6 +1,7 @@
 package com.practo.sai.jobportal;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -24,7 +25,7 @@ public class EmployeeServiceTest {
   EmployeeService employeeService;
 
   @Test
-  public void addEmployeeIfNotExist() {
+  public void addEmployeeExisting() {
     LoginModel login = new LoginModel();
     login.setEmailId("sai.chandra@practo.com");
     login.setName("Sai Chandra Sekhar Dandu");
@@ -32,4 +33,17 @@ public class EmployeeServiceTest {
     EmployeeModel employee = employeeService.addEmployeeIfNotExist(login);
     assertEquals((Integer) 12, employee.getEId());
   }
+
+  @Test
+  public void addEmployeeNotExist() {
+    LoginModel login = new LoginModel();
+    login.setEmailId("chandu9013@practo.com");
+    login.setName("Sai");
+
+    EmployeeModel employee = employeeService.addEmployeeIfNotExist(login);
+    assertTrue(employee.getEId() > 0);
+  }
+
+
+
 }

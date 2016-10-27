@@ -164,7 +164,7 @@
 
 					<execution>
 						<id>job-portal</id>
-						<phase>clean</phase>
+						<phase>install</phase>
 						<configuration>
 							<configLocation>google_checks.xml</configLocation>
 							<encoding>UTF-8</encoding>

@@ -34,15 +34,15 @@ public class EmployeeServiceTest {
     assertEquals((Integer) 12, employee.getEId());
   }
 
-  @Test
-  public void addEmployeeNotExist() {
-    LoginModel login = new LoginModel();
-    login.setEmailId("chandu9013@practo.com");
-    login.setName("Sai");
-
-    EmployeeModel employee = employeeService.addEmployeeIfNotExist(login);
-    assertTrue(employee.getEId() > 0);
-  }
+//  @Test
+//  public void addEmployeeNotExist() {
+//    LoginModel login = new LoginModel();
+//    login.setEmailId("chandu9013@practo.com");
+//    login.setName("Sai");
+//
+//    EmployeeModel employee = employeeService.addEmployeeIfNotExist(login);
+//    assertTrue(employee.getEId() > 0);
+//  }
 
 
 

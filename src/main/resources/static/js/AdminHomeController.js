@@ -103,6 +103,9 @@ app.controller('AdminHomeController', [ '$scope', 'sharedProperties',
 						$scope.categModel = $scope.jobs[$index].category;
 						$scope.teamModel = $scope.jobs[$index].team;
 						$scope.jobDescription = $scope.jobs[$index].description;
+						$scope.addCategoryError='';
+						$scope.addTeamError='';
+						$scope.addDescriptionError='';
 						$scope.modifyIndex=$index;
 					}).error(function() {
 						console.log("didnt get teams");
@@ -153,6 +156,27 @@ app.controller('AdminHomeController', [ '$scope', 'sharedProperties',
 
 			$scope.publish = function() {
 				var data = {};
+				$scope.addCategoryError='';
+				$scope.addTeamError='';
+				$scope.addDescriptionError='';
+				var missed=0;
+				if($scope.categModel==null){
+					console.log("Necessary fields empty");
+					$scope.addCategoryError="Please select a category";
+					missed=1;
+				}
+				if($scope.teamModel==null){
+					$scope.addTeamError="Please select a Team";
+					missed=1;
+				}
+				
+				if($scope.jobDescription==null || $scope.jobDescription==''){
+					$scope.addDescriptionError="Please enter a description";
+					missed=1;
+				}
+				
+				if(missed==1) return;
+				
 				data.categoryId = $scope.categModel.cid;
 				data.description = $scope.jobDescription;
 				data.teamId = $scope.teamModel.id;

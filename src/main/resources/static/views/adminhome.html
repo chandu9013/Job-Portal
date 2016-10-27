@@ -92,19 +92,22 @@
 				<td><label>Category</label></td>
 				<td><select ng-model="categModel" class=" form-control"
 					ng-options="category.categoryName for category in categories track by category.cid">
-				</select></td>
+				</select>
+					<h6 style="color: red;">{{addCategoryError}}</h6></td>
 			</tr>
 
 			<tr>
 				<td><label>Team</label></td>
 				<td><select ng-model="teamModel" class=" form-control"
 					ng-options="team.name for team in teams track by team.id">
-				</select></td>
+				</select>
+					<h6 style="color: red;">{{addTeamError}}</h6></td>
 			</tr>
 			<tr>
 				<td><label>Description</label></td>
 				<td><textarea class=" form-control" rows="4" cols="50"
-						ng-model="jobDescription"></textarea></td>
+						ng-model="jobDescription"></textarea>
+					<h6 style="color: red;">{{addDescriptionError}}</h6></td>
 			</tr>
 
 		</table>

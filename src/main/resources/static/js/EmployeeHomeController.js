@@ -99,10 +99,12 @@ app.controller('EmployeeHomeController', [ '$scope', 'sharedProperties',
 				
 				http.get("categories").success(function(data) {
 					console.log("Got categories ");
-					$scope.categories = data;
-					http.get("teams").success(function(data) {
+					http.get("teams").success(function(data2) {
 						console.log("Got teams  - ");
-						$scope.teams = data;
+						$scope.categories=null;
+						$scope.teams=null;
+						$scope.categories = data;
+						$scope.teams = data2;
 						$scope.page = 3;
 						
 						$scope.categories.push({"cid":-1,"categoryName":"All"});

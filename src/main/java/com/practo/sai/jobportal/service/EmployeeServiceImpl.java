@@ -33,7 +33,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     employee.setEmailId(loginModel.getEmailId());
     employee.setName(loginModel.getName());
     // Add Employee to DB
-    employeeDao.save(employee);
+    employee.setEId(employeeDao.save(employee));
     // Add Role to UserRole
 
     UserRole userRole = new UserRole();

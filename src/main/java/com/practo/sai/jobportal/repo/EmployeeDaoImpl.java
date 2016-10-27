@@ -28,8 +28,8 @@ public class EmployeeDaoImpl implements EmployeeDao {
   }
 
   @Override
-  public void save(Employee employee) {
-    getSession().save(employee);
+  public int save(Employee employee) {
+    return (int) getSession().save(employee);
   }
 
   @Override

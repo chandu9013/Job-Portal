@@ -15,7 +15,7 @@ public interface EmployeeDao {
    * 
    * @param employee {@link Employee}
    */
-  public void save(Employee employee);
+  public int save(Employee employee);
 
   /**
    * Method that retrieves {@link Employee} for the given employee Id

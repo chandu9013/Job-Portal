@@ -8,9 +8,9 @@ INSERT INTO role (r_id, role_name) VALUES (1,'Admin')
 INSERT INTO role (r_id, role_name) VALUES (2,'Employee')
 	
 INSERT INTO team (id, name) VALUES (1,'Fabric')
-INSERT INTO team (id, name) VALUES	(2,'Insta')
-INSERT INTO team (id, name) VALUES	(3,'Querent')
-INSERT INTO team (id, name) VALUES	(4,'Saphire')
+INSERT INTO team (id, name) VALUES (2,'Insta')
+INSERT INTO team (id, name) VALUES (3,'Querent')
+INSERT INTO team (id, name) VALUES (4,'Saphire')
 	
 INSERT INTO user_role (id, e_id, r_id) VALUES (9,12,1)
 INSERT INTO user_role (id, e_id, r_id) VALUES (12,15,2)	

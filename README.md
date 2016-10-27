@@ -19,11 +19,11 @@
 - Javascript, HTML, CSS
 - AngularJS 1.x
 
+#
+Apiary Documentation - https://app.apiary.io/jobportal/editor
 
-- Apiary Documentation - https://app.apiary.io/jobportal/editor
+Travis Builds - https://travis-ci.org/chandu9013/Job-Portal/builds
 
-- Travis Builds - https://travis-ci.org/chandu9013/Job-Portal/builds
+Sentry - https://sentry.io/practo-qv/
 
-- Sentry - https://sentry.io/practo-qv/
-
-- Amazon EC2 Hosting - http://ec2-54-191-69-225.us-west-2.compute.amazonaws.com/Job-Portal/
+Amazon EC2 Hosting - http://ec2-54-191-69-225.us-west-2.compute.amazonaws.com/Job-Portal/

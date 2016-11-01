@@ -7,7 +7,7 @@
 #
 # Host: 127.0.0.1 (MySQL 5.7.15)
 # Database: job_portal
-# Generation Time: 2016-10-26 16:05:24 +0000
+# Generation Time: 2016-11-01 16:22:30 +0000
 # ************************************************************
 
 
@@ -30,17 +30,18 @@ CREATE TABLE `category` (
   `category_name` varchar(255) NOT NULL,
   PRIMARY KEY (`c_id`),
   UNIQUE KEY `UK_lroeo5fvfdeg4hpicn4lw7x9b` (`category_name`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
 
 LOCK TABLES `category` WRITE;
 /*!40000 ALTER TABLE `category` DISABLE KEYS */;
 
 INSERT INTO `category` (`c_id`, `category_name`)
 VALUES
-	(4,'Administrator'),
-	(1,'Developer'),
-	(3,'Human Resources'),
-	(2,'Tester');
+	(3,'Project Manager'),
+	(2,'QA'),
+	(5,'Software Engineer'),
+	(1,'Sr. Software Engineer'),
+	(4,'Technical Lead');
 
 /*!40000 ALTER TABLE `category` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -57,7 +58,7 @@ CREATE TABLE `employee` (
   `deleted` char(1) NOT NULL DEFAULT '0',
   `name` varchar(255) NOT NULL DEFAULT '',
   PRIMARY KEY (`e_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=latin1;
 
 LOCK TABLES `employee` WRITE;
 /*!40000 ALTER TABLE `employee` DISABLE KEYS */;
@@ -65,7 +66,7 @@ LOCK TABLES `employee` WRITE;
 INSERT INTO `employee` (`e_id`, `email_id`, `deleted`, `name`)
 VALUES
 	(14,'anoop.singh@practo.com','\0','Anoop Singh'),
-	(15,'abhilash.sunkam@practo.com','\0','Abhilash Sunkam'),
+	(15,'abhilash.sunkam@practo.com','0','Abhilash Sunkam'),
 	(16,'vikrant.mahajan@practo.com','\0','Vikrant Mahajan'),
 	(20,'sai.chandra@practo.com','\0','Sai Chandra Sekhar Dandu');
 
@@ -87,11 +88,11 @@ LOCK TABLES `hibernate_sequence` WRITE;
 
 INSERT INTO `hibernate_sequence` (`next_val`)
 VALUES
-	(12),
-	(12),
-	(12),
-	(12),
-	(12);
+	(37),
+	(37),
+	(37),
+	(37),
+	(37);
 
 /*!40000 ALTER TABLE `hibernate_sequence` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -122,23 +123,8 @@ CREATE TABLE `job` (
   CONSTRAINT `job_ibfk_1` FOREIGN KEY (`recruit_id`) REFERENCES `employee` (`e_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `job_ibfk_2` FOREIGN KEY (`team_id`) REFERENCES `team` (`id`),
   CONSTRAINT `job_ibfk_3` FOREIGN KEY (`posted_by`) REFERENCES `employee` (`e_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=208 DEFAULT CHARSET=latin1;
 
-LOCK TABLES `job` WRITE;
-/*!40000 ALTER TABLE `job` DISABLE KEYS */;
-
-INSERT INTO `job` (`j_id`, `description`, `is_closed`, `last_modified`, `posted_on`, `j_c_id`, `posted_by`, `recruit_id`, `deleted`, `team_id`)
-VALUES
-	(2,'Spring Boot, hibernate 5',b'0','2016-10-26 20:54:36','2016-10-26 15:21:25',1,20,NULL,'0',2),
-	(4,'Spring Boot',b'0','2016-10-26 20:55:48','2016-10-26 20:37:17',1,20,NULL,'1',3),
-	(6,'HTML5 CSS3',b'0','2016-10-26 21:22:36','2016-10-26 20:53:49',1,20,NULL,'1',1),
-	(8,'asfsdfdvfg',b'0','2016-10-26 21:23:49','2016-10-26 21:23:13',1,20,NULL,'1',4),
-	(9,'Insta Team Urgent Requirement',b'0','2016-10-26 21:25:48','2016-10-26 21:24:17',1,20,NULL,'1',2),
-	(206,'J2EE Spring Update',b'0','2016-10-26 20:54:05','2016-10-25 20:30:17',2,20,NULL,'1',3),
-	(207,'J2EE Spring Boot Updated',b'0','2016-10-26 20:37:02','2016-10-25 20:30:51',3,20,NULL,'0',4);
-
-/*!40000 ALTER TABLE `job` ENABLE KEYS */;
-UNLOCK TABLES;
 
 
 # Dump of table job_application
@@ -155,20 +141,8 @@ CREATE TABLE `job_application` (
   PRIMARY KEY (`j_app_id`),
   KEY `job_id` (`job_id`),
   CONSTRAINT `job_application_ibfk_1` FOREIGN KEY (`job_id`) REFERENCES `job` (`j_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=99 DEFAULT CHARSET=latin1;
 
-LOCK TABLES `job_application` WRITE;
-/*!40000 ALTER TABLE `job_application` DISABLE KEYS */;
-
-INSERT INTO `job_application` (`j_app_id`, `applied_on`, `applied_by`, `job_id`, `deleted`)
-VALUES
-	(5,'2016-10-26 20:41:59',15,4,'\0'),
-	(7,'2016-10-26 20:55:21',15,6,'\0'),
-	(10,'2016-10-26 21:24:29',15,9,'1'),
-	(11,'2016-10-26 21:25:27',15,9,'\0');
-
-/*!40000 ALTER TABLE `job_application` ENABLE KEYS */;
-UNLOCK TABLES;
 
 
 # Dump of table role
@@ -181,7 +155,7 @@ CREATE TABLE `role` (
   `role_name` varchar(255) NOT NULL,
   PRIMARY KEY (`r_id`),
   UNIQUE KEY `UK_iubw515ff0ugtm28p8g3myt0h` (`role_name`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
 LOCK TABLES `role` WRITE;
 /*!40000 ALTER TABLE `role` DISABLE KEYS */;
@@ -204,7 +178,7 @@ CREATE TABLE `team` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 
 LOCK TABLES `team` WRITE;
 /*!40000 ALTER TABLE `team` DISABLE KEYS */;
@@ -234,7 +208,7 @@ CREATE TABLE `user_role` (
   KEY `r_id` (`r_id`),
   CONSTRAINT `user_role_ibfk_1` FOREIGN KEY (`e_id`) REFERENCES `employee` (`e_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `user_role_ibfk_2` FOREIGN KEY (`r_id`) REFERENCES `role` (`r_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=latin1;
 
 LOCK TABLES `user_role` WRITE;
 /*!40000 ALTER TABLE `user_role` DISABLE KEYS */;

@@ -9,6 +9,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Component;
 
+import com.practo.sai.jobportal.entities.Job;
 import com.practo.sai.jobportal.model.JobApplicationModel;
 
 /**
@@ -87,6 +88,29 @@ public class SmtpMailSender {
 
     String body = "Hi,\n\t\t You application for \n " + jobId + "\t" + team + "\t" + category
         + " has been received";
+    LOG.debug(body);
+    send(email, subject, body);
+  }
+
+  /**
+   * Method to send mail to employee confirming selection of application for the job.
+   * 
+   * @param job {@link Job}
+   * @throws AuthenticationFailedException Thrown when there is a problem authenticating with the
+   *         mailing service.
+   * @throws MessagingException Thrown when there is a problem sending mail to the parties.
+   */
+  public void sendApproval(Job job) throws AuthenticationFailedException, MessagingException {
+    String email = job.getEmployeeByRecruitId().getEmailId();
+
+    int jobId = job.getJId();
+    String team = job.getTeam().getName();
+    String category = job.getCategory().getCategoryName();
+
+    String subject = "Application for Job Id selected - " + jobId;
+
+    String body = "Hi,\n\t\t You application for \n " + jobId + "\t" + team + "\t" + category
+        + " has been selected";
     LOG.debug(body);
     send(email, subject, body);
   }

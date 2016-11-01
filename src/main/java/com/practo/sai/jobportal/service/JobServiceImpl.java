@@ -147,7 +147,26 @@ public class JobServiceImpl implements JobService {
       throw new NotFoundException("Requested Job doesn't exist");
     }
     mUtility.mapFromUpdateJob(jobId, jobModel, job);
+    if (jobModel.getRecruitId() > 0)
+      job.setEmployeeByRecruitId(employeeDao.getEmployee(jobModel.getRecruitId()));
     jobDao.update(job);
+    if (job.isIsClosed()) {
+      // Send Email to Admin as well as applier
+      new Thread(new Runnable() {
+
+        @Override
+        public void run() {
+          try {
+            mailSender.sendApproval(job);
+          } catch (AuthenticationFailedException e) {
+            LOG.error("Authentication error while sending mail", e);
+          } catch (MessagingException e) {
+            LOG.error("Messaging exception while sending mail", e);
+          }
+        }
+      }).start();
+    }
+
     LOG.info("Update Job processed. Mapping response");
     return mUtility.mapToJobModel(job);
   }

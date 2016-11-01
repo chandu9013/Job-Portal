@@ -2,15 +2,46 @@
 <html>
 
 <head>
-<link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"></link>
+
 </head>
-<meta charset="UTF-8">
-<title>Job Portal - Employee</title>
+<title>Practo Team finder - Employee</title>
 </head>
 <body>
 
-	<div class="page-header" id="banner">
+	<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+		<div class="container">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle" data-toggle="collapse"
+					data-target=".navbar-collapse">
+					<span class="sr-only">Toggle navigation</span> <span
+						class="icon-bar"></span> <span class="icon-bar"></span> <span
+						class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="index.html"
+					style="color: #42C8F5; font-size: x-large; padding-top: 25px;">Practo
+					Team Finder</a>
+			</div>
+			<div class="navbar-collapse collapse navbar-right">
+				<ul class="nav navbar-nav">
+					<li ng-class="{'active':page==1}"><a
+						style="padding-top: 25px;" href="" ng-click="listJobs()">HOME</a></li>
+					<li ng-class="{'active':page==2}"><a
+						style="padding-top: 25px;" href="" ng-click="viewAppliedJobs()">APPLICATIONS</a></li>
+					<li class="dropdown"><a href="#" class="dropdown-toggle"
+						data-toggle="dropdown"><img style="height: 40px" src="{{pic}}" /><label
+							id="name" style="font-size: 13px; padding-left: 10px"">
+								{{name}} </label> <label id="role" style="font-size: 8px">
+								({{role}})</label> <b class="caret"></b></a>
+						<ul class="dropdown-menu">
+							<li><a href="" ng-click="signoff()">LOGOUT</a></li>
+						</ul></li>
+				</ul>
+			</div>
+			<!--/.nav-collapse -->
+		</div>
+	</div>
+
+	<!-- <div class="page-header" id="banner">
 		<div class="row">
 			<div class="col-lg-8 col-md-7 col-sm-6">
 				<h1 style="margin: bottom=15px;">
@@ -28,117 +59,123 @@
 			</div>
 
 		</div>
-	</div>
+	</div> -->
 
-	<!-- View Jobs -->
-	<div ng-show='page==1'>
+	<div class="container mtb">
+		<!-- View Jobs -->
+		<div ng-show='page==1'>
+			<h2 style="color: white;">Jobs</h2>
 
-		<table class="table ">
-			<tr style="background-color: #F2C780">
-				<th>Job Id</th>
-				<th>Category</th>
-				<th>Team</th>
-				<th>Description</th>
-				<th>Posted On</th>
-				<th><button type="button" class="btn btn-info btn-md"
-						ng-click="viewFilters()">
-						<span class="glyphicon glyphicon-filter"></span> Filter
-					</button></th>
+			<div class="table">
 
-				<!-- <th>Recruited</th> -->
-			</tr>
-			<tr dir-paginate="job in jobs|itemsPerPage:perpage"
-				total-items="total*perpage">
-				<td>{{ job.jId }}</td>
-				<td>{{ job.category.categoryName }}</td>
-				<td>{{ job.team.name }}</td>
-				<td>{{ job.description }}</td>
-				<td>{{ job.postedOn|date }}</td>
-				<!-- </td>
-			<td>{{ job.recruited.emailId==null? "N/A":
-				job.recruited.emailId}} -->
-				<td>
-					<button class="btn btn-info" ng-click="applyJob($index)">Apply</button>
-				</td>
+				<div class="row header">
+					<div class="cell">Job Id</div>
+					<div class="cell">Category</div>
+					<div class="cell">Team</div>
+					<div class="cell">Description</div>
+					<div class="cell">Posted On</div>
+					<div class="cell">
+						<button type="button" class="btn btn-primary btn-sm"
+							ng-click="viewFilters()">
+							<span class="glyphicon glyphicon-filter"></span> Filter
+						</button>
+					</div>
+				</div>
 
+				<div class="row" dir-paginate="job in jobs|itemsPerPage:perpage"
+					total-items="total*perpage">
+					<div class="cell">{{ job.jId }}</div>
+					<div class="cell">{{ job.category.categoryName }}</div>
+					<div class="cell">{{ job.team.name }}</div>
+					<div class="cell">{{ job.description }}</div>
+					<div class="cell">{{ job.postedOn|date }}</div>
+					<div class="cell">
+						<button class="btn btn-success" ng-click="applyJob($index)">
+							<span class="glyphicon glyphicon-check"></span> Apply
+						</button>
+					</div>
+				</div>
 
-			</tr>
+			</div>
 
-		</table>
-		<dir-pagination-controls max-size="8" direction-links="true"
-			boundary-links="true" on-page-change="listJobs(newPageNumber)">
-		</dir-pagination-controls>
-		{{listError}}
-	</div>
+			<center>
+				<dir-pagination-controls max-size="8" direction-links="true"
+					boundary-links="true" on-page-change="listJobs(newPageNumber)">
+				</dir-pagination-controls>
 
-	<!-- View applied Jobs -->
-	<div ng-show='page==2'>
-
-		<table class="table">
-			<tr style="background-color: #F2C780">
-				<th>Job application Id</th>
-				<th>Job Id</th>
-				<th>Category</th>
-				<th>Team</th>
-				<th>Description</th>
-				<th>Posted On</th>
-				<th>Applied On</th>
-				<th></th>
-
-				<!-- <th>Recruited</th> -->
-			</tr>
-			<tr ng-repeat="application in applications">
-				<td>{{ application.jAppId }}</td>
-				<td>{{ application.job.jId }}</td>
-				<td>{{ application.job.category.categoryName }}</td>
-				<td>{{ application.job.team.name }}</td>
-				<td>{{ application.job.description }}</td>
-				<td>{{ application.job.postedOn|date }}</td>
-				<td>{{application.appliedOn|date}}</td>
-				<!-- </td>
-			<td>{{ job.recruited.emailId==null? "N/A":
-				job.recruited.emailId}} -->
-				<td>
-					<button class="btn btn-danger" ng-click="deleteApplication($index)">Delete</button>
-				</td>
+			</center>
 
 
-			</tr>
+			<div>{{listError}}</div>
+
+		</div>
+
+		<!-- View applied Jobs -->
+		<div ng-show='page==2'>
+			<h3 style="color: white;">My Applications</h3>
+
+			<div class="table">
+
+				<div class="row header green">
+					<div class="cell">Job Application Id</div>
+					<div class="cell">Job Id</div>
+					<div class="cell">Category</div>
+					<div class="cell">Team</div>
+					<div class="cell">Description</div>
+					<div class="cell">Posted On</div>
+					<div class="cell">Applied On</div>
+					<div class="cell"></div>
+				</div>
+
+				<div class="row" ng-repeat="application in applications">
+					<div class="cell">{{ application.jAppId }}</div>
+					<div class="cell">{{ application.job.jId }}</div>
+					<div class="cell">{{ application.job.category.categoryName }}</div>
+					<div class="cell">{{ application.job.team.name }}</div>
+					<div class="cell">{{ application.job.description }}</div>
+					<div class="cell">{{ application.job.postedOn|date }}</div>
+					<div class="cell">{{application.appliedOn|date}}</div>
+					<div class="cell">
+						<button class="btn btn-danger"
+							ng-click="deleteApplication($index)">Delete</button>
+					</div>
+				</div>
+
+			</div>
+
+			<div>{{applyError}}</div>
+		</div>
+
+		<div ng-show="page==3" class="col-md-7">
+			<h2 style="color: white;">Filter Jobs</h2>
 
 
-		</table>
-		<div>{{applyError}}</div>
-	</div>
+			<table class="table tableform" style="color: white;">
+				<tr>
+					<td><label>Category</label></td>
+					<td><select ng-model="categModel" class=" form-control"
+						ng-options="category.categoryName for category in categories track by category.cid">
+					</select></td>
+				</tr>
 
-	<div ng-show="page==3" class="col-md-7">
-		<h2>Filter Jobs</h2>
+				<tr>
+					<td><label>Team</label></td>
+					<td><select ng-model="teamModel" class=" form-control"
+						ng-options="team.name for team in teams track by team.id">
+					</select></td>
+				</tr>
+			</table>
+			<center>
 
-
-		<table class="table">
-			<tr>
-				<td><label>Category</label></td>
-				<td><select ng-model="categModel" class=" form-control"
-					ng-options="category.categoryName for category in categories track by category.cid">
-				</select></td>
-			</tr>
-
-			<tr>
-				<td><label>Team</label></td>
-				<td><select ng-model="teamModel" class=" form-control"
-					ng-options="team.name for team in teams track by team.id">
-				</select></td>
-			</tr>
-		</table>
-		<center>
-
-			<button class="btn btn-danger" ng-click="cancel()">Cancel</button>
-			<button type="button" class="btn btn-success"
-				ng-click="applyFilters()">
-				<span class="glyphicon glyphicon-filter"></span>Apply Filter
-			</button>
+				<button class="btn btn-danger" ng-click="cancel()">Cancel</button>
+				<button type="button" class="btn btn-success"
+					ng-click="applyFilters()">
+					<span class="glyphicon glyphicon-filter"></span>Apply Filter
+				</button>
 
 
-		</center>
+			</center>
+		</div>
 	</div>
 
 </body>

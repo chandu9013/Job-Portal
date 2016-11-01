@@ -16,7 +16,7 @@ INSERT INTO user_role (id, e_id, r_id) VALUES (9,100,1)
 INSERT INTO user_role (id, e_id, r_id) VALUES (12,150,2)	
 	
 	
-INSERT INTO job (j_id, description, is_closed, last_modified, posted_on, j_c_id, posted_by, recruit_id, deleted, team_id) VALUES (186,'Relatively fresher required for Java J2EE, Spring Boot',b'0','2016-10-23 14:56:34','2016-10-20 11:02:46',1,12,NULL,'0',1)
+INSERT INTO job (j_id, description, is_closed, last_modified, posted_on, j_c_id, posted_by, recruit_id, deleted, team_id) VALUES (186,'Relatively fresher required for Java J2EE, Spring Boot',b'0','2016-10-23 14:56:34','2016-10-20 11:02:46',1,100,NULL,'0',1)
 	
 	(187,'Java, Spring, Hibernate. Experience 3 years',b'0','2016-10-23 11:04:51','2016-10-20 20:02:22',1,12,NULL,'0',2),
 	(188,'Automation testing updated',b'0','2016-10-23 11:03:59','2016-10-20 20:08:06',2,12,NULL,'0',1),

@@ -69,7 +69,7 @@
 	<!-- List Jobs -->
 	<div class="container mtb">
 		<div ng-show='page==1'>
-			<h2  style="color: white;">Jobs</h2>
+			<h2 style="color: white;">Jobs</h2>
 
 
 			<div class="table">
@@ -80,7 +80,7 @@
 					<div class="cell">Team</div>
 					<div class="cell">Description</div>
 					<div class="cell">Posted On</div>
-					<div class="cell">Status</div>
+					<div class="cell">Assigned</div>
 					<div class="cell"></div>
 				</div>
 
@@ -91,18 +91,21 @@
 					<div class="cell">{{ job.team.name }}</div>
 					<div class="cell">{{ job.description }}</div>
 					<div class="cell">{{ job.postedOn|date }}</div>
-					<div class="cell">{{ job.closed ? "Closed":"Open" }}</div>
+					<div class="cell">{{ job.recruited==null ?
+						"Open":job.recruited.emailId }}</div>
 					<div class="cell">
 						<button class="btn btn-primary"
 							ng-click="viewApplications($index)">
 							<span class="glyphicon glyphicon-eye-open"></span>
 						</button>
 
-						<button class="btn btn-success" ng-click="viewUpdateJob($index)">
+						<button class="btn btn-success" ng-disabled="job.recruited!=null"
+							ng-click="viewUpdateJob($index)">
 							<span class="glyphicon glyphicon-pencil"></span>
 						</button>
 
-						<button class="btn btn-danger" ng-click="deleteJob($index)">
+						<button class="btn btn-danger" ng-disabled="job.recruited!=null"
+							ng-click="deleteJob($index)">
 							<span class="glyphicon glyphicon-remove">
 						</button>
 					</div>
@@ -166,8 +169,8 @@
 
 		<!-- Edit Jobs -->
 		<div ng-show="page==3" class="col-md-7">
-			<h2  style="color: white;">Edit Job</h2>
-			<table  style="color: white;" class="table tableform">
+			<h2 style="color: white;">Edit Job</h2>
+			<table style="color: white;" class="table tableform">
 				<tr>
 					<td><label>Category</label></td>
 					<td><select ng-model="categModel" class=" form-control"
@@ -197,7 +200,7 @@
 
 		<!-- View Job's applications -->
 		<div ng-show="page==4">
-			<h3  style="color: white;">Job</h3>
+			<h3 style="color: white;">Job</h3>
 
 			<div class="table">
 				<div class="row header">
@@ -206,7 +209,7 @@
 					<div class="cell">Team</div>
 					<div class="cell">Description</div>
 					<div class="cell">Posted On</div>
-					<div class="cell">Status</div>
+					<div class="cell">Assigned</div>
 					<!-- <th>Recruited</th> -->
 				</div>
 				<div class="row">
@@ -215,14 +218,15 @@
 					<div class="cell">{{ job.team.name }}</div>
 					<div class="cell">{{ job.description }}</div>
 					<div class="cell">{{ job.postedOn|date }}</div>
-					<div class="cell">{{ job.closed ? "Closed":"Open" }}</div>
+					<div class="cell">{{ job.recruited==null ?
+						"Open":job.recruited.emailId }}</div>
 					<!-- <td>{{ job.recruited.emailId==null? "N/A":
 				job.recruited.emailId}}</td>
  -->
 				</div>
 			</div>
 
-			<h3  style="color: white;">Applications</h3>
+			<h3 style="color: white;">Applications</h3>
 
 			<div class="table">
 				<div class="row header green">
@@ -230,13 +234,19 @@
 					<div class="cell">Name</div>
 					<div class="cell">Email</div>
 					<div class="cell">Date</div>
+					<div class="cell"></div>
 				</div>
 				<div class="row" ng-repeat="application in applications">
 					<div class="cell">{{ application.jAppId }}</div>
 					<div class="cell">{{ application.employee.name }}</div>
 					<div class="cell">{{ application.employee.emailId }}</div>
 					<div class="cell">{{ application.appliedOn |date }}</div>
-
+					<div class="cell">
+						<button class="btn btn-primary" ng-show="job.recruited==null"
+							ng-click="approveApplication($index)">
+							<span class="glyphicon glyphicon-check"></span> Approve
+						</button>
+					</div>
 				</div>
 			</div>
 

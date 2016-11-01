@@ -79,6 +79,7 @@ public class JobDaoImpl implements JobDao {
         DetachedCriteria.forClass(JobApplication.class).setProjection(Property.forName("job.JId"))
             .createCriteria("employee").add(Restrictions.eq("EId", eId));
     DetachedCriteria jobCriteria = DetachedCriteria.forClass(Job.class, "j");
+    jobCriteria.add(Restrictions.eq("isClosed", false));
     addFilter(jobCriteria, filter);
     jobCriteria.add(Property.forName("JId").notIn(application));
     jobCriteria.setProjection(Projections.rowCount());
@@ -90,6 +91,7 @@ public class JobDaoImpl implements JobDao {
         DetachedCriteria.forClass(JobApplication.class).setProjection(Property.forName("job.JId"))
             .createCriteria("employee").add(Restrictions.eq("EId", eId));
     jobCriteria = DetachedCriteria.forClass(Job.class, "j");
+    jobCriteria.add(Restrictions.eq("isClosed", false));
     addFilter(jobCriteria, filter);
     jobCriteria.add(Property.forName("JId").notIn(application));
     List<Job> jobs =

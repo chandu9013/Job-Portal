@@ -218,9 +218,10 @@ app.controller('AdminHomeController', [ '$scope', 'sharedProperties',
 				http.patch("jobs/"+$scope.job.jId,closeJob).success(function(data){
 					console.log("Job closed");
 					$scope.listJobs();
+					// $scope.listJobs();
 					
 				}).error(function(){
-					
+					console.log("CLosing job failed");
 				});
 			};
 

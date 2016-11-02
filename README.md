@@ -1,4 +1,4 @@
-# Job-Portal
+# Team Finder (Internal Job Portal)
 
 [![Travis](https://img.shields.io/travis/chandu9013/Job-Portal.svg)](https://github.com/chandu9013/Job-Portal)
 
@@ -16,6 +16,7 @@
 - Hibernate ORM
 - Maven
 - MySQL 5.6
+- HSQL DB for Testing
 - Javascript, HTML, CSS
 - AngularJS 1.x
 
@@ -24,10 +25,12 @@
 
 [Travis Builds](https://travis-ci.org/chandu9013/Job-Portal/builds)
 
-[Sentry](https://sentry.io/practo-qv/)
-
 [Amazon EC2 Hosting](http://ec2-54-191-69-225.us-west-2.compute.amazonaws.com/Job-Portal/)
+
+[Sentry](https://sentry.io/practo-qv/)
 
 [New Relic](https://rpm.newrelic.com/accounts/1461067/applications/26654791)
 
-[Pagespeed](https://developers.google.com/speed/pagespeed/insights/?url=http%3A%2F%2Fec2-54-191-69-225.us-west-2.compute.amazonaws.com%2FJob-Portal%2F&tab=desktop)
+[Project Plan](https://docs.google.com/a/practo.com/spreadsheets/d/1R4PdEij1LNugL5dutdMDSrgMzLRkrV5zb-6EFJyVIbs/edit?usp=sharing)
+
+[Requirements and Schema](https://docs.google.com/document/d/1jCNuI619RdNF4cGj3RQHkT30_3KEIeMMgOsTY-e8Rf8/edit?usp=sharing)

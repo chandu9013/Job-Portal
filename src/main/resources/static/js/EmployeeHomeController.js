@@ -27,7 +27,7 @@ app.controller('EmployeeHomeController', [ '$scope', 'sharedProperties',
 			// Pagination
 			$scope.jobs=[];
 			$scope.pageno=1;
-			$scope.perpage=3;
+			$scope.perpage=8;
 			$scope.total=0;
 			
 

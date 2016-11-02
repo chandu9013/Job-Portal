@@ -1,19 +1,23 @@
 FORMAT: 1A
 HOST: http://polls.apiblueprint.org/
 
-# JobPortal
+# Team Finder
 
-Job Portal is an API exposing REST end points to manage a Job Portal
+Team Finder is an API exposing REST end points to manage an Internal Job Portal
 
-## Jobs [/jobs]
+## Jobs [/jobs/{perpage}/{pageno}]
 
 ### List All Jobs [GET]
 
 End point to fetch all the jobs listed so far
 
++ Parameters
+    + perpage - Number of items per page
+    + pageno - Page to retrieve
+
 + Response 200 (application/json)
 
-        [{"jId":1,"category":
+        [{"jId":1,"team":{"id":1,"teamName":"Insta"},"category":
         {"categoryName":"Developer","cid":1},"postedBy":{"emailId":"sai.chandra@practo.com","eid":1},"recruitId":null,"description":"Need a developer","closed":false}]
 
 
@@ -23,13 +27,9 @@ End point to create a new job listing. Category Id, Admin Id and description for
 
 + Request (application/json)
 
-        {"categoryId":1,"postedBy":1,"description":"Another job"}
+        {"categoryId":1,"postedBy":1,"description":"Another job","teamId":1}
 
 + Response 201 (application/json)
-
-    + Headers
-
-            
 
     + Body
 
@@ -38,7 +38,7 @@ End point to create a new job listing. Category Id, Admin Id and description for
             "category": {
             "categoryName": "Developer",
             "cid": 1
-            },
+            },"team":{"id":1,"teamName":"Insta"},
             "postedBy": {
             "emailId": "sai.chandra@practo.com",
             "eid": 1
@@ -59,12 +59,9 @@ End point to update an existing Job listing
 
 + Request (application/json)
 
-        {"categoryId":1,"postedBy":1,"description":"Need a developer","closed"=true,"recruitId"=2}
+        {"categoryId":1,"description":"Need a developer","recruitId"=2,"teamId":1}
 
 + Response 201 (application/json)
-
-    + Headers
-
             
 
     + Body
@@ -72,9 +69,9 @@ End point to update an existing Job listing
             {
             "jId": 4,
             "category": {
-            "categoryName": "Human Resources",
-            "cid": 3
-            },
+            "categoryName": "Technical Lead",
+            "cid": 1
+            },"team":{"id":1,"teamName":"Insta"},
             "postedBy": {
                 "emailId": "sai.chandra@practo.com",
             "eid": 1
@@ -84,7 +81,7 @@ End point to update an existing Job listing
             "eid": 2
             },
             "description": "Need an experienced candidate",
-            "closed": false
+            "closed": true
             }
             
 ### Deleting a Job listing [DELETE]
@@ -94,7 +91,7 @@ End point to update an existing Job listing
 + Parameters
     + jobId - id of a Job listing
     
-+ Response 200 (application/json)    
++ Response 200 
            
             
 ## Job Applications [/jobs/{jobId}/applications]
@@ -108,27 +105,40 @@ End point that lists all the applications received for a job so far.
 
 + Response 200 (application/json)
 
-        {"jId":1}
+        [{"jAppId":1,"employee":{
+            "emailId": "chandu9013@gmail.com",
+            "eid": 2
+            },"job":{"jId": 4,
+            "category": {
+            "categoryName": "Technical Lead",
+            "cid": 1
+            },"team":{"id":1,"teamName":"Insta"},
+            "postedBy": {
+                "emailId": "sai.chandra@practo.com",
+            "eid": 1
+            },
+            "recruitId": {
+            "emailId": "chandu9013@gmail.com",
+            "eid": 2
+            },
+            "description": "Need an experienced candidate",
+            "closed": true
+            }]
         
 ### New Job application [POST]    
 End point to add a new job application
 
-+ Request (application/json)
-
-        {"appliedBy":2}
++ Parameters
+    + jobId - id of a Job listing
 
 + Response 201 (application/json)
 
-    + Headers
-
+        {"jAppId":1,"employee":{
+            "emailId": "chandu9013@gmail.com",
+            "eid": 2
+            }}
             
-
-    + Body
-
-            {
-                "responseCode": 102,
-                "message": "Job application added succesfully",
-            }
+    
             
 ## Job Application [/applications/{appId}]            
             
@@ -138,22 +148,7 @@ End point to delete an existing job application
 + Parameters
     + appId - applicationId
 
-+ Request (application/json)
-
-        {"jId":1,"appliedBy":1}
-
-+ Response 201 (application/json)
-
-    + Headers
-
-            
-
-    + Body
-
-            {
-                "responseCode": 102,
-                "message": "Job application added succesfully",
-            }
++ Response 200
             
 ## Categories [/categories]
 
@@ -162,4 +157,21 @@ End point to fetch all the Job categories
 
 + Response 200 (application/json)
 
-        [{"categoryName":"Administrator","cid":4}]
+        [{"categoryName":"Technical Lead","cid":4},{"categoryName":"QA","cid":3}]
+        
+## Teams [/teams]
+
+### Get all Teams [GET]    
+End point to fetch all the Teams
+
++ Response 200 (application/json)
+
+        [{"teamName":"Insta","id":4},{"teamName":"Querent","id":3}]
+        
+## Authentication [/user]
+
+### Get User details [GET]
+End point that verifies if a user is logged in via OAuth2 Provider (Google) and provides necessary details back in the response.
++ Response 200 (application/json)
+
+        {"name":"Sai Chandra Sekhar D","picUrl":"http://example.com/pic","emailId":"sai.chandra@practo.com","role":{"id":1,"name":"Admin"}}

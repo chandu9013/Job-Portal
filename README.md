@@ -21,6 +21,11 @@
 - AngularJS 1.x
 
 #
+
+[Requirements and Schema](https://docs.google.com/document/d/1jCNuI619RdNF4cGj3RQHkT30_3KEIeMMgOsTY-e8Rf8/edit?usp=sharing)
+
+[Project Plan](https://docs.google.com/a/practo.com/spreadsheets/d/1R4PdEij1LNugL5dutdMDSrgMzLRkrV5zb-6EFJyVIbs/edit?usp=sharing)
+
 [Apiary Documentation](https://app.apiary.io/jobportal/editor)
 
 [Travis Builds](https://travis-ci.org/chandu9013/Job-Portal/builds)
@@ -30,7 +35,3 @@
 [Sentry](https://sentry.io/practo-qv/)
 
 [New Relic](https://rpm.newrelic.com/accounts/1461067/applications/26654791)
-
-[Project Plan](https://docs.google.com/a/practo.com/spreadsheets/d/1R4PdEij1LNugL5dutdMDSrgMzLRkrV5zb-6EFJyVIbs/edit?usp=sharing)
-
-[Requirements and Schema](https://docs.google.com/document/d/1jCNuI619RdNF4cGj3RQHkT30_3KEIeMMgOsTY-e8Rf8/edit?usp=sharing)

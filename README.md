@@ -22,7 +22,9 @@
 
 #
 
-[Requirements and Schema](https://docs.google.com/document/d/1jCNuI619RdNF4cGj3RQHkT30_3KEIeMMgOsTY-e8Rf8/edit?usp=sharing)
+[Requirements](https://docs.google.com/document/d/1jCNuI619RdNF4cGj3RQHkT30_3KEIeMMgOsTY-e8Rf8/edit?usp=sharing)
+
+[Schema Diagram](https://drive.google.com/drive/u/1/folders/0B3XKxW4tsD54cjN2SlQxR0d1TWs)
 
 [Project Plan](https://docs.google.com/a/practo.com/spreadsheets/d/1R4PdEij1LNugL5dutdMDSrgMzLRkrV5zb-6EFJyVIbs/edit?usp=sharing)
 
